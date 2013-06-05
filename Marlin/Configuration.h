@@ -9,7 +9,7 @@
 //Implementation of an idea by Prof Braino to inform user that any changes made
 //to this build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(none, default config)" //Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(Kikailabs, Maker build 20130605)" //Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -17,8 +17,8 @@
 #define SERIAL_PORT 0
 
 // This determines the communication speed of the printer
-#define BAUDRATE 250000
-//#define BAUDRATE 115200
+//#define BAUDRATE 250000
+#define BAUDRATE 115200
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // 10 = Gen7 custom (Alfons3 Version) "https://github.com/Alfons3/Generation_7_Electronics"
@@ -50,7 +50,7 @@
 // 301 = Rambo
 
 #ifndef MOTHERBOARD
-#define MOTHERBOARD 7
+#define MOTHERBOARD 33
 #endif
 
 // This defines the number of extruders
@@ -89,10 +89,10 @@
 // 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
 // 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan) (1k pullup)
 
-#define TEMP_SENSOR_0 -1
+#define TEMP_SENSOR_0 7
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
-#define TEMP_SENSOR_BED 0
+#define TEMP_SENSOR_BED 7
 
 // Actual temperature must be close to target for this long before M109 returns success
 #define TEMP_RESIDENCY_TIME 10  // (seconds)
@@ -169,7 +169,7 @@
 // all forms of bed control obey this (PID, bang-bang, bang-bang with hysteresis)
 // setting this to anything other than 256 enables a form of PWM to the bed just like HEATER_BED_DUTY_CYCLE_DIVIDER did,
 // so you shouldn't use it unless you are OK with PWM on your bed.  (see the comment on enabling PIDTEMPBED)
-#define MAX_BED_POWER 256 // limits duty cycle to bed; 256=full current
+#define MAX_BED_POWER 220 // limits duty cycle to bed; 256=full current
 
 #ifdef PIDTEMPBED
 //120v 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
@@ -315,10 +315,10 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //define this to enable eeprom support
-//#define EEPROM_SETTINGS
+#define EEPROM_SETTINGS
 //to disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
 // please keep turned on if you can.
-//#define EEPROM_CHITCHAT
+#define EEPROM_CHITCHAT
 
 // Preheat Constants
 #define PLA_PREHEAT_HOTEND_TEMP 180 

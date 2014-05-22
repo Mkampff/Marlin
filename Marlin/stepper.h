@@ -58,6 +58,10 @@ long st_get_position(uint8_t axis);
 // to notify the subsystem that it is time to go to work.
 void st_wake_up();
 
+// BEGIN MODIF filament
+void check_end_of_filament_endstop();
+void set_end_of_filament_detection_enabled(bool check);
+// BEGIN MODIF filament
   
 void checkHitEndstops(); //call from somwhere to create an serial error message with the locations the endstops where hit, in case they were triggered
 void endstops_hit_on_purpose(); //avoid creation of the message, i.e. after homeing and before a routine call of checkHitEndstops();

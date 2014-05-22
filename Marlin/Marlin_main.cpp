@@ -726,7 +726,14 @@ static void homeaxis(int axis) {
 }
 #define HOMEAXIS(LETTER) homeaxis(LETTER##_AXIS)
 
-void process_commands()
+// BEGIN MODIF filament
+void process_commands_aux();
+void process_commands() {
+  process_commands_aux();
+  check_end_of_filament_endstop();
+}
+void process_commands_aux()
+// END MODIF filament
 {
   unsigned long codenum; //throw away variable
   char *starpos = NULL;
@@ -1111,6 +1118,16 @@ void process_commands()
         }
       }
      break;
+
+// BEGIN MODIF filament
+    case 43: //M43 - Enable end of filament detection
+        set_end_of_filament_detection_enabled(true);
+    break;
+    case 44: //M44 - Disable end of filament detection
+        set_end_of_filament_detection_enabled(false);
+    break;
+// END MODIF filament
+
     case 104: // M104
       if(setTargetedHotend(104)){
         break;

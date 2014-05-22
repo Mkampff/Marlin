@@ -80,6 +80,11 @@ static bool old_y_max_endstop=false;
 static bool old_z_min_endstop=false;
 static bool old_z_max_endstop=false;
 
+// BEGIN MODIF filament
+bool old_f_max_endstop = false;
+bool end_of_filament_detection_enabled = false;
+// END MODIF filament
+
 static bool check_endstops = true;
 
 volatile long count_position[NUM_AXIS] = { 0, 0, 0, 0};
@@ -166,6 +171,28 @@ asm volatile ( \
 #define ENABLE_STEPPER_DRIVER_INTERRUPT()  TIMSK1 |= (1<<OCIE1A)
 #define DISABLE_STEPPER_DRIVER_INTERRUPT() TIMSK1 &= ~(1<<OCIE1A)
 
+// BEGIN MODIF filament
+void check_end_of_filament_endstop() {
+  #if defined(F_MAX_PIN) && F_MAX_PIN > -1
+    bool f_max_endstop=(READ(F_MAX_PIN));
+    if(f_max_endstop && !old_f_max_endstop){
+      if (end_of_filament_detection_enabled) {
+        // notify end of filament using Repetier Host pause
+        SERIAL_PROTOCOLPGM("RequestPause:");
+      } else {
+        // notify end of filament with "Event:", which is better but requires a plugin
+        SERIAL_PROTOCOLPGM("Event:EndOfFilament");
+      }
+      SERIAL_PROTOCOLLN("");
+    }
+    old_f_max_endstop = f_max_endstop;
+
+  #endif
+}
+void set_end_of_filament_detection_enabled(bool check){
+  end_of_filament_detection_enabled = check;
+}
+// END MODIF filament
 
 void checkHitEndstops()
 {

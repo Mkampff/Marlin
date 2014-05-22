@@ -2057,5 +2057,10 @@
                         HEATER_BED_PIN, FAN_PIN,                  \
                         _E0_PINS _E1_PINS _E2_PINS             \
                         analogInputToDigitalPin(TEMP_0_PIN), analogInputToDigitalPin(TEMP_1_PIN), analogInputToDigitalPin(TEMP_2_PIN), analogInputToDigitalPin(TEMP_BED_PIN) }
+
+// BEGIN MODIF filament
+#define F_MAX_PIN          19
+// END MODIF filament
+
 #endif
 

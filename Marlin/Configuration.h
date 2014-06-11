@@ -57,7 +57,9 @@
 #endif
 
 // Define this to set a custom name for your generic Mendel,
+// BEGIN MODIF lcd
 #define CUSTOM_MENDEL_NAME "Kikai"
+// END MODIF lcd
 
 // This defines the number of extruders
 #define EXTRUDERS 1
@@ -399,7 +401,9 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 // The RepRapDiscount Smart Controller (white PCB)
 // http://reprap.org/wiki/RepRapDiscount_Smart_Controller
-//#define REPRAP_DISCOUNT_SMART_CONTROLLER
+// BEGIN MODIF lcd
+#define REPRAP_DISCOUNT_SMART_CONTROLLER
+// END MODIF lcd
 
 // The GADGETS3D G3D LCD/SD Controller (blue PCB)
 // http://reprap.org/wiki/RAMPS_1.3/1.4_GADGETS3D_Shield_with_Panel

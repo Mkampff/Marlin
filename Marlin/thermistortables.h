@@ -71,7 +71,6 @@ const short temptable_1[][2] PROGMEM = {
 {       1008*OVERSAMPLENR       ,       0       } //safety
 };
 #endif
-
 #if (THERMISTORHEATER_0 == 2) || (THERMISTORHEATER_1 == 2) || (THERMISTORHEATER_2 == 2) || (THERMISTORBED == 2) //200k bed thermistor
 const short temptable_2[][2] PROGMEM = {
 //200k ATC Semitec 204GT-2
@@ -110,6 +109,7 @@ const short temptable_2[][2] PROGMEM = {
    {1012*OVERSAMPLENR, 10},
    {1016*OVERSAMPLENR, 0},
 };
+
 #endif
 #if (THERMISTORHEATER_0 == 3) || (THERMISTORHEATER_1 == 3) || (THERMISTORHEATER_2 == 3) || (THERMISTORBED == 3) //mendel-parts
 const short temptable_3[][2] PROGMEM = {
@@ -314,6 +314,158 @@ const short temptable_7[][2] PROGMEM = {
    {1023*OVERSAMPLENR, 0}  //to allow internal 0 degrees C
 };
 #endif
+
+#if (THERMISTORHEATER_0 == 71) || (THERMISTORHEATER_1 == 71) || (THERMISTORHEATER_2 == 71) || (THERMISTORBED == 71) // 100k Honeywell 135-104LAF-J01
+// R0 = 100000 Ohm
+// T0 = 25 °C
+// Beta = 3974
+// R1 = 0 Ohm
+// R2 = 4700 Ohm
+const short temptable_71[][2] PROGMEM = {
+   {35*OVERSAMPLENR, 300},
+   {51*OVERSAMPLENR, 270},
+   {54*OVERSAMPLENR, 265},
+   {58*OVERSAMPLENR, 260},
+   {59*OVERSAMPLENR, 258},
+   {61*OVERSAMPLENR, 256},
+   {63*OVERSAMPLENR, 254},
+   {64*OVERSAMPLENR, 252},
+   {66*OVERSAMPLENR, 250},
+   {67*OVERSAMPLENR, 249},
+   {68*OVERSAMPLENR, 248},
+   {69*OVERSAMPLENR, 247},
+   {70*OVERSAMPLENR, 246},
+   {71*OVERSAMPLENR, 245},
+   {72*OVERSAMPLENR, 244},
+   {73*OVERSAMPLENR, 243},
+   {74*OVERSAMPLENR, 242},
+   {75*OVERSAMPLENR, 241},
+   {76*OVERSAMPLENR, 240},
+   {77*OVERSAMPLENR, 239},
+   {78*OVERSAMPLENR, 238},
+   {79*OVERSAMPLENR, 237},
+   {80*OVERSAMPLENR, 236},
+   {81*OVERSAMPLENR, 235},
+   {82*OVERSAMPLENR, 234},
+   {84*OVERSAMPLENR, 233},
+   {85*OVERSAMPLENR, 232},
+   {86*OVERSAMPLENR, 231},
+   {87*OVERSAMPLENR, 230},
+   {89*OVERSAMPLENR, 229},
+   {90*OVERSAMPLENR, 228},
+   {91*OVERSAMPLENR, 227},
+   {92*OVERSAMPLENR, 226},
+   {94*OVERSAMPLENR, 225},
+   {95*OVERSAMPLENR, 224},
+   {97*OVERSAMPLENR, 223},
+   {98*OVERSAMPLENR, 222},
+   {99*OVERSAMPLENR, 221},
+   {101*OVERSAMPLENR, 220},
+   {102*OVERSAMPLENR, 219},
+   {104*OVERSAMPLENR, 218},
+   {106*OVERSAMPLENR, 217},
+   {107*OVERSAMPLENR, 216},
+   {109*OVERSAMPLENR, 215},
+   {110*OVERSAMPLENR, 214},
+   {112*OVERSAMPLENR, 213},
+   {114*OVERSAMPLENR, 212},
+   {115*OVERSAMPLENR, 211},
+   {117*OVERSAMPLENR, 210},
+   {119*OVERSAMPLENR, 209},
+   {121*OVERSAMPLENR, 208},
+   {123*OVERSAMPLENR, 207},
+   {125*OVERSAMPLENR, 206},
+   {126*OVERSAMPLENR, 205},
+   {128*OVERSAMPLENR, 204},
+   {130*OVERSAMPLENR, 203},
+   {132*OVERSAMPLENR, 202},
+   {134*OVERSAMPLENR, 201},
+   {136*OVERSAMPLENR, 200},
+   {139*OVERSAMPLENR, 199},
+   {141*OVERSAMPLENR, 198},
+   {143*OVERSAMPLENR, 197},
+   {145*OVERSAMPLENR, 196},
+   {147*OVERSAMPLENR, 195},
+   {150*OVERSAMPLENR, 194},
+   {152*OVERSAMPLENR, 193},
+   {154*OVERSAMPLENR, 192},
+   {157*OVERSAMPLENR, 191},
+   {159*OVERSAMPLENR, 190},
+   {162*OVERSAMPLENR, 189},
+   {164*OVERSAMPLENR, 188},
+   {167*OVERSAMPLENR, 187},
+   {170*OVERSAMPLENR, 186},
+   {172*OVERSAMPLENR, 185},
+   {175*OVERSAMPLENR, 184},
+   {178*OVERSAMPLENR, 183},
+   {181*OVERSAMPLENR, 182},
+   {184*OVERSAMPLENR, 181},
+   {187*OVERSAMPLENR, 180},
+   {190*OVERSAMPLENR, 179},
+   {193*OVERSAMPLENR, 178},
+   {196*OVERSAMPLENR, 177},
+   {199*OVERSAMPLENR, 176},
+   {202*OVERSAMPLENR, 175},
+   {205*OVERSAMPLENR, 174},
+   {208*OVERSAMPLENR, 173},
+   {212*OVERSAMPLENR, 172},
+   {215*OVERSAMPLENR, 171},
+   {219*OVERSAMPLENR, 170},
+   {237*OVERSAMPLENR, 165},
+   {256*OVERSAMPLENR, 160},
+   {300*OVERSAMPLENR, 150},
+   {351*OVERSAMPLENR, 140},
+   {470*OVERSAMPLENR, 120},
+   {504*OVERSAMPLENR, 115},
+   {538*OVERSAMPLENR, 110},
+   {552*OVERSAMPLENR, 108},
+   {566*OVERSAMPLENR, 106},
+   {580*OVERSAMPLENR, 104},
+   {594*OVERSAMPLENR, 102},
+   {608*OVERSAMPLENR, 100},
+   {622*OVERSAMPLENR, 98},
+   {636*OVERSAMPLENR, 96},
+   {650*OVERSAMPLENR, 94},
+   {664*OVERSAMPLENR, 92},
+   {678*OVERSAMPLENR, 90},
+   {712*OVERSAMPLENR, 85},
+   {745*OVERSAMPLENR, 80},
+   {758*OVERSAMPLENR, 78},
+   {770*OVERSAMPLENR, 76},
+   {783*OVERSAMPLENR, 74},
+   {795*OVERSAMPLENR, 72},
+   {806*OVERSAMPLENR, 70},
+   {818*OVERSAMPLENR, 68},
+   {829*OVERSAMPLENR, 66},
+   {840*OVERSAMPLENR, 64},
+   {850*OVERSAMPLENR, 62},
+   {860*OVERSAMPLENR, 60},
+   {870*OVERSAMPLENR, 58},
+   {879*OVERSAMPLENR, 56},
+   {888*OVERSAMPLENR, 54},
+   {897*OVERSAMPLENR, 52},
+   {905*OVERSAMPLENR, 50},
+   {924*OVERSAMPLENR, 45},
+   {940*OVERSAMPLENR, 40},
+   {955*OVERSAMPLENR, 35},
+   {967*OVERSAMPLENR, 30},
+   {970*OVERSAMPLENR, 29},
+   {972*OVERSAMPLENR, 28},
+   {974*OVERSAMPLENR, 27},
+   {976*OVERSAMPLENR, 26},
+   {978*OVERSAMPLENR, 25},
+   {980*OVERSAMPLENR, 24},
+   {982*OVERSAMPLENR, 23},
+   {984*OVERSAMPLENR, 22},
+   {985*OVERSAMPLENR, 21},
+   {987*OVERSAMPLENR, 20},
+   {995*OVERSAMPLENR, 15},
+   {1001*OVERSAMPLENR, 10},
+   {1006*OVERSAMPLENR, 5},
+   {1010*OVERSAMPLENR, 0},
+};
+#endif
+
 #if (THERMISTORHEATER_0 == 8) || (THERMISTORHEATER_1 == 8) || (THERMISTORHEATER_2 == 8) || (THERMISTORBED == 8)
 // 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup)
 const short temptable_8[][2] PROGMEM = {
@@ -412,140 +564,134 @@ const short temptable_10[][2] PROGMEM = {
 };
 #endif
 
-#if (THERMISTORHEATER_0 == 11) || (THERMISTORHEATER_1 == 11) || (THERMISTORHEATER_2 == 11) || (THERMISTORBED == 11)
-// 100k Termistor Chino Aliexpress MF58
+#if (THERMISTORHEATER_0 == 11) || (THERMISTORHEATER_1 == 11) || (THERMISTORHEATER_2 == 11) || (THERMISTORBED == 11) 
+// QU-BD silicone bed QWG-104F-3950 thermistor
+
 const short temptable_11[][2] PROGMEM = {
-    {     465,       300     }, // r=   138 adc=29.09
-    {     498,       295     }, // r=   147 adc=31.10
-    {     533,       290     }, // r=   158 adc=33.29
-    {     571,       285     }, // r=   170 adc=35.67
-    {     612,       280     }, // r=   183 adc=38.25
-    {     657,       275     }, // r=   197 adc=41.06
-    {     706,       270     }, // r=   212 adc=44.11
-    {     759,       265     }, // r=   229 adc=47.45
-    {     817,       260     }, // r=   247 adc=51.08
-    {     881,       255     }, // r=   267 adc=55.04
-    {     950,       250     }, // r=   290 adc=59.37
-    {    1026,       245     }, // r=   314 adc=64.10
-    {    1108,       240     }, // r=   341 adc=69.27
-    {    1199,       235     }, // r=   371 adc=74.93
-    {    1298,       230     }, // r=   405 adc=81.12
-    {    1406,       225     }, // r=   442 adc=87.90
-    {    1525,       220     }, // r=   483 adc=95.33
-    {    1655,       215     }, // r=   529 adc=103.46
-    {    1798,       210     }, // r=   580 adc=112.38
-    {    1954,       205     }, // r=   637 adc=122.13
-    {    2125,       200     }, // r=   701 adc=132.82
-    {    2312,       195     }, // r=   773 adc=144.51
-    {    2517,       190     }, // r=   854 adc=157.30
-    {    2740,       185     }, // r=   945 adc=171.27
-    {    2984,       180     }, // r=  1048 adc=186.50
-    {    3250,       175     }, // r=  1164 adc=203.10
-    {    3538,       170     }, // r=  1296 adc=221.13
-    {    3851,       165     }, // r=  1446 adc=240.69
-    {    4189,       160     }, // r=  1617 adc=261.84
-    {    4554,       155     }, // r=  1812 adc=284.62
-    {    4945,       150     }, // r=  2035 adc=309.08
-    {    5364,       145     }, // r=  2291 adc=335.22
-    {    5808,       140     }, // r=  2585 adc=363.02
-    {    6278,       135     }, // r=  2925 adc=392.41
-    {    6773,       130     }, // r=  3317 adc=423.29
-    {    7288,       125     }, // r=  3773 adc=455.52
-    {    7822,       120     }, // r=  4302 adc=488.90
-    {    8371,       115     }, // r=  4920 adc=523.20
-    {    8930,       110     }, // r=  5643 adc=558.12
-    {    9494,       105     }, // r=  6491 adc=593.36
-    {   10057,       100     }, // r=  7490 adc=628.56
-    {   10614,        95     }, // r=  8669 adc=663.36
-    {   11159,        90     }, // r= 10068 adc=697.42
-    {   11686,        85     }, // r= 11731 adc=730.38
-    {   12191,        80     }, // r= 13718 adc=761.94
-    {   12669,        75     }, // r= 16098 adc=791.82
-    {   13117,        70     }, // r= 18961 adc=819.79
-    {   13531,        65     }, // r= 22420 adc=845.71
-    {   13911,        60     }, // r= 26615 adc=869.46
-    {   14256,        55     }, // r= 31724 adc=891.00
-    {   14565,        50     }, // r= 37975 adc=910.33
-    {   14840,        45     }, // r= 45658 adc=927.52
-    {   15083,        40     }, // r= 55145 adc=942.66
-    {   15294,        35     }, // r= 66916 adc=955.86
-    {   15477,        30     }, // r= 81596 adc=967.28
-    {   15633,        25     }, // r=100000 adc=977.08
-    {   15767,        20     }, // r=123197 adc=985.41
-    {   15879,        15     }, // r=152601 adc=992.43
-    {   15973,        10     }, // r=190088 adc=998.32
-    {   16051,         5     }, // r=238173 adc=1003.20
-    {   16116,         0     }, // r=300237 adc=1007.23
+         {1*OVERSAMPLENR,        938},
+         {31*OVERSAMPLENR,       314},
+         {41*OVERSAMPLENR,       290},
+         {51*OVERSAMPLENR,       272},
+         {61*OVERSAMPLENR,       258},
+         {71*OVERSAMPLENR,       247},
+         {81*OVERSAMPLENR,       237},
+         {91*OVERSAMPLENR,       229},
+         {101*OVERSAMPLENR,      221},
+         {111*OVERSAMPLENR,      215},
+         {121*OVERSAMPLENR,      209},
+         {131*OVERSAMPLENR,      204},
+         {141*OVERSAMPLENR,      199},
+         {151*OVERSAMPLENR,      195},
+         {161*OVERSAMPLENR,      190},
+         {171*OVERSAMPLENR,      187},
+         {181*OVERSAMPLENR,      183},
+         {191*OVERSAMPLENR,      179},
+         {201*OVERSAMPLENR,      176},
+         {221*OVERSAMPLENR,      170},
+         {241*OVERSAMPLENR,      165},
+         {261*OVERSAMPLENR,      160},
+         {281*OVERSAMPLENR,      155},
+         {301*OVERSAMPLENR,      150},
+         {331*OVERSAMPLENR,      144},
+         {361*OVERSAMPLENR,      139},
+         {391*OVERSAMPLENR,      133},
+         {421*OVERSAMPLENR,      128},
+         {451*OVERSAMPLENR,      123},
+         {491*OVERSAMPLENR,      117},
+         {531*OVERSAMPLENR,      111},
+         {571*OVERSAMPLENR,      105},
+         {611*OVERSAMPLENR,      100},
+         {641*OVERSAMPLENR,      95},
+         {681*OVERSAMPLENR,      90},
+         {711*OVERSAMPLENR,      85},
+         {751*OVERSAMPLENR,      79},
+         {791*OVERSAMPLENR,      72},
+         {811*OVERSAMPLENR,      69},
+         {831*OVERSAMPLENR,      65},
+         {871*OVERSAMPLENR,      57},
+         {881*OVERSAMPLENR,      55},
+         {901*OVERSAMPLENR,      51},
+         {921*OVERSAMPLENR,      45},
+         {941*OVERSAMPLENR,      39},
+         {971*OVERSAMPLENR,      28},
+         {981*OVERSAMPLENR,      23},
+         {991*OVERSAMPLENR,      17},
+         {1001*OVERSAMPLENR,     9},
+         {1021*OVERSAMPLENR,     -27}
 };
 #endif
 
-#if (THERMISTORHEATER_0 == 12) || (THERMISTORHEATER_1 == 12) || (THERMISTORHEATER_2 == 12) || (THERMISTORBED == 12)
-// 100k Termistor Honeywell de Kikai
-const short temptable_12[][2] PROGMEM = {
-    {     595,       300     }, // r=   177 adc=37.17
-    {     637,       295     }, // r=   190 adc=39.79
-    {     682,       290     }, // r=   204 adc=42.63
-    {     731,       285     }, // r=   220 adc=45.71
-    {     785,       280     }, // r=   237 adc=49.05
-    {     843,       275     }, // r=   255 adc=52.67
-    {     906,       270     }, // r=   275 adc=56.61
-    {     974,       265     }, // r=   298 adc=60.90
-    {    1049,       260     }, // r=   322 adc=65.56
-    {    1130,       255     }, // r=   349 adc=70.63
-    {    1218,       250     }, // r=   378 adc=76.15
-    {    1315,       245     }, // r=   410 adc=82.16
-    {    1419,       240     }, // r=   446 adc=88.71
-    {    1533,       235     }, // r=   486 adc=95.84
-    {    1658,       230     }, // r=   530 adc=103.61
-    {    1793,       225     }, // r=   578 adc=112.07
-    {    1940,       220     }, // r=   632 adc=121.28
-    {    2101,       215     }, // r=   692 adc=131.30
-    {    2275,       210     }, // r=   759 adc=142.21
-    {    2465,       205     }, // r=   833 adc=154.07
-    {    2671,       200     }, // r=   917 adc=166.94
-    {    2895,       195     }, // r=  1010 adc=180.91
-    {    3136,       190     }, // r=  1114 adc=196.03
-    {    3398,       185     }, // r=  1231 adc=212.38
-    {    3680,       180     }, // r=  1363 adc=230.02
-    {    3984,       175     }, // r=  1512 adc=249.00
-    {    4310,       170     }, // r=  1680 adc=269.38
-    {    4659,       165     }, // r=  1870 adc=291.18
-    {    5031,       160     }, // r=  2085 adc=314.41
-    {    5425,       155     }, // r=  2330 adc=339.08
-    {    5842,       150     }, // r=  2609 adc=365.15
-    {    6281,       145     }, // r=  2927 adc=392.57
-    {    6740,       140     }, // r=  3290 adc=421.24
-    {    7217,       135     }, // r=  3706 adc=451.04
-    {    7709,       130     }, // r=  4185 adc=481.83
-    {    8214,       125     }, // r=  4735 adc=513.40
-    {    8729,       120     }, // r=  5370 adc=545.54
-    {    9248,       115     }, // r=  6105 adc=578.00
-    {    9768,       110     }, // r=  6957 adc=610.53
-    {   10285,       105     }, // r=  7947 adc=642.84
-    {   10794,       100     }, // r=  9102 adc=674.64
-    {   11291,        95     }, // r= 10452 adc=705.68
-    {   11771,        90     }, // r= 12035 adc=735.69
-    {   12231,        85     }, // r= 13896 adc=764.44
-    {   12668,        80     }, // r= 16090 adc=791.73
-    {   13078,        75     }, // r= 18685 adc=817.40
-    {   13461,        70     }, // r= 21765 adc=841.32
-    {   13815,        65     }, // r= 25431 adc=863.42
-    {   14139,        60     }, // r= 29809 adc=883.67
-    {   14433,        55     }, // r= 35057 adc=902.06
-    {   14698,        50     }, // r= 41369 adc=918.63
-    {   14935,        45     }, // r= 48988 adc=933.44
-    {   15145,        40     }, // r= 58222 adc=946.59
-    {   15331,        35     }, // r= 69454 adc=958.16
-    {   15493,        30     }, // r= 83173 adc=968.28
-    {   15633,        25     }, // r=100000 adc=977.08
-    {   15755,        20     }, // r=120727 adc=984.67
-    {   15859,        15     }, // r=146373 adc=991.17
-    {   15948,        10     }, // r=178251 adc=996.72
-    {   16023,         5     }, // r=218066 adc=1001.42
-    {   16086,         0     }, // r=268040 adc=1005.37
+#if (THERMISTORHEATER_0 == 20) || (THERMISTORHEATER_1 == 20) || (THERMISTORHEATER_2 == 20) || (THERMISTORBED == 20) // PT100 with INA826 amp on Ultimaker v2.0 electronics
+/* The PT100 in the Ultimaker v2.0 electronics has a high sample value for a high temperature.
+This does not match the normal thermistor behaviour so we need to set the following defines */
+#if (THERMISTORHEATER_0 == 20)
+# define HEATER_0_RAW_HI_TEMP 16383
+# define HEATER_0_RAW_LO_TEMP 0
+#endif
+#if (THERMISTORHEATER_1 == 20)
+# define HEATER_1_RAW_HI_TEMP 16383
+# define HEATER_1_RAW_LO_TEMP 0
+#endif
+#if (THERMISTORHEATER_2 == 20)
+# define HEATER_2_RAW_HI_TEMP 16383
+# define HEATER_2_RAW_LO_TEMP 0
+#endif
+#if (THERMISTORBED == 20)
+# define HEATER_BED_RAW_HI_TEMP 16383
+# define HEATER_BED_RAW_LO_TEMP 0
+#endif
+const short temptable_20[][2] PROGMEM = {
+{         0*OVERSAMPLENR ,       0     },
+{       227*OVERSAMPLENR ,       1     },
+{       236*OVERSAMPLENR ,       10     },
+{       245*OVERSAMPLENR ,       20     },
+{       253*OVERSAMPLENR ,       30     },
+{       262*OVERSAMPLENR ,       40     },
+{       270*OVERSAMPLENR ,       50     },
+{       279*OVERSAMPLENR ,       60     },
+{       287*OVERSAMPLENR ,       70     },
+{       295*OVERSAMPLENR ,       80     },
+{       304*OVERSAMPLENR ,       90     },
+{       312*OVERSAMPLENR ,       100     },
+{       320*OVERSAMPLENR ,       110     },
+{       329*OVERSAMPLENR ,       120     },
+{       337*OVERSAMPLENR ,       130     },
+{       345*OVERSAMPLENR ,       140     },
+{       353*OVERSAMPLENR ,       150     },
+{       361*OVERSAMPLENR ,       160     },
+{       369*OVERSAMPLENR ,       170     },
+{       377*OVERSAMPLENR ,       180     },
+{       385*OVERSAMPLENR ,       190     },
+{       393*OVERSAMPLENR ,       200     },
+{       401*OVERSAMPLENR ,       210     },
+{       409*OVERSAMPLENR ,       220     },
+{       417*OVERSAMPLENR ,       230     },
+{       424*OVERSAMPLENR ,       240     },
+{       432*OVERSAMPLENR ,       250     },
+{       440*OVERSAMPLENR ,       260     },
+{       447*OVERSAMPLENR ,       270     },
+{       455*OVERSAMPLENR ,       280     },
+{       463*OVERSAMPLENR ,       290     },
+{       470*OVERSAMPLENR ,       300     },
+{       478*OVERSAMPLENR ,       310     },
+{       485*OVERSAMPLENR ,       320     },
+{       493*OVERSAMPLENR ,       330     },
+{       500*OVERSAMPLENR ,       340     },
+{       507*OVERSAMPLENR ,       350     },
+{       515*OVERSAMPLENR ,       360     },
+{       522*OVERSAMPLENR ,       370     },
+{       529*OVERSAMPLENR ,       380     },
+{       537*OVERSAMPLENR ,       390     },
+{       544*OVERSAMPLENR ,       400     },
+{       614*OVERSAMPLENR ,       500     },
+{       681*OVERSAMPLENR ,       600     },
+{       744*OVERSAMPLENR ,       700     },
+{       805*OVERSAMPLENR ,       800     },
+{       862*OVERSAMPLENR ,       900     },
+{       917*OVERSAMPLENR ,       1000     },
+{       968*OVERSAMPLENR ,       1100     }
 };
 #endif
-
 
 #if (THERMISTORHEATER_0 == 51) || (THERMISTORHEATER_1 == 51) || (THERMISTORHEATER_2 == 51) || (THERMISTORBED == 51)
 // 100k EPCOS (WITH 1kohm RESISTOR FOR PULLUP, R9 ON SANGUINOLOLU! NOT FOR 4.7kohm PULLUP! THIS IS NOT NORMAL!)
@@ -692,6 +838,14 @@ const short temptable_55[][2] PROGMEM = {
 #endif
 
 #if (THERMISTORHEATER_0 == 60) || (THERMISTORHEATER_1 == 60) || (THERMISTORHEATER_2 == 60) || (THERMISTORBED == 60) // Maker's Tool Works Kapton Bed Thermister
+// ./createTemperatureLookup.py --r0=100000 --t0=25 --r1=0 --r2=4700 --beta=3950 
+// r0: 100000
+// t0: 25
+// r1: 0 (parallel with rTherm)
+// r2: 4700 (series with rTherm)
+// beta: 3950
+// min adc: 1 at 0.0048828125 V
+// max adc: 1023 at 4.9951171875 V
 const short temptable_60[][2] PROGMEM = {
    {51*OVERSAMPLENR, 272},
    {61*OVERSAMPLENR, 258},
@@ -767,7 +921,106 @@ const short temptable_60[][2] PROGMEM = {
    {1008*OVERSAMPLENR, 0},
 };
 #endif
+#if (THERMISTORBED == 12) 
+//100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup) (calibrated for Makibox hot bed)
+const short temptable_12[][2] PROGMEM = {
+   {35*OVERSAMPLENR, 180}, //top rating 180C
+   {211*OVERSAMPLENR, 140},
+   {233*OVERSAMPLENR, 135},
+   {261*OVERSAMPLENR, 130},
+   {290*OVERSAMPLENR, 125},
+   {328*OVERSAMPLENR, 120},
+   {362*OVERSAMPLENR, 115},
+   {406*OVERSAMPLENR, 110},
+   {446*OVERSAMPLENR, 105},
+   {496*OVERSAMPLENR, 100},
+   {539*OVERSAMPLENR, 95},
+   {585*OVERSAMPLENR, 90},
+   {629*OVERSAMPLENR, 85},
+   {675*OVERSAMPLENR, 80},
+   {718*OVERSAMPLENR, 75},
+   {758*OVERSAMPLENR, 70},
+   {793*OVERSAMPLENR, 65},
+   {822*OVERSAMPLENR, 60},
+   {841*OVERSAMPLENR, 55},
+   {875*OVERSAMPLENR, 50},
+   {899*OVERSAMPLENR, 45},
+   {926*OVERSAMPLENR, 40},
+   {946*OVERSAMPLENR, 35},
+   {962*OVERSAMPLENR, 30},
+   {977*OVERSAMPLENR, 25},
+   {987*OVERSAMPLENR, 20},
+   {995*OVERSAMPLENR, 15},
+   {1001*OVERSAMPLENR, 10},
+   {1010*OVERSAMPLENR, 0},
+   {1023*OVERSAMPLENR, -40},
+};
+#endif
 
+// Pt1000 and Pt100 handling
+// 
+// Rt=R0*(1+a*T+b*T*T) [for T>0]
+// a=3.9083E-3, b=-5.775E-7
+
+#define PtA 3.9083E-3
+#define PtB -5.775E-7
+#define PtRt(T,R0) ((R0)*(1.0+(PtA)*(T)+(PtB)*(T)*(T)))
+#define PtAdVal(T,R0,Rup) (short)(1024/(Rup/PtRt(T,R0)+1))
+#define PtLine(T,R0,Rup) { PtAdVal(T,R0,Rup)*OVERSAMPLENR, T },
+
+#if (THERMISTORHEATER_0 == 110) || (THERMISTORHEATER_1 == 110) || (THERMISTORHEATER_2 == 110) || (THERMISTORBED == 110) // Pt100 with 1k0 pullup
+const short temptable_110[][2] PROGMEM = {
+// only few values are needed as the curve is very flat  
+  PtLine(0,100,1000)
+  PtLine(50,100,1000)
+  PtLine(100,100,1000)
+  PtLine(150,100,1000)
+  PtLine(200,100,1000)
+  PtLine(250,100,1000)
+  PtLine(300,100,1000)
+};
+#endif
+#if (THERMISTORHEATER_0 == 147) || (THERMISTORHEATER_1 == 147) || (THERMISTORHEATER_2 == 147) || (THERMISTORBED == 147) // Pt100 with 4k7 pullup
+const short temptable_147[][2] PROGMEM = {
+// only few values are needed as the curve is very flat  
+  PtLine(0,100,4700)
+  PtLine(50,100,4700)
+  PtLine(100,100,4700)
+  PtLine(150,100,4700)
+  PtLine(200,100,4700)
+  PtLine(250,100,4700)
+  PtLine(300,100,4700)
+};
+#endif
+#if (THERMISTORHEATER_0 == 1010) || (THERMISTORHEATER_1 == 1010) || (THERMISTORHEATER_2 == 1010) || (THERMISTORBED == 1010) // Pt1000 with 1k0 pullup
+const short temptable_1010[][2] PROGMEM = {
+  PtLine(0,1000,1000)
+  PtLine(25,1000,1000)
+  PtLine(50,1000,1000)
+  PtLine(75,1000,1000)
+  PtLine(100,1000,1000)
+  PtLine(125,1000,1000)
+  PtLine(150,1000,1000)
+  PtLine(175,1000,1000)
+  PtLine(200,1000,1000)
+  PtLine(225,1000,1000)
+  PtLine(250,1000,1000)
+  PtLine(275,1000,1000)
+  PtLine(300,1000,1000)
+};
+#endif
+#if (THERMISTORHEATER_0 == 1047) || (THERMISTORHEATER_1 == 1047) || (THERMISTORHEATER_2 == 1047) || (THERMISTORBED == 1047) // Pt1000 with 4k7 pullup
+const short temptable_1047[][2] PROGMEM = {
+// only few values are needed as the curve is very flat  
+  PtLine(0,1000,4700)
+  PtLine(50,1000,4700)
+  PtLine(100,1000,4700)
+  PtLine(150,1000,4700)
+  PtLine(200,1000,4700)
+  PtLine(250,1000,4700)
+  PtLine(300,1000,4700)
+};
+#endif
 
 #define _TT_NAME(_N) temptable_ ## _N
 #define TT_NAME(_N) _TT_NAME(_N)

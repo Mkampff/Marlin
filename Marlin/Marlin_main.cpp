@@ -1836,6 +1836,7 @@ void process_commands_aux()
      break;
 
 // BEGIN MODIF filament
+    // If you modify M43 and M44 G-Code commands, remember to update the corresponding reference in ultralcd.cpp.
     case 43: //M43 - Stop if out of material and leave heated bed on (end of filament detection controlled by printer)
         set_end_of_filament_detection_call_m600(true);
     break;

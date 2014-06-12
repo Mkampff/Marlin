@@ -263,6 +263,12 @@
 	#define MSG_BABYSTEPPING_Z "Babystepping Z"
 	#define MSG_SERIAL_ERROR_MENU_STRUCTURE "Error in menu structure"
 
+	// BEGIN MODIF filament
+	#define MSG_END_OF_FILAMENT_EVENT "Filament sensor"
+	// END MODIF filament
+	// BEGIN MODIF autolevel
+	#define MSG_AUTO_LEVEL "Auto level"
+	// END MODIF autolevel
 #endif
 
 
@@ -1073,6 +1079,12 @@
 	#define MSG_BABYSTEPPING_Z "Babystepping Z"
 	#define MSG_SERIAL_ERROR_MENU_STRUCTURE "Error in menu structure"
 
+	// BEGIN MODIF filament
+	#define MSG_END_OF_FILAMENT_EVENT "Sensor filam."
+	// END MODIF filament
+	// BEGIN MODIF autolevel
+	#define MSG_AUTO_LEVEL "Auto nivelar"
+	// END MODIF autolevel
 #endif
 
 #if LANGUAGE_CHOICE == 6

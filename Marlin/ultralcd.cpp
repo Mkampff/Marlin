@@ -42,6 +42,9 @@ char lcd_status_message[LCD_WIDTH+1] = WELCOME_MSG;
 
 void copy_and_scalePID_i();
 void copy_and_scalePID_d();
+// BEGIN MODIF filament
+void enable_or_disable_end_of_filament();
+// END MODIF filament
 
 /* Different menus */
 static void lcd_status_screen();
@@ -401,6 +404,9 @@ static void lcd_tune_menu()
 #endif
 #ifdef FILAMENTCHANGEENABLE
      MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+     // BEGIN MODIF lcd filament
+     MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+     // END MODIF lcd filament
 #endif
     END_MENU();
 }
@@ -564,6 +570,11 @@ static void lcd_prepare_menu()
 #endif
     MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
+    // BEGIN MODIF lcd autolevel
+    #ifdef ENABLE_AUTO_BED_LEVELING
+      MENU_ITEM(gcode, MSG_AUTO_LEVEL, PSTR("G29"));
+    #endif // ENABLE_AUTO_BED_LEVELING
+    // END MODIF lcd autolevel
     //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0"));
 #if TEMP_SENSOR_0 != 0
   #if TEMP_SENSOR_1 != 0 || TEMP_SENSOR_2 != 0 || TEMP_SENSOR_BED != 0
@@ -583,6 +594,12 @@ static void lcd_prepare_menu()
         MENU_ITEM(gcode, MSG_SWITCH_PS_ON, PSTR("M80"));
     }
 #endif
+    // BEGIN MODIF filament
+    #ifdef FILAMENTCHANGEENABLE
+        MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+        MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+    #endif // FILAMENTCHANGEENABLE
+    // END MODIF filament
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
     END_MENU();
 }
@@ -1118,6 +1135,13 @@ static void menu_action_setting_edit_bool(const char* pstr, bool* ptr)
 {
     *ptr = !(*ptr);
 }
+// BEGIN MODIF filament
+static void menu_action_setting_edit_callback_bool(const char* pstr, bool* ptr, menuFunc_t callbackFunc)
+{
+    *ptr = !(*ptr);
+    callbackFunc();
+}
+// END MODIF filament
 #endif//ULTIPANEL
 
 /** LCD API **/
@@ -1622,5 +1646,18 @@ void copy_and_scalePID_d()
   updatePID();
 #endif
 }
+
+// BEGIN MODIF filament
+#ifdef FILAMENTCHANGEENABLE
+void enable_or_disable_end_of_filament()
+{
+  if (end_of_filament_enabled) {
+    enquecommand_P(PSTR("M43"));
+  } else {
+    enquecommand_P(PSTR("M44"));
+  }
+}
+#endif FILAMENTCHANGEENABLE
+// END MODIF filament
 
 #endif //ULTRA_LCD

@@ -85,9 +85,9 @@ static bool old_z_max_endstop=false;
 
 // BEGIN MODIF filament
 bool old_f_max_endstop = false;
-bool end_of_filament_detection_report_end_of_filament_event = false;
-bool end_of_filament_detection_request_pause = false;
-bool end_of_filament_detection_call_m600 = false;
+bool end_of_filament_detection_report_end_of_filament_event = DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT;
+bool end_of_filament_detection_request_pause = DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE;
+bool end_of_filament_detection_call_m600 = DEFAULT_FILAMENT_DETECTION_CALL_M600;
 // END MODIF filament
 
 static bool check_endstops = true;

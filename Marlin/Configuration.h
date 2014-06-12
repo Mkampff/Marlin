@@ -729,4 +729,21 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #include "Configuration_adv.h"
 #include "thermistortables.h"
 
+// BEGIN MODIF filament
+// DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT
+// If true, the printer will report Event:EndOfFilament to the client software if it detects it's
+// out of filament.
+// It can be enabled or disabled with G-Codes M47 and M48.
+#define DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT true
+// DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE
+// If true, the printer will send a ResquestPause: to the client software if it detects it's out of
+// filament.
+// It can be enabled or disabled with G-Codes M45 and M46.
+#define DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE false
+// DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE
+// If true, the printer will execute an M600 (change filament) if it detects it's out of filament.
+// It can be enabled or disabled with G-Codes M43 and M44.
+#define DEFAULT_FILAMENT_DETECTION_CALL_M600 false
+// END MODIF filament
+
 #endif //__CONFIGURATION_H

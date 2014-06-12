@@ -174,7 +174,7 @@
 #define Z_DIR_PIN 25
 #define Z_ENABLE_PIN 24
 #define Z_MIN_PIN 1
-#define Z_MAX_PIN 0
+#define Z_MAX_PIN -1 // 0
 
 //extruder pins
 #define E0_STEP_PIN 28
@@ -258,7 +258,7 @@
 #define Z_DIR_PIN 25
 #define Z_ENABLE_PIN 24
 #define Z_MIN_PIN 1
-#define Z_MAX_PIN 0
+#define Z_MAX_PIN -1 // 0
 
 //extruder pins
 #define E0_STEP_PIN 28
@@ -541,7 +541,7 @@
     #define Z_DIR_PIN          48
     #define Z_ENABLE_PIN       62
     #define Z_MIN_PIN          18
-    #define Z_MAX_PIN          19
+    #define Z_MAX_PIN          -1 // 19
 
     #define Y2_STEP_PIN        36
     #define Y2_DIR_PIN         34
@@ -1298,7 +1298,7 @@
 #define Z_STEP_PIN 37
 #define Z_DIR_PIN 39
 #define Z_MIN_PIN 30
-#define Z_MAX_PIN 32
+#define Z_MAX_PIN -1 // 32
 #define Z_ENABLE_PIN 35
 
 #define HEATER_BED_PIN 4
@@ -1401,7 +1401,7 @@
 #define Z_STEP_PIN 37
 #define Z_DIR_PIN 39
 #define Z_MIN_PIN 19
-#define Z_MAX_PIN 18
+#define Z_MAX_PIN -1 // 18
 #define Z_ENABLE_PIN 35
 
 #define HEATER_BED_PIN -1
@@ -1553,7 +1553,7 @@
 #define Z_DIR_PIN          56
 #define Z_ENABLE_PIN       62
 #define Z_MIN_PIN          33
-#define Z_MAX_PIN          32
+#define Z_MAX_PIN          -1 // 32
 
 #define E0_STEP_PIN        23
 #define E0_DIR_PIN         22
@@ -2100,7 +2100,7 @@
 #define Z_STEP_PIN 35
 #define Z_DIR_PIN 47
 #define Z_MIN_PIN 10
-#define Z_MAX_PIN 30
+#define Z_MAX_PIN -1 // 30
 #define Z_ENABLE_PIN 27
 #define Z_MS1_PIN 68
 #define Z_MS2_PIN 67
@@ -2242,7 +2242,7 @@
 #define Z_DIR_PIN          55 // A1
 #define Z_ENABLE_PIN       56 // A2
 #define Z_MIN_PIN          18
-#define Z_MAX_PIN          19
+#define Z_MAX_PIN          -1 // 19
 
 #define E0_STEP_PIN        31
 #define E0_DIR_PIN         32
@@ -2343,7 +2343,7 @@
  #define Z_DIR_PIN 60 // A6
  #define Z_ENABLE_PIN 55 // A1
  #define Z_MIN_PIN 18
- #define Z_MAX_PIN 19
+ #define Z_MAX_PIN -1 // 19
 
  #define E0_STEP_PIN 35
  #define E0_DIR_PIN 36

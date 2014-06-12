@@ -1836,11 +1836,23 @@ void process_commands_aux()
      break;
 
 // BEGIN MODIF filament
-    case 43: //M43 - Enable end of filament detection
-        set_end_of_filament_detection_enabled(true);
+    case 43: //M43 - Stop if out of material and leave heated bed on (end of filament detection controlled by printer)
+        set_end_of_filament_detection_call_m600(true);
     break;
-    case 44: //M44 - Disable end of filament detection
-        set_end_of_filament_detection_enabled(false);
+    case 44: //M44 - Disable end of filament detection controlled by printer
+        set_end_of_filament_detection_call_m600(false);
+    break;
+    case 45: //M45 - Send "RequestPause:" message to client host when the printer runs out of material. This will cause a pause in RepetierHost.
+        set_end_of_filament_detection_request_pause(true);
+    break;
+    case 46: //M46 - Disable sending "RequestPause:" when the printer runs out of material.
+        set_end_of_filament_detection_request_pause(false);
+    break;
+    case 47: //M47 - Report "Event:EndOfFilament" to client host when the printer runs out of material. This can be handled by the client host if it supports this.
+        set_end_of_filament_detection_report_end_of_filament_event(true);
+    break;
+    case 48: //M48 - Disable reporting "Event:EndOfFilament" to client host when the printer runs out of material.
+        set_end_of_filament_detection_report_end_of_filament_event(false);
     break;
 // END MODIF filament
 

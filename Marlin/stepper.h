@@ -72,7 +72,9 @@ void st_wake_up();
 
 // BEGIN MODIF filament
 void check_end_of_filament_endstop();
-void set_end_of_filament_detection_enabled(bool check);
+void set_end_of_filament_detection_report_end_of_filament_event(bool check);
+void set_end_of_filament_detection_request_pause(bool check);
+void set_end_of_filament_detection_call_m600(bool check);
 // BEGIN MODIF filament
   
 void checkHitEndstops(); //call from somewhere to create an serial error message with the locations the endstops where hit, in case they were triggered

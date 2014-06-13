@@ -2810,6 +2810,12 @@ void process_commands_aux()
     #ifdef FILAMENTCHANGEENABLE
     case 600: //Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
     {
+        // BEGIN MODIF filament
+        int feedrate = homing_feedrate[X_AXIS];
+        if(homing_feedrate[Y_AXIS]<feedrate){
+          feedrate = homing_feedrate[Y_AXIS];
+        }
+        // END MODIF filament
         float target[4];
         float lastpos[4];
         target[X_AXIS]=current_position[X_AXIS];
@@ -2831,7 +2837,9 @@ void process_commands_aux()
             target[E_AXIS]+= FILAMENTCHANGE_FIRSTRETRACT ;
           #endif
         }
-        plan_buffer_line(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder);
+        // BEGIN MODIF filament
+        plan_buffer_line(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[E_AXIS], max_feedrate[Z_AXIS], active_extruder);
+        // END MODIF filament
 
         //lift Z
         if(code_seen('Z'))
@@ -2931,7 +2939,9 @@ void process_commands_aux()
         plan_set_e_position(current_position[E_AXIS]);
         plan_buffer_line(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder); //should do nothing
         plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], target[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder); //move xy back
-        plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], lastpos[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder); //move z back
+        // BEGIN MODIF filament
+        plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], lastpos[Z_AXIS], target[E_AXIS], max_feedrate[Z_AXIS], active_extruder); //move z back
+        // END MODIF filament
         plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], lastpos[Z_AXIS], lastpos[E_AXIS], feedrate/60, active_extruder); //final untretract
     }
     break;

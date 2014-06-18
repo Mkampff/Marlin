@@ -236,7 +236,9 @@
 
 // Feedrates for manual moves along X, Y, Z, E from panel
 #ifdef ULTIPANEL
-#define MANUAL_FEEDRATE {50*60, 50*60, 4*60, 60}  // set the speeds for manual moves (mm/min)
+// BEGIN MODIF lcd
+#define MANUAL_FEEDRATE {50*60, 50*60, 4*60, 60*10}  // set the speeds for manual moves (mm/min)
+// END MODIF lcd
 #endif
 
 //Comment to disable setting feedrate multiplier via encoder
@@ -422,8 +424,7 @@ const unsigned int dropsegments=5; //everything with less than this number of st
   #ifdef FILAMENTCHANGEENABLE
     #define FILAMENTCHANGE_XPOS 3
     #define FILAMENTCHANGE_YPOS 3
-    // BEGIN MODIF filament
-    #define FILAMENTCHANGE_ZADD 30
+    #define FILAMENTCHANGE_ZADD 10
     #define FILAMENTCHANGE_FIRSTRETRACT -2
     // END MODIF filament
     #define FILAMENTCHANGE_FINALRETRACT -100

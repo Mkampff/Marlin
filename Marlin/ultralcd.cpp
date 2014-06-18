@@ -7,6 +7,9 @@
 #include "temperature.h"
 #include "stepper.h"
 #include "ConfigurationStore.h"
+// BEGIN MODIF filament
+#include "end_of_filament.h"
+// END MODIF filament
 
 int8_t encoderDiff; /* encoderDiff is updated from interrupt context and added to encoderPosition every LCD update */
 
@@ -178,6 +181,9 @@ menuFunc_t callbackFunc;
 
 // place-holders for Ki and Kd edits
 float raw_Ki, raw_Kd;
+// BEGIN MODIF filament
+bool end_of_filament_enabled = DEFAULT_FILAMENT_DETECTION_CALL_M600;
+// END MODIF filament
 
 /* Main status screen. It's up to the implementation specific part to show what is needed. As this is very display dependent */
 static void lcd_status_screen()
@@ -243,9 +249,19 @@ static void lcd_return_to_status()
 static void lcd_sdcard_pause()
 {
     card.pauseSDPrint();
+    // BEGIN MODIF lcd
+    store_current_state();
+    // END MODIF lcd
 }
 static void lcd_sdcard_resume()
 {
+    // BEGIN MODIF lcd
+    // It's safe to send a GCode command here, as we know in this case we are printing from the SD
+    // card. If we send a GCode while printing from a client software, we would break the GCode
+    // line validation.
+    enquecommand_P(PSTR("M601"));       // restore position
+    st_synchronize();
+    // END MODIF lcd
     card.startFileprint();
 }
 
@@ -273,6 +289,19 @@ static void lcd_main_menu()
         MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
     }
     MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
+    
+    // BEGIN MODIF lcd filament
+    #ifdef SDSUPPORT
+        if (is_state_stored() && !(card.cardOK && card.isFileOpen() && card.sdprinting)) {
+            MENU_ITEM(function, MSG_RESUME_PRINT, restore_last_state_stored);
+        }
+    #else
+        if (is_state_stored()) {
+            MENU_ITEM(function, MSG_RESUME_PRINT, restore_last_state_stored);
+        }
+    #endif
+    // END MODIF lcd filament
+    
 #ifdef SDSUPPORT
     if (card.cardOK)
     {
@@ -403,8 +432,20 @@ static void lcd_tune_menu()
     MENU_ITEM(submenu, MSG_BABYSTEP_Z, lcd_babystep_z);
 #endif
 #ifdef FILAMENTCHANGEENABLE
-     MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
      // BEGIN MODIF lcd filament
+     // FIXME It's not safe to send GCode here if we are not sure that we are printing from the SD card.
+     if (!is_state_stored()) {
+        MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+     } else {
+        // If we are printing from the SD card, this method only returns to the position where
+        // it was when the filament ran out. If we are printing from a client (Repetier for
+        // example), this method also unpauses. So, let's rename it accordingly.
+        #ifdef SDSUPPORT
+            if (card.cardOK && card.isFileOpen() && card.sdprinting) {
+                MENU_ITEM(function, MSG_FILAMENTCHANGE_RESTORE_POSITION, restore_last_state_stored);
+            }
+        #endif
+     }
      MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
      // END MODIF lcd filament
 #endif
@@ -596,7 +637,18 @@ static void lcd_prepare_menu()
 #endif
     // BEGIN MODIF filament
     #ifdef FILAMENTCHANGEENABLE
-        MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+        if (!is_state_stored()) {
+            MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+        } else {
+            // If we are printing from the SD card, this method only returns to the position where
+            // it was when the filament ran out. If we are printing from a client (Repetier for
+            // example), this method also unpauses. So, let's rename it accordingly.
+            #ifdef SDSUPPORT
+                if (card.cardOK && card.isFileOpen() && card.sdprinting) {
+                    MENU_ITEM(function, MSG_FILAMENTCHANGE_RESTORE_POSITION, restore_last_state_stored);
+                }
+            #endif
+        }
         MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
     #endif // FILAMENTCHANGEENABLE
     // END MODIF filament

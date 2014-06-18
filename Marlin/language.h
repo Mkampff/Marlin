@@ -177,6 +177,9 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "UnRet  V"
 	#define MSG_AUTORETRACT "AutoRetr."
 	#define MSG_FILAMENTCHANGE "Change filament"
+	// BEGIN MODIF filament
+	#define MSG_FILAMENTCHANGE_RESTORE_POSITION "Rest. filam. pos."
+	// END MODIF filament
 	#define MSG_INIT_SDCARD "Init. SD card"
 	#define MSG_CNG_SDCARD "Change SD card"
 	#define MSG_ZPROBE_OUT "Z probe out. bed"
@@ -978,6 +981,9 @@
 	#define MSG_CONTROL_RETRACT_RECOVERF "DesRet V"
 	#define MSG_AUTORETRACT "AutoRetr."
 	#define MSG_FILAMENTCHANGE "Cambiar filamento"
+	// BEGIN MODIF filament
+	#define MSG_FILAMENTCHANGE_RESTORE_POSITION "Rest. pos. filam."
+	// END MODIF filament
 	#define MSG_INIT_SDCARD "Iniciando tarjeta"
 	#define MSG_CNG_SDCARD "Cambiar tarjeta"
 	#define MSG_RECTRACT_WIDE "Retraer"
@@ -1011,14 +1017,20 @@
 	#define MSG_FREE_MEMORY " Memoria libre: "
 	#define MSG_PLANNER_BUFFER_BYTES "  PlannerBufferBytes: "
 	#define MSG_OK "ok"
-	#define MSG_FILE_SAVED "Guardado."
+	// BEGIN MODIF lcd
+	// The string must be in english so that Repetier Host can parse the result
+	#define MSG_FILE_SAVED "Done saving file."
+	// END MODIF lcd
 	#define MSG_ERR_LINE_NO "El Numero de Linea no es igual al Ultimo Numero de Linea+1, Ultima Linea:"
 	#define MSG_ERR_CHECKSUM_MISMATCH "el checksum no coincide, Ultima Linea:"
 	#define MSG_ERR_NO_CHECKSUM "No se pudo hallar el Checksum con el numero de linea, Ultima Linea:"
 	#define MSG_ERR_NO_LINENUMBER_WITH_CHECKSUM "No se hallo el Numero de Linea con el Checksum, Ultima Linea:"
-	#define MSG_FILE_PRINTED "Impresion terminada"
-	#define MSG_BEGIN_FILE_LIST "Comienzo de la lista de archivos"
-	#define MSG_END_FILE_LIST "Fin de la lista de archivos"
+	// BEGIN MODIF lcd
+	// The string must be in english so that Repetier Host can parse the result
+	#define MSG_FILE_PRINTED "Done printing file"
+	#define MSG_BEGIN_FILE_LIST "Begin file list"
+	#define MSG_END_FILE_LIST "End file list"
+	// END MODIF lcd
 	#define MSG_M104_INVALID_EXTRUDER "M104 Extrusor Invalido "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Extrusor Invalido "
 	#define MSG_M200_INVALID_EXTRUDER "M200 Extrusor Invalido "
@@ -1034,7 +1046,9 @@
 	#define MSG_COUNT_X " Cuenta X:"
 	#define MSG_ERR_KILLED "¡¡Impresora Parada con kill()!!"
 	#define MSG_ERR_STOPPED "¡Impresora parada por errores. Arregle el error y use M999 Para reiniciar!. (La temperatura se reestablece. Ajustela despues de continuar)"
-	#define MSG_RESEND "Reenviar:"
+	// BEGIN MODIF lcd
+	#define MSG_RESEND "Resend: "
+	// END MODIF lcd
 	#define MSG_UNKNOWN_COMMAND "Comando Desconocido:\""
 	#define MSG_ACTIVE_EXTRUDER "Extrusor Activo: "
 	#define MSG_INVALID_EXTRUDER "Extrusor Invalido"
@@ -1048,20 +1062,29 @@
 	#define MSG_ENDSTOP_HIT "PULSADO"
 	#define MSG_ENDSTOP_OPEN "abierto"
 	#define MSG_HOTEND_OFFSET "Hotend offsets:"
-	#define MSG_SD_CANT_OPEN_SUBDIR "No se pudo abrir la subcarpeta."
-	#define MSG_SD_INIT_FAIL "Fallo al iniciar la SD"
-	#define MSG_SD_VOL_INIT_FAIL "Fallo al montar el volumen"
+	// BEGIN MODIF lcd
+	// The string must be in english so that Repetier Host can parse the result
+	#define MSG_SD_CANT_OPEN_SUBDIR "Invalid directory."
+	#define MSG_SD_INIT_FAIL "SD init fail"
+	#define MSG_SD_VOL_INIT_FAIL "volume.init failed|"
+	// BEGIN MODIF lcd
 	#define MSG_SD_OPENROOT_FAIL "Fallo al abrir la carpeta raiz"
 	#define MSG_SD_CARD_OK "Tarjeta SD OK"
 	#define MSG_SD_WORKDIR_FAIL "Fallo al abrir la carpeta de trabajo"
-	#define MSG_SD_OPEN_FILE_FAIL "Error al abrir, Archivo: "
+	// BEGIN MODIF lcd
+	// The string must be in english so that Repetier Host can parse the result
+	#define MSG_SD_OPEN_FILE_FAIL "open failed, File: "
+	// END MODIF lcd
 	#define MSG_SD_FILE_OPENED "Archivo abierto:"
 	#define MSG_SD_SIZE " Tamaño:"
-	#define MSG_SD_FILE_SELECTED "Archivo Seleccionado"
-	#define MSG_SD_WRITE_TO_FILE "Escribiendo en el archivo: "
-	#define MSG_SD_PRINTING_BYTE "SD imprimiendo el byte "
-	#define MSG_SD_NOT_PRINTING "No se esta imprimiendo con SD"
-	#define MSG_SD_ERR_WRITE_TO_FILE "Error al escribir en el archivo"
+	// BEGIN MODIF lcd
+	// The string must be in english so that Repetier Host can parse the result
+	#define MSG_SD_FILE_SELECTED "File selected"
+	#define MSG_SD_WRITE_TO_FILE "Writing to file: "
+	#define MSG_SD_PRINTING_BYTE "SD printing byte "
+	#define MSG_SD_NOT_PRINTING "Not SD printing"
+	#define MSG_SD_ERR_WRITE_TO_FILE "error writing to file"
+	// END MODIF lcd
 	#define MSG_SD_CANT_ENTER_SUBDIR "No se puede abrir la carpeta:"
 
 	#define MSG_STEPPER_TOO_HIGH "Steprate demasiado alto : "

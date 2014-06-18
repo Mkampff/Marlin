@@ -83,13 +83,6 @@ static bool old_y_max_endstop=false;
 static bool old_z_min_endstop=false;
 static bool old_z_max_endstop=false;
 
-// BEGIN MODIF filament
-bool old_f_max_endstop = false;
-bool end_of_filament_detection_report_end_of_filament_event = DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT;
-bool end_of_filament_detection_request_pause = DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE;
-bool end_of_filament_detection_call_m600 = DEFAULT_FILAMENT_DETECTION_CALL_M600;
-// END MODIF filament
-
 static bool check_endstops = true;
 
 volatile long count_position[NUM_AXIS] = { 0, 0, 0, 0};
@@ -176,40 +169,6 @@ asm volatile ( \
 #define ENABLE_STEPPER_DRIVER_INTERRUPT()  TIMSK1 |= (1<<OCIE1A)
 #define DISABLE_STEPPER_DRIVER_INTERRUPT() TIMSK1 &= ~(1<<OCIE1A)
 
-// BEGIN MODIF filament
-void check_end_of_filament_endstop() {
-  #if defined(F_MAX_PIN) && F_MAX_PIN > -1
-    bool f_max_endstop=(READ(F_MAX_PIN));
-    if(f_max_endstop && !old_f_max_endstop){
-      if (end_of_filament_detection_report_end_of_filament_event) {
-        // notify end of filament with "Event:", which is better but requires a plugin
-        SERIAL_PROTOCOLPGM("Event:EndOfFilament");
-        SERIAL_PROTOCOLLN("");
-      }
-      if (end_of_filament_detection_request_pause) {
-        // notify end of filament using Repetier Host pause
-        SERIAL_PROTOCOLPGM("RequestPause:");
-        SERIAL_PROTOCOLLN("");
-      }
-      if (end_of_filament_detection_call_m600) {
-        // execute M600, which will cause the printer to park and ask the user to change the filament
-        enquecommand_P(PSTR("M600"));
-      }
-    }
-    old_f_max_endstop = f_max_endstop;
-
-  #endif
-}
-void set_end_of_filament_detection_report_end_of_filament_event(bool check){
-  end_of_filament_detection_report_end_of_filament_event = check;
-}
-void set_end_of_filament_detection_request_pause(bool check){
-  end_of_filament_detection_request_pause = check;
-}
-void set_end_of_filament_detection_call_m600(bool check){
-  end_of_filament_detection_call_m600 = check;
-}
-// END MODIF filament
 
 void checkHitEndstops()
 {

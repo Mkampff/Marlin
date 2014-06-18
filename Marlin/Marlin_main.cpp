@@ -47,6 +47,9 @@
 #include "language.h"
 #include "pins_arduino.h"
 #include "math.h"
+// BEGIN MODIF filament
+#include "end_of_filament.h"
+// END MODIF filament
 
 #ifdef BLINKM
 #include "BlinkM.h"
@@ -583,7 +586,11 @@ void loop()
 
 void get_command()
 {
-  while( MYSERIAL.available() > 0  && buflen < BUFSIZE) {
+  // BEGIN MODIF lcd
+  // If the state is saved (it means it's in mode "end of filament"), it must not consume more
+  // commands from the client software.
+  while(!is_state_stored() && MYSERIAL.available() > 0  && buflen < BUFSIZE) {
+  // END MODIF lcd
     serial_char = MYSERIAL.read();
     if(serial_char == '\n' ||
        serial_char == '\r' ||
@@ -2807,9 +2814,10 @@ void process_commands_aux()
     #endif // CUSTOM_M_CODE_SET_Z_PROBE_OFFSET
 
     #ifdef FILAMENTCHANGEENABLE
-    case 600: //Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
+    case 600: //M600 - Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
     {
         // BEGIN MODIF filament
+        card.pauseSDPrint();
         int feedrate = homing_feedrate[X_AXIS];
         if(homing_feedrate[Y_AXIS]<feedrate){
           feedrate = homing_feedrate[Y_AXIS];
@@ -2890,6 +2898,26 @@ void process_commands_aux()
 
         plan_buffer_line(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder);
 
+        // BEGIN MODIF lcd filament
+        if(code_seen('L'))
+        {
+          lastpos[E_AXIS] = target[E_AXIS] - code_value();
+        }
+        else
+        {
+          #ifdef FILAMENTCHANGE_FINALRETRACT
+            lastpos[E_AXIS] = target[E_AXIS] + (-1) * FILAMENTCHANGE_FINALRETRACT;
+          #endif
+        }
+
+        current_position[X_AXIS] = target[X_AXIS];
+        current_position[Y_AXIS] = target[Y_AXIS];
+        current_position[Z_AXIS] = target[Z_AXIS];
+        current_position[E_AXIS] = target[E_AXIS];
+        
+        store_current_state_ext(target, lastpos);
+        // END MODIF lcd filament
+
         //finish moves
         st_synchronize();
         //disable extruder steppers so filament can be removed
@@ -2914,36 +2942,28 @@ void process_commands_aux()
             WRITE(BEEPER,LOW);
             delay(3);
           #else
-			#if !defined(LCD_FEEDBACK_FREQUENCY_HZ) || !defined(LCD_FEEDBACK_FREQUENCY_DURATION_MS)
+            #if !defined(LCD_FEEDBACK_FREQUENCY_HZ) || !defined(LCD_FEEDBACK_FREQUENCY_DURATION_MS)
               lcd_buzz(1000/6,100);
-			#else
-			  lcd_buzz(LCD_FEEDBACK_FREQUENCY_DURATION_MS,LCD_FEEDBACK_FREQUENCY_HZ);
-			#endif
+            #else
+              lcd_buzz(LCD_FEEDBACK_FREQUENCY_DURATION_MS,LCD_FEEDBACK_FREQUENCY_HZ);
+            #endif
           #endif
           }
         }
-
-        //return to normal
-        if(code_seen('L'))
-        {
-          target[E_AXIS]+= -code_value();
-        }
-        else
-        {
-          #ifdef FILAMENTCHANGE_FINALRETRACT
-            target[E_AXIS]+=(-1)*FILAMENTCHANGE_FINALRETRACT ;
-          #endif
-        }
-        current_position[E_AXIS]=target[E_AXIS]; //the long retract of L is compensated by manual filament feeding
-        plan_set_e_position(current_position[E_AXIS]);
-        plan_buffer_line(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder); //should do nothing
-        plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], target[Z_AXIS], target[E_AXIS], feedrate/60, active_extruder); //move xy back
-        // BEGIN MODIF filament
-        plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], lastpos[Z_AXIS], target[E_AXIS], max_feedrate[Z_AXIS], active_extruder); //move z back
-        // END MODIF filament
-        plan_buffer_line(lastpos[X_AXIS], lastpos[Y_AXIS], lastpos[Z_AXIS], lastpos[E_AXIS], feedrate/60, active_extruder); //final untretract
     }
     break;
+    // BEGIN MODIF lcd filament
+    case 601: //M601 - Resume after pausing with M600
+    {
+        restore_last_state_stored();
+    }
+    break;
+    case 602: //M602 - Store current position. You can restore current position with M601 later.
+    {
+        store_current_state();
+    }
+    break;
+    // END MODIF lcd filament
     #endif //FILAMENTCHANGEENABLE
     #ifdef DUAL_X_CARRIAGE
     case 605: // Set dual x-carriage movement mode:

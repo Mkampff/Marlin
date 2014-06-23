@@ -9,6 +9,7 @@ void set_end_of_filament_detection_call_m600(bool check);
 void store_current_state_ext(float * current_position, float * continuation_position);
 void store_current_state();
 void restore_last_state_stored();
+void clear_state_stored();
 bool is_state_stored();
   
 

@@ -49,6 +49,7 @@
 #include "math.h"
 // BEGIN MODIF filament
 #include "end_of_filament.h"
+#include "lcdaudioalarm.h"
 // END MODIF filament
 
 #ifdef BLINKM
@@ -1162,6 +1163,10 @@ void refresh_cmd_timeout(void)
 #endif //FWRETRACT
 
 // BEGIN MODIF filament
+
+// This function manages the temperature in all heaters, updates the LCD and calls the inactivity function.
+void inactivity_callback();
+
 void process_commands_aux();
 void process_commands() {
   process_commands_aux();
@@ -2917,7 +2922,6 @@ void process_commands_aux()
         current_position[E_AXIS] = target[E_AXIS];
         
         store_current_state_ext(target, lastpos);
-        // END MODIF lcd filament
 
         //finish moves
         st_synchronize();
@@ -2927,30 +2931,12 @@ void process_commands_aux()
         disable_e2();
         delay(100);
         LCD_ALERTMESSAGEPGM(MSG_FILAMENTCHANGE);
-        uint8_t cnt=0;
-        while(!lcd_clicked()){
-          cnt++;
-          manage_heater();
-          manage_inactivity();
-          lcd_update();
-          if(cnt==0)
-          {
-          #if BEEPER > 0
-            SET_OUTPUT(BEEPER);
-
-            WRITE(BEEPER,HIGH);
-            delay(3);
-            WRITE(BEEPER,LOW);
-            delay(3);
-          #else
-            #if !defined(LCD_FEEDBACK_FREQUENCY_HZ) || !defined(LCD_FEEDBACK_FREQUENCY_DURATION_MS)
-              lcd_buzz(1000/6,100);
-            #else
-              lcd_buzz(LCD_FEEDBACK_FREQUENCY_DURATION_MS,LCD_FEEDBACK_FREQUENCY_HZ);
-            #endif
-          #endif
-          }
-        }
+        
+        // Play alarm music to alert the user the printer has run out of filament and block the
+        // execution until the user clicks on the screen.
+        play_music_until_lcdclick(inactivity_callback);
+        
+        // END MODIF lcd filament
     }
     break;
     // BEGIN MODIF lcd filament
@@ -3199,6 +3185,15 @@ void process_commands_aux()
 
   ClearToSend();
 }
+
+// BEGIN MODIF lcd filament
+void inactivity_callback()
+{
+    manage_heater();
+    manage_inactivity();
+    lcd_update();
+}
+// END MODIF lcd filament
 
 void FlushSerialRequestResend()
 {

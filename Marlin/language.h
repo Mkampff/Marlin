@@ -269,6 +269,10 @@
 	// BEGIN MODIF lcd
 	#define MSG_END_OF_FILAMENT_EVENT "Filam. sensor"
 	#define MSG_AUTO_LEVEL "Auto level"
+	#define MSG_MANUAL_LEVEL "Manual level"
+	#define MSG_RAISE_Z_1MM "Raise Z 1mm"
+	#define MSG_RAISE_Z_5MM "Raise Z 5mms"
+	#define MSG_HOME_Z "Home Z"
 	// END MODIF lcd
 #endif
 
@@ -1103,6 +1107,10 @@
 	// BEGIN MODIF lcd
 	#define MSG_END_OF_FILAMENT_EVENT "Sensor filam."
 	#define MSG_AUTO_LEVEL "Auto nivelar"
+	#define MSG_MANUAL_LEVEL "Nivelacion manual"
+	#define MSG_RAISE_Z_1MM "Elevar Z 1mm"
+	#define MSG_RAISE_Z_5MM "Elevar Z 5mms"
+	#define MSG_HOME_Z "Z al origen"
 	// END MODIF lcd
 #endif
 

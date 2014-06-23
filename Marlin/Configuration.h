@@ -417,12 +417,15 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //If you have enabled the Bed Auto Leveling and are using the same Z Probe for Z Homing,
 //it is highly recommended you let this Z_SAFE_HOMING enabled!!!
 
-  #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area.
+// BEGIN MODIF lcd manual level
+// Disabled Z_SAFE_HOMING because it's annoying when working with manual leveling
+//  #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area.
                           // When defined, it will:
                           // - Allow Z homing only after X and Y homing AND stepper drivers still enabled
                           // - If stepper drivers timeout, it will need X and Y homing again before Z homing
                           // - Position the probe in a defined XY point before Z Homing when homing all axis (G28)
                           // - Block Z homing only when the probe is outside bed area.
+// END MODIF lcd manual level
 
   #ifdef Z_SAFE_HOMING
 
@@ -432,6 +435,17 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
   #endif
 
 #endif // ENABLE_AUTO_BED_LEVELING
+
+// BEGIN MODIF manual level
+// Enables the manual level menu. This menu has a set of functions that are usually needed when
+// manually leveling the heatbed.
+#define ENABLE_MANUAL_BED_LEVELING
+
+#ifdef ENABLE_MANUAL_BED_LEVELING
+#define MANUAL_LEVEL_Z_FEEDRATE 250
+#endif //ENABLE_MANUAL_BED_LEVELING
+
+// END MODIF manual level
 
 
 // The position of the homing switches

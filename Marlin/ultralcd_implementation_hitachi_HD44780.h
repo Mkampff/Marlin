@@ -477,13 +477,19 @@ static void lcd_implementation_status_screen()
     lcd.print('%');
 # if LCD_WIDTH > 19
 #  ifdef SDSUPPORT
-    lcd.setCursor(7, 2);
-    lcd_printPGM(PSTR("SD"));
-    if (IS_SD_PRINTING)
-        lcd.print(itostr3(card.percentDone()));
-    else
-        lcd_printPGM(PSTR("---"));
-    lcd.print('%');
+    // BEGIN MODIF lcd filament
+    if (card.cardOK) {
+    // END MODIF lcd filament
+        lcd.setCursor(7, 2);
+        lcd_printPGM(PSTR("SD"));
+        if (IS_SD_PRINTING)
+            lcd.print(itostr3(card.percentDone()));
+        else
+            lcd_printPGM(PSTR("---"));
+        lcd.print('%');
+    // BEGIN MODIF lcd filament
+    }
+    // END MODIF lcd filament
 #  endif//SDSUPPORT
 # endif//LCD_WIDTH > 19
     lcd.setCursor(LCD_WIDTH - 6, 2);

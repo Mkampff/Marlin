@@ -82,6 +82,9 @@ void restore_last_state_stored(){
     current_position[E_AXIS] = last_stored_state.continuation_position[E_AXIS];
   }   
 }
+void clear_state_stored(){
+  last_stored_state.stored = false;
+}
 bool is_state_stored(){
   return last_stored_state.stored;
 }

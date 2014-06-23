@@ -57,6 +57,10 @@ static void lcd_main_menu();
 static void lcd_tune_menu();
 static void lcd_prepare_menu();
 static void lcd_move_menu();
+// BEGIN MODIF lcd
+static void lcd_home_axis_menu();
+static void lcd_manual_level_menu();
+// END MODIF lcd
 static void lcd_control_menu();
 static void lcd_control_temperature_menu();
 static void lcd_control_temperature_preheat_pla_settings_menu();
@@ -269,6 +273,10 @@ static void lcd_sdcard_stop()
 {
     card.sdprinting = false;
     card.closefile();
+    // BEGIN MODIF lcd
+    // We must clean any state that could be stored.
+    clear_state_stored();
+    // END MODIF lcd
     quickStop();
     if(SD_FINISHED_STEPPERRELEASE)
     {
@@ -292,7 +300,11 @@ static void lcd_main_menu()
     
     // BEGIN MODIF lcd filament
     #ifdef SDSUPPORT
-        if (is_state_stored() && !(card.cardOK && card.isFileOpen() && card.sdprinting)) {
+        // If the user is printing from the SD card, and changed the filament, we will show the
+        // regular resume menu item. We display this resume menu item only if:
+        // * the user is printing from a client software
+        // * or the user is not printing anything, but instead he's changing the filament
+        if (is_state_stored() && !(card.cardOK && card.isFileOpen() && !card.sdprinting)) {
             MENU_ITEM(function, MSG_RESUME_PRINT, restore_last_state_stored);
         }
     #else
@@ -319,7 +331,10 @@ static void lcd_main_menu()
 #endif
         }
     }else{
-        MENU_ITEM(submenu, MSG_NO_CARD, lcd_sdcard_menu);
+        // BEGIN MODIF lcd
+        // Only display the SD card menu if there is one inserted. Otherwise, ignore it.
+        // MENU_ITEM(submenu, MSG_NO_CARD, lcd_sdcard_menu);
+        // END MODIF lcd
 #if SDCARDDETECT < 1
         MENU_ITEM(gcode, MSG_INIT_SDCARD, PSTR("M21")); // Manually initialize the SD-card via user interface
 #endif
@@ -616,6 +631,11 @@ static void lcd_prepare_menu()
       MENU_ITEM(gcode, MSG_AUTO_LEVEL, PSTR("G29"));
     #endif // ENABLE_AUTO_BED_LEVELING
     // END MODIF lcd autolevel
+    // BEGIN MODIF lcd manual level
+    #ifdef ENABLE_MANUAL_BED_LEVELING
+      MENU_ITEM(submenu, MSG_MANUAL_LEVEL, lcd_manual_level_menu);
+    #endif
+    // END MODIF lcd manual level
     //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0"));
 #if TEMP_SENSOR_0 != 0
   #if TEMP_SENSOR_1 != 0 || TEMP_SENSOR_2 != 0 || TEMP_SENSOR_BED != 0
@@ -812,9 +832,35 @@ static void lcd_move_menu()
     MENU_ITEM(submenu, MSG_MOVE_10MM, lcd_move_menu_10mm);
     MENU_ITEM(submenu, MSG_MOVE_1MM, lcd_move_menu_1mm);
     MENU_ITEM(submenu, MSG_MOVE_01MM, lcd_move_menu_01mm);
+    // BEGIN MODIF lcd
+    MENU_ITEM(submenu, MSG_AUTO_HOME, lcd_home_axis_menu);
+    // END MODIF lcd
     //TODO:X,Y,Z,E
     END_MENU();
 }
+
+// BEGIN MODIF lcd
+static void lcd_home_axis_menu()
+{
+    START_MENU();
+    MENU_ITEM(back, MSG_MOVE_AXIS, lcd_move_menu);
+    MENU_ITEM(gcode, MSG_X, PSTR("G28 X0"));
+    MENU_ITEM(gcode, MSG_Y, PSTR("G28 Y0"));
+    MENU_ITEM(gcode, MSG_Z, PSTR("G28 Z0"));
+    END_MENU();
+}
+static void lcd_manual_level_menu()
+{
+    START_MENU();
+    MENU_ITEM(back, MSG_PREPARE, lcd_prepare_menu);
+    MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
+    MENU_ITEM(gcode, MSG_RAISE_Z_1MM, PSTR("G1 Z1 F#MANUAL_LEVEL_Z_FEEDRATE"));
+    MENU_ITEM(gcode, MSG_RAISE_Z_5MM, PSTR("G1 Z5 F#MANUAL_LEVEL_Z_FEEDRATE"));
+    MENU_ITEM(gcode, MSG_HOME_Z, PSTR("G28 Z0"));
+    MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
+    END_MENU();
+}
+// END MODIF lcd
 
 static void lcd_control_menu()
 {
@@ -997,38 +1043,48 @@ void lcd_sdcard_menu()
 {
     if (lcdDrawUpdate == 0 && LCD_CLICKED == 0)
         return;	// nothing to do (so don't thrash the SD card)
-    uint16_t fileCnt = card.getnrfilenames();
+    // BEGIN MODIF lcd
+    //uint16_t fileCnt = card.getnrfilenames();
     START_MENU();
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-    card.getWorkDirName();
-    if(card.filename[0]=='/')
-    {
-#if SDCARDDETECT == -1
-        MENU_ITEM(function, LCD_STR_REFRESH MSG_REFRESH, lcd_sd_refresh);
-#endif
-    }else{
-        MENU_ITEM(function, LCD_STR_FOLDER "..", lcd_sd_updir);
-    }
-
-    for(uint16_t i=0;i<fileCnt;i++)
-    {
-        if (_menuItemNr == _lineNr)
+    if (card.cardOK) {
+    // END MODIF lcd
+        
+        card.getWorkDirName();
+        if(card.filename[0]=='/')
         {
-            #ifndef SDCARD_RATHERRECENTFIRST
-              card.getfilename(i);
-            #else
-              card.getfilename(fileCnt-1-i);
-            #endif
-            if (card.filenameIsDir)
-            {
-                MENU_ITEM(sddirectory, MSG_CARD_MENU, card.filename, card.longFilename);
-            }else{
-                MENU_ITEM(sdfile, MSG_CARD_MENU, card.filename, card.longFilename);
-            }
+#if SDCARDDETECT == -1
+            MENU_ITEM(function, LCD_STR_REFRESH MSG_REFRESH, lcd_sd_refresh);
+#endif
         }else{
-            MENU_ITEM_DUMMY();
+            MENU_ITEM(function, LCD_STR_FOLDER "..", lcd_sd_updir);
         }
+        // BEGIN MODIF lcd
+        uint16_t fileCnt = card.getnrfilenames();
+        // END MODIF lcd
+        for(uint16_t i=0;i<fileCnt;i++)
+        {
+            if (_menuItemNr == _lineNr)
+            {
+                #ifndef SDCARD_RATHERRECENTFIRST
+                card.getfilename(i);
+                #else
+                card.getfilename(fileCnt-1-i);
+                #endif
+                if (card.filenameIsDir)
+                {
+                    MENU_ITEM(sddirectory, MSG_CARD_MENU, card.filename, card.longFilename);
+                }else{
+                    MENU_ITEM(sdfile, MSG_CARD_MENU, card.filename, card.longFilename);
+                }
+            }else{
+                MENU_ITEM_DUMMY();
+            }
+        }
+    
+    // BEGIN MODIF lcd
     }
+    // END MODIF lcd
     END_MENU();
 }
 

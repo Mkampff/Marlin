@@ -12,13 +12,15 @@
 #define  C     239    // 523 Hz
 #define  R     0
 
-int melody[] = { e, f, g, g, f, e, d, c, c, d, e, e, d};
-int beats[]  = {16, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
+//int melody[] = { e, f, g, g, f, e, d, c, c, d, e, e, d};
+//int beats[]  = {16, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
+int melody[] = { c, R};
+int beats[]  = {16,16};
 int MAX_COUNT = sizeof(melody) / sizeof(int);
 
 #define TEMPO_MICROS 50000
 #define PAUSE_MICROS 10000
-//#define REST_COUNT 100
+#define REST_COUNT 100
 
 inline void playTone(long duration, int tone) {
     if (tone != R) {
@@ -33,9 +35,9 @@ inline void playTone(long duration, int tone) {
         }
     } else {
         // Rest beat. Repeat (rest delays are much slower)
-        //for (int j = 0; j < REST_COUNT; j++) {
+        for (int j = 0; j < REST_COUNT; j++) {
             delayMicroseconds(duration);
-        //}
+        }
     }                                
 }
 

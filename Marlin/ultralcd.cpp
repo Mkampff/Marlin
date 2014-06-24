@@ -461,7 +461,9 @@ static void lcd_tune_menu()
             }
         #endif
      }
-     MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+     #ifdef ENABLE_END_OF_FILAMENT_MENU
+        MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+     #endif // ENABLE_END_OF_FILAMENT_MENU
      // END MODIF lcd filament
 #endif
     END_MENU();
@@ -669,7 +671,9 @@ static void lcd_prepare_menu()
                 }
             #endif
         }
-        MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+        #ifdef ENABLE_END_OF_FILAMENT_MENU
+            MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+        #endif // ENABLE_END_OF_FILAMENT_MENU
     #endif // FILAMENTCHANGEENABLE
     // END MODIF filament
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);

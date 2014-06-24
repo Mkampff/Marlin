@@ -761,6 +761,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // If true, the printer will execute an M600 (change filament) if it detects it's out of filament.
 // It can be enabled or disabled with G-Codes M43 and M44.
 #define DEFAULT_FILAMENT_DETECTION_CALL_M600 false
+
+// Enable this to show the menu item that lets you enable or disable the automatic end of filament
+// detection.
+#define ENABLE_END_OF_FILAMENT_MENU
+
 // END MODIF filament
 
 #endif //__CONFIGURATION_H

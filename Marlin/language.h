@@ -909,8 +909,8 @@
 	#define MSG_PREHEAT_ABS_BEDONLY "Precal. ABS Base"
 	#define MSG_PREHEAT_ABS_SETTINGS "Ajustar temp. ABS"
 	#define MSG_COOLDOWN "Enfriar"
-	#define MSG_SWITCH_PS_ON "Switch Power On"
-	#define MSG_SWITCH_PS_OFF "Switch Power Off"
+	#define MSG_SWITCH_PS_ON "Reestab. energia"
+	#define MSG_SWITCH_PS_OFF "Cortar energia"
 	#define MSG_EXTRUDE "Extruir"
 	#define MSG_RETRACT "Retraer"
 	#define MSG_MOVE_AXIS "Mover ejes"
@@ -1520,9 +1520,9 @@
 	// BEGIN MODIF Portuguese
 	#define MSG_MAIN "Menu principal"
 	#define MSG_AUTOSTART "Autostart"
-	#define MSG_DISABLE_STEPPERS "Apagar motores"
+	#define MSG_DISABLE_STEPPERS "Desligar motores"
 	// END MODIF Portuguese
-	#define MSG_AUTO_HOME "Ir para origen"
+	#define MSG_AUTO_HOME "Ir a origen"
 	#define MSG_SET_ORIGIN "Estabelecer orig."
 	#define MSG_PREHEAT_PLA "Pre-aquecer PLA"
 	// BEGIN MODIF Portuguese
@@ -1532,7 +1532,7 @@
 	#define MSG_PREHEAT_PLA012 "Pre-aq. PLA Tudo"
 	#define MSG_PREHEAT_PLA_BEDONLY  "Pre-aq. PLA Base"
 	// END MODIF Portuguese
-	#define MSG_PREHEAT_PLA_SETTINGS "PLA setting"
+	#define MSG_PREHEAT_PLA_SETTINGS "Configuracao PLA"
 	#define MSG_PREHEAT_ABS "Pre-aquecer ABS"
 	// BEGIN MODIF Portuguese
 	#define MSG_PREHEAT_ABS0 "Pre-aquecer ABS 1"
@@ -1541,10 +1541,10 @@
 	#define MSG_PREHEAT_ABS012 "Pre-aq. ABS Tudo"
 	#define MSG_PREHEAT_ABS_BEDONLY  "Pre-aq. ABS Base"
 	// END MODIF Portuguese
-	#define MSG_PREHEAT_ABS_SETTINGS "ABS setting"
+	#define MSG_PREHEAT_ABS_SETTINGS "Configuracao ABS"
 	#define MSG_COOLDOWN "Esfriar"
-	#define MSG_SWITCH_PS_ON "Switch Power On"
-	#define MSG_SWITCH_PS_OFF "Switch Power Off"
+	#define MSG_SWITCH_PS_ON "Ligar energia"
+	#define MSG_SWITCH_PS_OFF "Desligar energia"
 	#define MSG_EXTRUDE "Extrudar"
 	#define MSG_RETRACT "Retrair"
 	#define MSG_PREHEAT_PLA "Pre-aquecer PLA"
@@ -1568,7 +1568,7 @@
 	#define MSG_NOZZLE2 "Nozzle3"
 	#define MSG_BED "Base"
 	// END MODIF Portuguese
-	#define MSG_FAN_SPEED "Velocidade vento."
+	#define MSG_FAN_SPEED "Velocidade vent."
 	// BEGIN MODIF Portuguese
 	#define MSG_FLOW "Fluxo"
 	#define MSG_FLOW0 "Fluxo0"
@@ -1624,7 +1624,7 @@
 	#define MSG_NO_CARD "Sem cartao SD"
 	#define MSG_DWELL "Repouso..."
 	#define MSG_USERWAIT "Esperando ordem"
-	#define MSG_RESUMING "Resuming print"
+	#define MSG_RESUMING "Prosseguir imp."
 	#define MSG_NO_MOVE "Sem movimento"
 	#define MSG_KILLED "PARADA DE EMERG."
 	// BEGIN MODIF Portuguese
@@ -1648,7 +1648,7 @@
 	#define MSG_BABYSTEP_Z "Babystep Z"
 	#define MSG_ENDSTOP_ABORT "Endstop abort"
 	#define MSG_CONTRAST "Contrast"
-
+	
 // Serial Console Messages
 
 	#define MSG_Enqueing "enqueing \""

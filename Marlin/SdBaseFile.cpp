@@ -379,7 +379,8 @@ int8_t SdBaseFile::lsPrintNext( uint8_t flags, uint8_t indent) {
 }
 //------------------------------------------------------------------------------
 // format directory name field from a 8.3 name string
-bool SdBaseFile::make83Name(const char* str, uint8_t* name, const char** ptr) {
+// BEGIN MODIF lcd
+/*bool SdBaseFile::make83Name(const char* str, uint8_t* name, const char** ptr) {
   uint8_t c;
   uint8_t n = 7;  // max index for part before dot
   uint8_t i = 0;
@@ -409,7 +410,91 @@ bool SdBaseFile::make83Name(const char* str, uint8_t* name, const char** ptr) {
 
  fail:
   return false;
+}*/
+// Removes illegal characters
+// Removes characters beyond the 8th in the file name and 3rd from the extension
+// Removes multi dot (keeps the last one only)
+static inline bool ignore_invalid_chars_and_convert_to_uppercase(char* c_ptr) {
+    PGM_P p = PSTR("|<>^+=?/[];,*\"\\");
+    char c = *c_ptr;
+    uint8_t b;
+    while ((b = pgm_read_byte(p++)))
+        if (b == c)
+            return true;
+    // check size and only allow ASCII printable characters
+    if (c < 0X21 || c > 0X7E)
+        return true;
+    // only upper case allowed in 8.3 names - convert lower to upper
+    *c_ptr = (c < 'a' || c > 'z') ?  (c) : (c + ('A' - 'a'));
+    
+    return false;
 }
+bool SdBaseFile::make83Name(const char* str, uint8_t* name, const char** ptr) {
+    // blank fill name and extension
+    uint8_t i = 0;
+    while (i < 11) name[i++] = ' ';
+    i = 0;
+    
+    // pointer to file name part beginning
+    const char* fn_ptr = str;
+    // pointer to extension beginning
+    const char* e_ptr = NULL;
+    
+    // Get extension. The extension is the text after the last dot.
+    while (*str != '\0' && *str != '/') {
+        if (*str == '.') {
+            e_ptr = str;
+        }
+        str++;
+    }
+    *ptr = str;
+    
+    // Remember if the name has extension.
+    bool has_ext = true;
+    if (!e_ptr) {
+        // Record the position in order to use it as the ending position.
+        e_ptr = str;
+        has_ext = false;
+    }
+    e_ptr++;
+    
+    // Copy file name part
+    char c = *str;
+    while (fn_ptr != e_ptr) {
+        c = *fn_ptr++;
+        
+        // Ignore invalid characters and dots. Also, convert the characters to uppercase.
+        if (ignore_invalid_chars_and_convert_to_uppercase(&c)) continue;
+        if (c == '.') continue;
+        
+        if (fn_ptr != e_ptr) {
+            name[i++] = c;
+            if (i == 8) {
+                // File name array full. Skip the rest.
+                break;
+            }
+        }
+    }
+    
+    if (has_ext) {
+        // File has extension. Copy it.
+        
+        // Start writing the extension in the corresponding part of the array.
+        i = 8;
+        
+        c = *e_ptr++;
+        while (c != '\0' && c != '/' && i <= 10) {
+            ignore_invalid_chars_and_convert_to_uppercase(&c);
+            name[i++] = c;
+            if (c != '\0' && c != '/' && i <= 10) {
+                c = *e_ptr++;
+            }
+        }
+    }
+    // must have a file name, extension is optional
+    return name[0] != ' ';
+}
+// END MODIF lcd
 //------------------------------------------------------------------------------
 /** Make a new directory.
  *

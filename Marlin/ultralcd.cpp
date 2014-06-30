@@ -567,10 +567,18 @@ void lcd_preheat_abs_bedonly()
     setWatch(); // heater sanity check timer
 }
 
+void lcd_placeholder()
+{
+// do nothing ("after all it's a placeholder")
+}
+
 static void lcd_preheat_pla_menu()
 {
     START_MENU();
     MENU_ITEM(back, MSG_PREPARE, lcd_prepare_menu);
+    // BEGIN MODIF lcd
+    MENU_ITEM(function, MSG_PREHEAT_PLA, lcd_placeholder);
+    // END MODIF lcd
     MENU_ITEM(function, MSG_PREHEAT_PLA0, lcd_preheat_pla0);
 #if TEMP_SENSOR_1 != 0 //2 extruder preheat
     MENU_ITEM(function, MSG_PREHEAT_PLA1, lcd_preheat_pla1);
@@ -591,6 +599,9 @@ static void lcd_preheat_abs_menu()
 {
     START_MENU();
     MENU_ITEM(back, MSG_PREPARE, lcd_prepare_menu);
+    // BEGIN MODIF lcd
+    MENU_ITEM(function, MSG_PREHEAT_ABS, lcd_placeholder);
+    // END MODIF lcd
     MENU_ITEM(function, MSG_PREHEAT_ABS0, lcd_preheat_abs0);
 #if TEMP_SENSOR_1 != 0 //2 extruder preheat
     MENU_ITEM(function, MSG_PREHEAT_ABS1, lcd_preheat_abs1);

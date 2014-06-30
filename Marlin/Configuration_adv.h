@@ -243,7 +243,11 @@
 
 //Comment to disable setting feedrate multiplier via encoder
 #ifdef ULTIPANEL
-    #define ULTIPANEL_FEEDMULTIPLY
+// BEGIN MODIF lcd
+    //#define ULTIPANEL_FEEDMULTIPLY
+    //#define DISPLAY_FEEDRATE_IN_WATCH_SCREEN
+    #define KIKAI_ENCODER_MENU_SHORTCUT
+// END MODIF lcd
 #endif
 
 // minimum time in microseconds that a movement needs to take if the buffer is emptied.

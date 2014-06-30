@@ -471,10 +471,16 @@ static void lcd_implementation_status_screen()
 #endif//LCD_HEIGHT > 2
 
 #if LCD_HEIGHT > 3
+    // BEGIN MODIF lcd
+    #ifdef DISPLAY_FEEDRATE_IN_WATCH_SCREEN
+    // END MODIF lcd
     lcd.setCursor(0, 2);
     lcd.print(LCD_STR_FEEDRATE[0]);
     lcd.print(itostr3(feedmultiply));
     lcd.print('%');
+    // BEGIN MODIF lcd
+    #endif // DISPLAY_FEEDRATE_IN_WATCH_SCREEN
+    // END MODIF lcd
 # if LCD_WIDTH > 19
 #  ifdef SDSUPPORT
     // BEGIN MODIF lcd filament

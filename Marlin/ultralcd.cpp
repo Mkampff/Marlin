@@ -234,6 +234,17 @@ static void lcd_status_screen()
         feedmultiply += int(encoderPosition);
         encoderPosition = 0;
     }
+// BEGIN MODIF lcd
+#elif defined KIKAI_ENCODER_MENU_SHORTCUT
+    if (int(encoderPosition) > ENCODER_FEEDRATE_DEADZONE || int(encoderPosition) < -ENCODER_FEEDRATE_DEADZONE)
+    {
+        // Instead of changing the feed multiplier, go to the main menu.
+        currentMenu = lcd_main_menu;
+        encoderPosition = 0;
+        lcd_quick_feedback();
+        lcd_implementation_init(); // to maybe revive the LCD if static electricity killed it.
+    }
+// END MODIF lcd
 #endif//ULTIPANEL_FEEDMULTIPLY
 
     if (feedmultiply < 10)

@@ -114,7 +114,9 @@
 	#define MSG_MOVE_01MM "Move 0.1mm"
 	#define MSG_MOVE_1MM "Move 1mm"
 	#define MSG_MOVE_10MM "Move 10mm"
-	#define MSG_SPEED "Speed"
+	// BEGIN MODIF lcd
+	#define MSG_SPEED "Feedrate"
+	// END MODIF lcd
 	#define MSG_NOZZLE "Nozzle"
 	#define MSG_NOZZLE1 "Nozzle2"
 	#define MSG_NOZZLE2 "Nozzle3"
@@ -1116,7 +1118,7 @@
 	#define MSG_MANUAL_LEVEL "Nivelacion manual"
 	#define MSG_RAISE_Z_1MM "Elevar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Elevar Z 5mms"
-	#define MSG_HOME_Z "Z ao origem"
+	#define MSG_HOME_Z "Z al origen"
 	// END MODIF lcd
 #endif
 
@@ -1570,7 +1572,9 @@
 	#define MSG_MOVE_01MM "Mover 0.1mm"
 	#define MSG_MOVE_1MM "Mover 1mm"
 	#define MSG_MOVE_10MM "Mover 10mm"
-	#define MSG_SPEED "Velocidade"
+	// BEGIN MODIF lcd
+	#define MSG_SPEED "Avanco"
+	// END MODIF lcd
 	#define MSG_NOZZLE "Nozzle"
 	#define MSG_NOZZLE1 "Nozzle2"
 	#define MSG_NOZZLE2 "Nozzle3"

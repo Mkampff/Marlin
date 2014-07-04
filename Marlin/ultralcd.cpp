@@ -58,6 +58,7 @@ static void lcd_tune_menu();
 static void lcd_prepare_menu();
 static void lcd_move_menu();
 // BEGIN MODIF lcd
+static void lcd_extrude_menu();
 static void lcd_home_axis_menu();
 static void lcd_manual_level_menu();
 // END MODIF lcd
@@ -472,9 +473,6 @@ static void lcd_tune_menu()
             }
         #endif
      }
-     #ifdef ENABLE_END_OF_FILAMENT_MENU
-        MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
-     #endif // ENABLE_END_OF_FILAMENT_MENU
      // END MODIF lcd filament
 #endif
     END_MENU();
@@ -682,7 +680,9 @@ static void lcd_prepare_menu()
     // BEGIN MODIF filament
     #ifdef FILAMENTCHANGEENABLE
         if (!is_state_stored()) {
-            MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+            #ifdef FILAMENT_CHANGE_MENU_ITEM_ENABLE
+                MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+            #endif // FILAMENT_CHANGE_MENU_ITEM_ENABLE
         } else {
             // If we are printing from the SD card, this method only returns to the position where
             // it was when the filament ran out. If we are printing from a client (Repetier for
@@ -693,12 +693,12 @@ static void lcd_prepare_menu()
                 }
             #endif
         }
-        #ifdef ENABLE_END_OF_FILAMENT_MENU
-            MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
-        #endif // ENABLE_END_OF_FILAMENT_MENU
     #endif // FILAMENTCHANGEENABLE
     // END MODIF filament
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
+    // BEGIN MODIF lcd
+    MENU_ITEM(submenu, MSG_EXTRUDE, lcd_extrude_menu);
+    // END MODIF lcd
     END_MENU();
 }
 
@@ -816,7 +816,10 @@ static void lcd_move_e()
     if (LCD_CLICKED)
     {
         lcd_quick_feedback();
-        currentMenu = lcd_move_menu_axis;
+        // BEGIN MODIF lcd
+        //currentMenu = lcd_move_menu_axis;
+        currentMenu = lcd_prepare_menu;
+        // END MODIF lcd
         encoderPosition = 0;
     }
 }
@@ -830,7 +833,9 @@ static void lcd_move_menu_axis()
     if (move_menu_scale < 10.0)
     {
         MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
-        MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_e);
+        // BEGIN MODIF lcd
+        //MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_e);
+        // END MODIF lcd
     }
     END_MENU();
 }
@@ -866,6 +871,11 @@ static void lcd_move_menu()
 }
 
 // BEGIN MODIF lcd
+static void lcd_extrude_menu()
+{
+    move_menu_scale = 1.0;
+    lcd_move_e();
+}
 static void lcd_home_axis_menu()
 {
     START_MENU();
@@ -893,6 +903,11 @@ static void lcd_control_menu()
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
     MENU_ITEM(submenu, MSG_TEMPERATURE, lcd_control_temperature_menu);
     MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
+    // BEGIN MODIF lcd filament
+    #ifdef ENABLE_END_OF_FILAMENT_MENU
+       MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+    #endif // ENABLE_END_OF_FILAMENT_MENU
+    // END MODIF lcd filament
 #ifdef DOGLCD
 //    MENU_ITEM_EDIT(int3, MSG_CONTRAST, &lcd_contrast, 0, 63);
     MENU_ITEM(submenu, MSG_CONTRAST, lcd_set_contrast);

@@ -984,7 +984,9 @@
 	#define MSG_PAUSE_PRINT "Pausar impresion"
 	#define MSG_RESUME_PRINT "Reanudar impres."
 	#define MSG_STOP_PRINT "Detener impresion"
-	#define MSG_CARD_MENU "Menu de SD"
+	// BEGIN MODIF lcd
+	#define MSG_CARD_MENU "Imprimir desde SD"
+	// END MODIF lcd
 	#define MSG_NO_CARD "No hay tarjeta SD"
 	#define MSG_DWELL "Reposo..."
 	#define MSG_USERWAIT "Esperando ordenes"
@@ -1632,7 +1634,9 @@
 	#define MSG_PAUSE_PRINT "Pausar impressao"
 	#define MSG_RESUME_PRINT "Resumir impressao"
 	#define MSG_STOP_PRINT "Parar impressao"
-	#define MSG_CARD_MENU "Menu cartao SD"
+	// BEGIN MODIF Portuguese
+	#define MSG_CARD_MENU "Imprimir de SD"
+	// END MODIF Portuguese
 	#define MSG_NO_CARD "Sem cartao SD"
 	#define MSG_DWELL "Repouso..."
 	#define MSG_USERWAIT "Esperando ordem"

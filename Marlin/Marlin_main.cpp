@@ -195,14 +195,14 @@ bool axis_relative_modes[] = AXIS_RELATIVE_MODES;
 int feedmultiply=100; //100->1 200->2
 int saved_feedmultiply;
 int extrudemultiply=100; //100->1 200->2
-int extruder_multiply[EXTRUDERS] = {100
-  #if EXTRUDERS > 1
-    , 100
-    #if EXTRUDERS > 2
-      , 100
-    #endif
-  #endif
-};
+//int extruder_multiply[EXTRUDERS] = {100
+//  #if EXTRUDERS > 1
+//    , 100
+//    #if EXTRUDERS > 2
+//      , 100
+//    #endif
+//  #endif
+//};
 float volumetric_multiplier[EXTRUDERS] = {1.0
   #if EXTRUDERS > 1
     , 1.0
@@ -2496,7 +2496,9 @@ void process_commands_aux()
       if(code_seen('S'))
       {
         int tmp_code = code_value();
-        if (code_seen('T'))
+        // BEGIN MODIF lcd
+        // FIXME extruder_multiply is NEVER used really. Disabling this piece of code to not confuse the users.
+        /*if (code_seen('T'))
         {
           if(setTargetedHotend(221)){
             break;
@@ -2506,7 +2508,10 @@ void process_commands_aux()
         else
         {
           extrudemultiply = tmp_code ;
-        }
+        }*/
+        //extruder_multiply is ignored really, so we just set it for all extruders.
+        extrudemultiply = tmp_code ;
+        // END MODIF lcd
       }
     }
     break;

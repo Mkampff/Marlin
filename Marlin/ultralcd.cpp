@@ -443,13 +443,15 @@ static void lcd_tune_menu()
 #endif
     MENU_ITEM_EDIT(int3, MSG_FAN_SPEED, &fanSpeed, 0, 255);
     MENU_ITEM_EDIT(int3, MSG_FLOW, &extrudemultiply, 10, 999);
-    MENU_ITEM_EDIT(int3, MSG_FLOW0, &extruder_multiply[0], 10, 999);
-#if TEMP_SENSOR_1 != 0
-    MENU_ITEM_EDIT(int3, MSG_FLOW1, &extruder_multiply[1], 10, 999);
-#endif
-#if TEMP_SENSOR_2 != 0
-    MENU_ITEM_EDIT(int3, MSG_FLOW2, &extruder_multiply[2], 10, 999);
-#endif
+// BEGIN MODIF lcd
+//    MENU_ITEM_EDIT(int3, MSG_FLOW0, &extruder_multiply[0], 10, 999);
+//#if TEMP_SENSOR_1 != 0
+//    MENU_ITEM_EDIT(int3, MSG_FLOW1, &extruder_multiply[1], 10, 999);
+//#endif
+//#if TEMP_SENSOR_2 != 0
+//    MENU_ITEM_EDIT(int3, MSG_FLOW2, &extruder_multiply[2], 10, 999);
+//#endif
+// END MODIF lcd
 
 #ifdef BABYSTEPPING
     #ifdef BABYSTEP_XY
@@ -462,7 +464,9 @@ static void lcd_tune_menu()
      // BEGIN MODIF lcd filament
      // FIXME It's not safe to send GCode here if we are not sure that we are printing from the SD card.
      if (!is_state_stored()) {
-        MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+        #ifdef FILAMENT_CHANGE_MENU_ITEM_ENABLE
+            MENU_ITEM(gcode, MSG_FILAMENTCHANGE, PSTR("M600"));
+        #endif // FILAMENT_CHANGE_MENU_ITEM_ENABLE
      } else {
         // If we are printing from the SD card, this method only returns to the position where
         // it was when the filament ran out. If we are printing from a client (Repetier for
@@ -1265,6 +1269,9 @@ static void menu_action_function(menuFunc_t data)
 }
 static void menu_action_sdfile(const char* filename, char* longFilename)
 {
+    // Ensure that any previous state is cleared
+    clear_state_stored();
+    
     char cmd[30];
     char* c;
     sprintf_P(cmd, PSTR("M23 %s"), filename);

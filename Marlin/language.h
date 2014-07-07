@@ -116,10 +116,10 @@
 	#define MSG_MOVE_10MM "Move 10mm"
 	// BEGIN MODIF lcd
 	#define MSG_SPEED "Feedrate"
+	#define MSG_NOZZLE "Hotend"
+	#define MSG_NOZZLE1 "Hotend 2"
+	#define MSG_NOZZLE2 "Hotend 3"
 	// END MODIF lcd
-	#define MSG_NOZZLE "Nozzle"
-	#define MSG_NOZZLE1 "Nozzle2"
-	#define MSG_NOZZLE2 "Nozzle3"
 	#define MSG_BED "Bed"
 	#define MSG_FAN_SPEED "Fan speed"
 	#define MSG_FLOW "Flow"
@@ -934,10 +934,12 @@
 	#define MSG_MOVE_1MM "Mover 1mm"
 	#define MSG_MOVE_10MM "Mover 10mm"
 	#define MSG_SPEED "Velocidad"
-	#define MSG_NOZZLE "Nozzle"
-	#define MSG_NOZZLE1 "Nozzle2"
-	#define MSG_NOZZLE2 "Nozzle3"
-	#define MSG_BED "Base"
+	// BEGIN MODIF lcd
+	#define MSG_NOZZLE "Hotend"
+	#define MSG_NOZZLE1 "Hotend 2"
+	#define MSG_NOZZLE2 "Hotend 3"
+	#define MSG_BED "Cama"
+	// END MODIF lcd
 	#define MSG_FAN_SPEED "Ventilador"
 	#define MSG_FLOW "Flujo"
 	#define MSG_FLOW0 "Flujo 0"
@@ -1057,8 +1059,10 @@
 	#define MSG_M109_INVALID_EXTRUDER "M109 Extrusor Invalido "
 	#define MSG_HEATING "Calentando..."
 	#define MSG_HEATING_COMPLETE "Calentamiento Hecho."
-	#define MSG_BED_HEATING "Calentando la base."
-	#define MSG_BED_DONE "Base Caliente."
+	// BEGIN MODIF lcd
+	#define MSG_BED_HEATING "Calentando la cama."
+	#define MSG_BED_DONE "Cama Caliente."
+	// END MODIF lcd
 	#define MSG_M115_REPORT "FIRMWARE_NAME:Marlin V1; Sprinter/grbl mashup for gen6 FIRMWARE_URL:" FIRMWARE_URL " PROTOCOL_VERSION:" PROTOCOL_VERSION " MACHINE_TYPE:" MACHINE_NAME " EXTRUDER_COUNT:" STRINGIFY(EXTRUDERS) " UUID:" MACHINE_UUID "\n"
 	#define MSG_COUNT_X " Cuenta X:"
 	#define MSG_ERR_KILLED "¡¡Impresora Parada con kill()!!"
@@ -1574,14 +1578,12 @@
 	#define MSG_MOVE_01MM "Mover 0.1mm"
 	#define MSG_MOVE_1MM "Mover 1mm"
 	#define MSG_MOVE_10MM "Mover 10mm"
-	// BEGIN MODIF lcd
+	// BEGIN MODIF Portuguese
 	#define MSG_SPEED "Avanco"
-	// END MODIF lcd
-	#define MSG_NOZZLE "Nozzle"
-	#define MSG_NOZZLE1 "Nozzle2"
-	#define MSG_NOZZLE2 "Nozzle3"
+	#define MSG_NOZZLE "Hotend"
+	#define MSG_NOZZLE1 "Hotend 2"
+	#define MSG_NOZZLE2 "Hotend 3"
 	#define MSG_BED "Base"
-	// END MODIF Portuguese
 	#define MSG_FAN_SPEED "Velocidade vent."
 	// BEGIN MODIF Portuguese
 	#define MSG_FLOW "Fluxo"

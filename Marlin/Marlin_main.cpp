@@ -51,6 +51,9 @@
 #include "end_of_filament.h"
 #include "lcdaudioalarm.h"
 // END MODIF filament
+// BEGIN MODIF lcd eeprom about
+#include "serial_number.h"
+// END MODIF lcd eeprom about
 
 #ifdef BLINKM
 #include "BlinkM.h"
@@ -166,6 +169,9 @@
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 // M503 - print the current settings (from memory not from EEPROM)
 // M540 - Use S[0|1] to enable or disable the stop SD card print on endstop hit (requires ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED)
+// BEGIN MODIF lcd
+// M550 - Set printer name
+// END MODIF lcd
 // M600 - Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
 // M665 - set delta configurations
 // M666 - set delta endstop adjustment
@@ -195,14 +201,14 @@ bool axis_relative_modes[] = AXIS_RELATIVE_MODES;
 int feedmultiply=100; //100->1 200->2
 int saved_feedmultiply;
 int extrudemultiply=100; //100->1 200->2
-int extruder_multiply[EXTRUDERS] = {100
-  #if EXTRUDERS > 1
-    , 100
-    #if EXTRUDERS > 2
-      , 100
-    #endif
-  #endif
-};
+//int extruder_multiply[EXTRUDERS] = {100
+//  #if EXTRUDERS > 1
+//    , 100
+//    #if EXTRUDERS > 2
+//      , 100
+//    #endif
+//  #endif
+//};
 float volumetric_multiplier[EXTRUDERS] = {1.0
   #if EXTRUDERS > 1
     , 1.0
@@ -2496,7 +2502,9 @@ void process_commands_aux()
       if(code_seen('S'))
       {
         int tmp_code = code_value();
-        if (code_seen('T'))
+        // BEGIN MODIF lcd
+        // FIXME extruder_multiply is NEVER used really. Disabling this piece of code to not confuse the users.
+        /*if (code_seen('T'))
         {
           if(setTargetedHotend(221)){
             break;
@@ -2506,7 +2514,10 @@ void process_commands_aux()
         else
         {
           extrudemultiply = tmp_code ;
-        }
+        }*/
+        //extruder_multiply is ignored really, so we just set it for all extruders.
+        extrudemultiply = tmp_code ;
+        // END MODIF lcd
       }
     }
     break;
@@ -2783,6 +2794,16 @@ void process_commands_aux()
     break;
     #endif
 
+// BEGIN MODIF Lcd
+    case 550:
+    {
+        starpos = (strchr(strchr_pointer + 5,'*'));
+        if(starpos!=NULL)
+            *(starpos-1)='\0';
+        set_serial_number(strchr_pointer + 5);
+    }
+    break;
+// END MODIF Lcd
     #ifdef CUSTOM_M_CODE_SET_Z_PROBE_OFFSET
     case CUSTOM_M_CODE_SET_Z_PROBE_OFFSET:
     {
@@ -2945,11 +2966,13 @@ void process_commands_aux()
         restore_last_state_stored();
     }
     break;
+#ifdef M602_MCODE_ENABLED
     case 602: //M602 - Store current position. You can restore current position with M601 later.
     {
         store_current_state();
     }
     break;
+#endif // M602_MCODE_ENABLED
     // END MODIF lcd filament
     #endif //FILAMENTCHANGEENABLE
     #ifdef DUAL_X_CARRIAGE

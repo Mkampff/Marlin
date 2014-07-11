@@ -114,10 +114,12 @@
 	#define MSG_MOVE_01MM "Move 0.1mm"
 	#define MSG_MOVE_1MM "Move 1mm"
 	#define MSG_MOVE_10MM "Move 10mm"
-	#define MSG_SPEED "Speed"
-	#define MSG_NOZZLE "Nozzle"
-	#define MSG_NOZZLE1 "Nozzle2"
-	#define MSG_NOZZLE2 "Nozzle3"
+	// BEGIN MODIF lcd
+	#define MSG_SPEED "Feedrate"
+	#define MSG_NOZZLE "Hotend"
+	#define MSG_NOZZLE1 "Hotend 2"
+	#define MSG_NOZZLE2 "Hotend 3"
+	// END MODIF lcd
 	#define MSG_BED "Bed"
 	#define MSG_FAN_SPEED "Fan speed"
 	#define MSG_FLOW "Flow"
@@ -277,6 +279,15 @@
 	#define MSG_RAISE_Z_1MM "Raise Z 1mm"
 	#define MSG_RAISE_Z_5MM "Raise Z 5mms"
 	#define MSG_HOME_Z "Home Z"
+	#define MSG_ABOUT "About"
+	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
+	#define ABOUT_FIRMWARE_DATA VERSION // Version
+	#define ABOUT_SERIAL_NUMBER "Serial Number:"
+	#define ABOUT_CONTACT_1 "Contact: support @"
+	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
+	#define ABOUT_WEB_1 "Web:"
+	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
+	#define ABOUT_FIRMWARE_UPDATE_DATE "Firmware updated on:"
 	// END MODIF lcd
 #endif
 
@@ -932,10 +943,12 @@
 	#define MSG_MOVE_1MM "Mover 1mm"
 	#define MSG_MOVE_10MM "Mover 10mm"
 	#define MSG_SPEED "Velocidad"
-	#define MSG_NOZZLE "Nozzle"
-	#define MSG_NOZZLE1 "Nozzle2"
-	#define MSG_NOZZLE2 "Nozzle3"
-	#define MSG_BED "Base"
+	// BEGIN MODIF lcd
+	#define MSG_NOZZLE "Hotend"
+	#define MSG_NOZZLE1 "Hotend 2"
+	#define MSG_NOZZLE2 "Hotend 3"
+	#define MSG_BED "Cama"
+	// END MODIF lcd
 	#define MSG_FAN_SPEED "Ventilador"
 	#define MSG_FLOW "Flujo"
 	#define MSG_FLOW0 "Flujo 0"
@@ -982,7 +995,9 @@
 	#define MSG_PAUSE_PRINT "Pausar impresion"
 	#define MSG_RESUME_PRINT "Reanudar impres."
 	#define MSG_STOP_PRINT "Detener impresion"
-	#define MSG_CARD_MENU "Menu de SD"
+	// BEGIN MODIF lcd
+	#define MSG_CARD_MENU "Imprimir desde SD"
+	// END MODIF lcd
 	#define MSG_NO_CARD "No hay tarjeta SD"
 	#define MSG_DWELL "Reposo..."
 	#define MSG_USERWAIT "Esperando ordenes"
@@ -1053,8 +1068,10 @@
 	#define MSG_M109_INVALID_EXTRUDER "M109 Extrusor Invalido "
 	#define MSG_HEATING "Calentando..."
 	#define MSG_HEATING_COMPLETE "Calentamiento Hecho."
-	#define MSG_BED_HEATING "Calentando la base."
-	#define MSG_BED_DONE "Base Caliente."
+	// BEGIN MODIF lcd
+	#define MSG_BED_HEATING "Calentando la cama."
+	#define MSG_BED_DONE "Cama Caliente."
+	// END MODIF lcd
 	#define MSG_M115_REPORT "FIRMWARE_NAME:Marlin V1; Sprinter/grbl mashup for gen6 FIRMWARE_URL:" FIRMWARE_URL " PROTOCOL_VERSION:" PROTOCOL_VERSION " MACHINE_TYPE:" MACHINE_NAME " EXTRUDER_COUNT:" STRINGIFY(EXTRUDERS) " UUID:" MACHINE_UUID "\n"
 	#define MSG_COUNT_X " Cuenta X:"
 	#define MSG_ERR_KILLED "¡¡Impresora Parada con kill()!!"
@@ -1116,7 +1133,16 @@
 	#define MSG_MANUAL_LEVEL "Nivelacion manual"
 	#define MSG_RAISE_Z_1MM "Elevar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Elevar Z 5mms"
-	#define MSG_HOME_Z "Z ao origem"
+	#define MSG_HOME_Z "Z al origen"
+	#define MSG_ABOUT "Acerca de"
+	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
+	#define ABOUT_FIRMWARE_DATA VERSION // Version
+	#define ABOUT_SERIAL_NUMBER "Serial Number:"
+	#define ABOUT_CONTACT_1 "Contacto: support @"
+	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
+	#define ABOUT_WEB_1 "Web:"
+	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
+	#define ABOUT_FIRMWARE_UPDATE_DATE "Fecha de Firmware:"
 	// END MODIF lcd
 #endif
 
@@ -1570,12 +1596,12 @@
 	#define MSG_MOVE_01MM "Mover 0.1mm"
 	#define MSG_MOVE_1MM "Mover 1mm"
 	#define MSG_MOVE_10MM "Mover 10mm"
-	#define MSG_SPEED "Velocidade"
-	#define MSG_NOZZLE "Nozzle"
-	#define MSG_NOZZLE1 "Nozzle2"
-	#define MSG_NOZZLE2 "Nozzle3"
+	// BEGIN MODIF Portuguese
+	#define MSG_SPEED "Avanco"
+	#define MSG_NOZZLE "Hotend"
+	#define MSG_NOZZLE1 "Hotend 2"
+	#define MSG_NOZZLE2 "Hotend 3"
 	#define MSG_BED "Base"
-	// END MODIF Portuguese
 	#define MSG_FAN_SPEED "Velocidade vent."
 	// BEGIN MODIF Portuguese
 	#define MSG_FLOW "Fluxo"
@@ -1628,7 +1654,9 @@
 	#define MSG_PAUSE_PRINT "Pausar impressao"
 	#define MSG_RESUME_PRINT "Resumir impressao"
 	#define MSG_STOP_PRINT "Parar impressao"
-	#define MSG_CARD_MENU "Menu cartao SD"
+	// BEGIN MODIF Portuguese
+	#define MSG_CARD_MENU "Imprimir de SD"
+	// END MODIF Portuguese
 	#define MSG_NO_CARD "Sem cartao SD"
 	#define MSG_DWELL "Repouso..."
 	#define MSG_USERWAIT "Esperando ordem"
@@ -1773,6 +1801,15 @@
 	#define MSG_RAISE_Z_1MM "Levantar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Levantar Z 5mms"
 	#define MSG_HOME_Z "Z ao origem"
+	#define MSG_ABOUT "About"
+	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
+	#define ABOUT_FIRMWARE_DATA VERSION // Version
+	#define ABOUT_SERIAL_NUMBER "Serial Number:"
+	#define ABOUT_CONTACT_1 "Contato: support @"
+	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
+	#define ABOUT_WEB_1 "Web:"
+	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
+	#define ABOUT_FIRMWARE_UPDATE_DATE "Data de Firmware:"
 	// END MODIF lcd
 #endif
 

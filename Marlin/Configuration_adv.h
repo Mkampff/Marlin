@@ -237,7 +237,9 @@
 // Feedrates for manual moves along X, Y, Z, E from panel
 #ifdef ULTIPANEL
 // BEGIN MODIF lcd
-#define MANUAL_FEEDRATE {50*60, 50*60, 4*60, 60*10}  // set the speeds for manual moves (mm/min)
+// MANUAL_FEEDRATE[E] = DEFAULT_MAX_FEEDRATE[E]*60 * MANUAL_FEEDRATE_MAX_E_PERCENTAGE / 100
+#define MANUAL_FEEDRATE_MAX_E_PERCENTAGE 60
+#define MANUAL_FEEDRATE {50*60, 50*60, 4*60, (45*60*MANUAL_FEEDRATE_MAX_E_PERCENTAGE)/ 100}  // set the speeds for manual moves (mm/min)
 // END MODIF lcd
 #endif
 
@@ -247,6 +249,7 @@
     //#define ULTIPANEL_FEEDMULTIPLY
     //#define DISPLAY_FEEDRATE_IN_WATCH_SCREEN
     #define KIKAI_ENCODER_MENU_SHORTCUT
+    //#define FILAMENT_CHANGE_MENU_ITEM_ENABLE
 // END MODIF lcd
 #endif
 

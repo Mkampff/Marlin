@@ -16,7 +16,11 @@
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(Kikai Labs, T140 v1.20140624)" // Who made the changes.
+// keep these constants separated because they are used from the language.h file
+#define COMPANY "Kikai Labs"
+#define MODEL "T140"
+#define VERSION "v1.20140712"
+#define STRING_CONFIG_H_AUTHOR "( " COMPANY ", " MODEL " " VERSION " )" // Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -504,17 +508,21 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //define this to enable EEPROM support
-//#define EEPROM_SETTINGS
+#define EEPROM_SETTINGS
 //to disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
 // please keep turned on if you can.
 //#define EEPROM_CHITCHAT
 
 // Preheat Constants
-#define PLA_PREHEAT_HOTEND_TEMP 190
-#define PLA_PREHEAT_HPB_TEMP 60
+// BEGIN MODIF temp
+#define PLA_PREHEAT_HOTEND_TEMP 210
+#define PLA_PREHEAT_HPB_TEMP 65
+// END MODIF temp
 #define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
 
-#define ABS_PREHEAT_HOTEND_TEMP 230
+// BEGIN MODIF temp
+#define ABS_PREHEAT_HOTEND_TEMP 260
+// END MODIF temp
 #define ABS_PREHEAT_HPB_TEMP 110
 #define ABS_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
 
@@ -766,12 +774,16 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // detection.
 #define ENABLE_END_OF_FILAMENT_MENU
 
-// END MODIF filament
 // BEGIN MODIF lcd
 #define ENABLE_SET_Z0
 // END MODIF lcd
 // BEGIN MODIF lcd status
 #define TEMP_STATUS_DURATION 3000
 // END MODIF lcd status
+// END MODIF filament
+// Enable or disable M codes M602, which allow the user to record the current state manually (nozzle and extruder positions)
+//#define M602_MCODE_ENABLED
+
+// END MODIF filament
 
 #endif //__CONFIGURATION_H

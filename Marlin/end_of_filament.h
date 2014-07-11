@@ -1,6 +1,11 @@
 #ifndef end_of_filament_h
 #define end_of_filament_h
 
+// Configuration
+extern bool end_of_filament_detection_report_end_of_filament_event;
+extern bool end_of_filament_detection_request_pause;
+extern bool end_of_filament_detection_call_m600;
+
 void check_end_of_filament_endstop();
 void set_end_of_filament_detection_report_end_of_filament_event(bool check);
 void set_end_of_filament_detection_request_pause(bool check);

@@ -10,6 +10,9 @@
 // BEGIN MODIF filament
 #include "end_of_filament.h"
 // END MODIF filament
+// BEGIN MODIF lcd eeprom about
+#include "serial_number.h"
+// END MODIF lcd eeprom about
 
 int8_t encoderDiff; /* encoderDiff is updated from interrupt context and added to encoderPosition every LCD update */
 
@@ -61,6 +64,7 @@ static void lcd_move_menu();
 static void lcd_extrude_menu();
 static void lcd_home_axis_menu();
 static void lcd_manual_level_menu();
+static void lcd_about();
 // END MODIF lcd
 static void lcd_control_menu();
 static void lcd_control_temperature_menu();
@@ -98,6 +102,10 @@ static void menu_action_setting_edit_callback_float5(const char* pstr, float* pt
 static void menu_action_setting_edit_callback_float51(const char* pstr, float* ptr, float minValue, float maxValue, menuFunc_t callbackFunc);
 static void menu_action_setting_edit_callback_float52(const char* pstr, float* ptr, float minValue, float maxValue, menuFunc_t callbackFunc);
 static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned long* ptr, unsigned long minValue, unsigned long maxValue, menuFunc_t callbackFunc);
+// BEGIN MODIF lcd about
+static void menu_action_msgP(menuFunc_t data);
+static void menu_action_msg(menuFunc_t data);
+// END MODIF lcd about
 
 #define ENCODER_FEEDRATE_DEADZONE 10
 
@@ -186,9 +194,6 @@ menuFunc_t callbackFunc;
 
 // place-holders for Ki and Kd edits
 float raw_Ki, raw_Kd;
-// BEGIN MODIF filament
-bool end_of_filament_enabled = DEFAULT_FILAMENT_DETECTION_CALL_M600;
-// END MODIF filament
 
 /* Main status screen. It's up to the implementation specific part to show what is needed. As this is very display dependent */
 static void lcd_status_screen()
@@ -352,6 +357,9 @@ static void lcd_main_menu()
 #endif
     }
 #endif
+    // BEGIN MODIF lcd
+    MENU_ITEM(submenu, MSG_ABOUT, lcd_about);
+    // END MODIF lcd
     END_MENU();
 }
 
@@ -909,7 +917,7 @@ static void lcd_control_menu()
     MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
     // BEGIN MODIF lcd filament
     #ifdef ENABLE_END_OF_FILAMENT_MENU
-       MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+       MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_detection_call_m600, enable_or_disable_end_of_filament);
     #endif // ENABLE_END_OF_FILAMENT_MENU
     // END MODIF lcd filament
 #ifdef DOGLCD
@@ -1295,6 +1303,16 @@ static void menu_action_setting_edit_callback_bool(const char* pstr, bool* ptr, 
 {
     *ptr = !(*ptr);
     callbackFunc();
+}
+static void menu_action_msgP(menuFunc_t data)
+{
+    currentMenu = data;
+    encoderPosition = 0;
+}
+static void menu_action_msg(const char* text, menuFunc_t data)
+{
+    currentMenu = data;
+    encoderPosition = 0;
 }
 // END MODIF filament
 #endif//ULTIPANEL
@@ -1806,7 +1824,7 @@ void copy_and_scalePID_d()
 #ifdef FILAMENTCHANGEENABLE
 void enable_or_disable_end_of_filament()
 {
-  if (end_of_filament_enabled) {
+  if (end_of_filament_detection_call_m600) {
     enquecommand_P(PSTR("M43"));
   } else {
     enquecommand_P(PSTR("M44"));
@@ -1814,5 +1832,25 @@ void enable_or_disable_end_of_filament()
 }
 #endif FILAMENTCHANGEENABLE
 // END MODIF filament
+
+// BEGIN MODIF lcd
+void lcd_about() {
+    START_MENU();
+    MENU_ITEM(msgP, ABOUT_PRINTER_MODEL, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_FIRMWARE_DATA, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_SERIAL_NUMBER, lcd_main_menu);
+    MENU_ITEM(msg, " ", serial_number, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_CONTACT_1, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_CONTACT_2, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_WEB_1, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_WEB_2, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_FIRMWARE_UPDATE_DATE, lcd_main_menu);
+    MENU_ITEM(msgP, STRING_VERSION_CONFIG_H, lcd_main_menu);
+    END_MENU();
+}
+// BEGIN MODIF lcd
 
 #endif //ULTRA_LCD

@@ -279,6 +279,15 @@
 	#define MSG_RAISE_Z_1MM "Raise Z 1mm"
 	#define MSG_RAISE_Z_5MM "Raise Z 5mms"
 	#define MSG_HOME_Z "Home Z"
+	#define MSG_ABOUT "About"
+	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
+	#define ABOUT_FIRMWARE_DATA VERSION // Version
+	#define ABOUT_SERIAL_NUMBER "Serial Number:"
+	#define ABOUT_CONTACT_1 "Contact: support @"
+	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
+	#define ABOUT_WEB_1 "Web:"
+	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
+	#define ABOUT_FIRMWARE_UPDATE_DATE "Firmware updated on:"
 	// END MODIF lcd
 #endif
 
@@ -1125,6 +1134,15 @@
 	#define MSG_RAISE_Z_1MM "Elevar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Elevar Z 5mms"
 	#define MSG_HOME_Z "Z al origen"
+	#define MSG_ABOUT "Acerca de"
+	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
+	#define ABOUT_FIRMWARE_DATA VERSION // Version
+	#define ABOUT_SERIAL_NUMBER "Serial Number:"
+	#define ABOUT_CONTACT_1 "Contacto: support @"
+	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
+	#define ABOUT_WEB_1 "Web:"
+	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
+	#define ABOUT_FIRMWARE_UPDATE_DATE "Fecha de Firmware:"
 	// END MODIF lcd
 #endif
 
@@ -1783,6 +1801,15 @@
 	#define MSG_RAISE_Z_1MM "Levantar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Levantar Z 5mms"
 	#define MSG_HOME_Z "Z ao origem"
+	#define MSG_ABOUT "About"
+	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
+	#define ABOUT_FIRMWARE_DATA VERSION // Version
+	#define ABOUT_SERIAL_NUMBER "Serial Number:"
+	#define ABOUT_CONTACT_1 "Contato: support @"
+	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
+	#define ABOUT_WEB_1 "Web:"
+	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
+	#define ABOUT_FIRMWARE_UPDATE_DATE "Data de Firmware:"
 	// END MODIF lcd
 #endif
 

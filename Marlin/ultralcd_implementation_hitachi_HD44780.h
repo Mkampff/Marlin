@@ -711,6 +711,37 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
     while(n--)
         lcd.print(' ');
 }
+// BEGIN MODIF lcd about
+static void lcd_implementation_drawmenu_msgP(uint8_t row, const char*pstr, menuFunc_t data)
+{
+    char c;
+    lcd.setCursor(0, row);
+    lcd_printPGM(pstr);
+    uint8_t n = LCD_WIDTH - strlen_P(pstr);
+    while(n > 0) {
+        n--;
+        lcd.print(' ');
+    }
+}
+static void lcd_implementation_drawmenu_msg(uint8_t row, const char*pstr, const char* text, menuFunc_t data)
+{
+    char c;
+    lcd.setCursor(0, row);
+    lcd_printPGM(pstr);
+    uint8_t n = LCD_WIDTH - strlen_P(pstr);
+    while( ((c = *text) != '\0') && (n>0) )
+    {
+        lcd.print(c);
+        text++;
+        n--;
+    }
+    while(n > 0) {
+        n--;
+        lcd.print(' ');
+    }
+}
+// END MODIF lcd about
+
 #define lcd_implementation_drawmenu_back_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, LCD_STR_UPLEVEL[0], LCD_STR_UPLEVEL[0])
 #define lcd_implementation_drawmenu_back(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, ' ', LCD_STR_UPLEVEL[0])
 #define lcd_implementation_drawmenu_submenu_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, '>', LCD_STR_ARROW_RIGHT[0])
@@ -719,6 +750,11 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
 #define lcd_implementation_drawmenu_gcode(row, pstr, gcode) lcd_implementation_drawmenu_generic(row, pstr, ' ', ' ')
 #define lcd_implementation_drawmenu_function_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, '>', ' ')
 #define lcd_implementation_drawmenu_function(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, ' ', ' ')
+// BEGIN MODIF lcd about
+// Messages look the same selected or unselected
+#define lcd_implementation_drawmenu_msgP_selected(row, pstr, menu) lcd_implementation_drawmenu_msgP(row, pstr, menu)
+#define lcd_implementation_drawmenu_msg_selected(row, pstr, text, menu) lcd_implementation_drawmenu_msg(row, pstr, text, menu)
+// END MODIF lcd about
 
 static void lcd_implementation_quick_feedback()
 {

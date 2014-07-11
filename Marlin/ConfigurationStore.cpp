@@ -1,4 +1,10 @@
 #include "Marlin.h"
+// BEGIN MODIF lcd eeprom filament
+#include "end_of_filament.h"
+// END MODIF lcd eeprom filament
+// BEGIN MODIF lcd eeprom about
+#include "serial_number.h"
+// END MODIF lcd eeprom about
 #include "planner.h"
 #include "temperature.h"
 #include "ultralcd.h"
@@ -38,9 +44,9 @@ void _EEPROM_readData(int &pos, uint8_t* value, uint8_t size)
 // wrong data being written to the variables.
 // ALSO:  always make sure the variables in the Store and retrieve sections are in the same order.
 #ifdef DELTA
-#define EEPROM_VERSION "V11"
+#define EEPROM_VERSION "V12"
 #else
-#define EEPROM_VERSION "V10"
+#define EEPROM_VERSION "V11"
 #endif
 
 #ifdef EEPROM_SETTINGS
@@ -49,6 +55,10 @@ void Config_StoreSettings()
   char ver[4]= "000";
   int i=EEPROM_OFFSET;
   EEPROM_WRITE_VAR(i,ver); // invalidate data first 
+  // BEGIN MODIF lcd eeprom serial number
+  // Set the serial number first, because this value must not change (this reduces the risk of future changes)
+  EEPROM_WRITE_VAR(i,serial_number);
+  // END MODIF lcd eeprom serial number
   EEPROM_WRITE_VAR(i,axis_steps_per_unit);  
   EEPROM_WRITE_VAR(i,max_feedrate);  
   EEPROM_WRITE_VAR(i,max_acceleration_units_per_sq_second);
@@ -93,6 +103,11 @@ void Config_StoreSettings()
     int lcd_contrast = 32;
   #endif
   EEPROM_WRITE_VAR(i,lcd_contrast);
+  // BEGIN MODIF lcd eeprom filament
+  EEPROM_WRITE_VAR(i,end_of_filament_detection_report_end_of_filament_event);
+  EEPROM_WRITE_VAR(i,end_of_filament_detection_request_pause);
+  EEPROM_WRITE_VAR(i,end_of_filament_detection_call_m600);
+  // END MODIF lcd eeprom filament
   char ver2[4]=EEPROM_VERSION;
   i=EEPROM_OFFSET;
   EEPROM_WRITE_VAR(i,ver2); // validate data
@@ -105,6 +120,12 @@ void Config_StoreSettings()
 #ifndef DISABLE_M503
 void Config_PrintSettings()
 {  // Always have this function, even with EEPROM_SETTINGS disabled, the current values will be shown
+    // BEGIN MODIF lcd eeprom serial number
+    SERIAL_ECHO_START;
+    SERIAL_ECHOLNPGM("Serial number:");
+    SERIAL_ECHOPGM("   ;M550 ");
+    SERIAL_ECHOLN(serial_number);
+    // END MODIF lcd eeprom serial number
     SERIAL_ECHO_START;
     SERIAL_ECHOLNPGM("Steps per unit:");
     SERIAL_ECHO_START;
@@ -181,6 +202,29 @@ void Config_PrintSettings()
     SERIAL_ECHOPAIR(" D" ,unscalePID_d(Kd));
     SERIAL_ECHOLN(""); 
 #endif
+    
+    // BEGIN MODIF lcd eeprom filament
+    SERIAL_ECHO_START;
+    SERIAL_ECHOLNPGM("End of filament settings:");
+    SERIAL_ECHO_START;
+    if (end_of_filament_detection_report_end_of_filament_event) {
+        SERIAL_ECHOLN("   M47");
+    } else {
+        SERIAL_ECHOLN("   M48");
+    }
+    SERIAL_ECHO_START;
+    if (end_of_filament_detection_request_pause) {
+        SERIAL_ECHOLN("   M45");
+    } else {
+        SERIAL_ECHOLN("   M46");
+    }
+    SERIAL_ECHO_START;
+    if (end_of_filament_detection_call_m600) {
+        SERIAL_ECHOLN("   M43");
+    } else {
+        SERIAL_ECHOLN("   M44");
+    }
+    // END MODIF lcd eeprom filament
 } 
 #endif
 
@@ -196,6 +240,10 @@ void Config_RetrieveSettings()
     if (strncmp(ver,stored_ver,3) == 0)
     {
         // version number match
+        // BEGIN MODIF lcd eeprom serial number
+        // Set the serial number first, because this value must not change (this reduces the risk of future changes)
+        EEPROM_READ_VAR(i,serial_number);
+        // END MODIF lcd eeprom serial number
         EEPROM_READ_VAR(i,axis_steps_per_unit);  
         EEPROM_READ_VAR(i,max_feedrate);  
         EEPROM_READ_VAR(i,max_acceleration_units_per_sq_second);
@@ -243,6 +291,11 @@ void Config_RetrieveSettings()
 
 		// Call updatePID (similar to when we have processed M301)
 		updatePID();
+        // BEGIN MODIF lcd eeprom filament
+        EEPROM_READ_VAR(i,end_of_filament_detection_report_end_of_filament_event);
+        EEPROM_READ_VAR(i,end_of_filament_detection_request_pause);
+        EEPROM_READ_VAR(i,end_of_filament_detection_call_m600);
+        // END MODIF lcd eeprom filament
         SERIAL_ECHO_START;
         SERIAL_ECHOLNPGM("Stored settings retrieved");
     }
@@ -258,6 +311,10 @@ void Config_RetrieveSettings()
 
 void Config_ResetDefault()
 {
+    // BEGIN MODIF lcd eeprom serial number
+    // DO NOT SET DEFAULT SERIAL NUMBER. THE SERIAL NUMBER MUST PERSIST EVEN IF WE RESET THE CONFIGURATION.
+    // set_serial_number("");
+    // END MODIF lcd eeprom serial number
     float tmp1[]=DEFAULT_AXIS_STEPS_PER_UNIT;
     float tmp2[]=DEFAULT_MAX_FEEDRATE;
     long tmp3[]=DEFAULT_MAX_ACCELERATION;
@@ -313,7 +370,13 @@ void Config_ResetDefault()
     Kc = DEFAULT_Kc;
 #endif//PID_ADD_EXTRUSION_RATE
 #endif//PIDTEMP
-
+    // BEGIN MODIF lcd eeprom filament
+    end_of_filament_detection_report_end_of_filament_event = DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT;
+    end_of_filament_detection_request_pause = DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE;
+    end_of_filament_detection_call_m600 = DEFAULT_FILAMENT_DETECTION_CALL_M600;
+    // DO NOT SET DEFAULT SERIAL NUMBER. THE SERIAL NUMBER MUST PERSIST EVEN IF WE RESET THE CONFIGURATION.
+    // set_serial_number("");
+    // END MODIF lcd eeprom filament
 SERIAL_ECHO_START;
 SERIAL_ECHOLNPGM("Hardcoded Default Settings Loaded");
 

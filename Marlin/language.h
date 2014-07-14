@@ -278,8 +278,8 @@
 	#define MSG_AUTO_LEVEL "Auto level"
 	#define MSG_AUTO_LEVELING "Auto leveling..."
 	#define MSG_MANUAL_LEVEL "Manual level"
-	#define MSG_RAISE_Z_1MM "Raise Z 1mm"
-	#define MSG_RAISE_Z_5MM "Raise Z 5mms"
+	#define MSG_RAISE_Z_1MM "Raise Z to 1mm"
+	#define MSG_RAISE_Z_5MM "Raise Z to 5mms"
 	#define MSG_HOME_Z "Home Z"
 	#define MSG_ABOUT "About"
 	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
@@ -1139,8 +1139,8 @@
 	#define MSG_AUTO_LEVEL "Auto nivelar"
 	#define MSG_AUTO_LEVELING "Auto nivelando..."
 	#define MSG_MANUAL_LEVEL "Nivelacion manual"
-	#define MSG_RAISE_Z_1MM "Elevar Z 1mm"
-	#define MSG_RAISE_Z_5MM "Elevar Z 5mms"
+	#define MSG_RAISE_Z_1MM "Elevar Z a 1mm"
+	#define MSG_RAISE_Z_5MM "Elevar Z a 5mms"
 	#define MSG_HOME_Z "Z al origen"
 	#define MSG_ABOUT "Acerca de"
 	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
@@ -1811,8 +1811,8 @@
 	#define MSG_AUTO_LEVEL "Auto nivelar"
 	#define MSG_AUTO_LEVELING "Auto nivelando..."
 	#define MSG_MANUAL_LEVEL "Nivelam. manual"
-	#define MSG_RAISE_Z_1MM "Levantar Z 1mm"
-	#define MSG_RAISE_Z_5MM "Levantar Z 5mms"
+	#define MSG_RAISE_Z_1MM "Levantar Z a 1mm"
+	#define MSG_RAISE_Z_5MM "Levantar Z a 5mms"
 	#define MSG_HOME_Z "Z ao origem"
 	#define MSG_ABOUT "About"
 	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company

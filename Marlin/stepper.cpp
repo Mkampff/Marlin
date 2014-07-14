@@ -177,15 +177,21 @@ void checkHitEndstops()
    SERIAL_ECHOPGM(MSG_ENDSTOPS_HIT);
    if(endstop_x_hit) {
      SERIAL_ECHOPAIR(" X:",(float)endstops_trigsteps[X_AXIS]/axis_steps_per_unit[X_AXIS]);
-     LCD_MESSAGEPGM(MSG_ENDSTOPS_HIT "X");
+     // BEGIN MODIF lcd
+     LCD_TEMP_MESSAGEPGM(MSG_ENDSTOPS_HIT "X");
+     // END MODIF lcd
    }
    if(endstop_y_hit) {
      SERIAL_ECHOPAIR(" Y:",(float)endstops_trigsteps[Y_AXIS]/axis_steps_per_unit[Y_AXIS]);
-     LCD_MESSAGEPGM(MSG_ENDSTOPS_HIT "Y");
+     // BEGIN MODIF lcd
+     LCD_TEMP_MESSAGEPGM(MSG_ENDSTOPS_HIT "Y");
+     // END MODIF lcd
    }
    if(endstop_z_hit) {
      SERIAL_ECHOPAIR(" Z:",(float)endstops_trigsteps[Z_AXIS]/axis_steps_per_unit[Z_AXIS]);
-     LCD_MESSAGEPGM(MSG_ENDSTOPS_HIT "Z");
+     // BEGIN MODIF lcd
+     LCD_TEMP_MESSAGEPGM(MSG_ENDSTOPS_HIT "Z");
+     // END MODIF lcd
    }
    SERIAL_ECHOLN("");
    endstop_x_hit=false;

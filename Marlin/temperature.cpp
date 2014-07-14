@@ -485,7 +485,9 @@ void manage_heater()
         if(degHotend(e) < watch_start_temp[e] + WATCH_TEMP_INCREASE)
         {
             setTargetHotend(0, e);
-            LCD_MESSAGEPGM("Heating failed");
+            // BEGIN MODIF lcd
+            LCD_TEMP_MESSAGEPGM("Heating failed");
+            // END MODIF lcd
             SERIAL_ECHO_START;
             SERIAL_ECHOLN("Heating failed");
         }else{

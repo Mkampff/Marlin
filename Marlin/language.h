@@ -73,7 +73,8 @@
 // LCD Menu Messages
 // Please note these are limited to 17 characters!
 
-	#define WELCOME_MSG MACHINE_NAME " ready."
+	//#define WELCOME_MSG MACHINE_NAME " ready."
+	#define WELCOME_MSG "Printer ready."
 	#define MSG_SD_INSERTED "Card inserted"
 	#define MSG_SD_REMOVED "Card removed"
 	#define MSG_MAIN "Main"
@@ -275,6 +276,7 @@
 	// BEGIN MODIF lcd
 	#define MSG_END_OF_FILAMENT_EVENT "Filam. sensor"
 	#define MSG_AUTO_LEVEL "Auto level"
+	#define MSG_AUTO_LEVELING "Auto leveling..."
 	#define MSG_MANUAL_LEVEL "Manual level"
 	#define MSG_RAISE_Z_1MM "Raise Z 1mm"
 	#define MSG_RAISE_Z_5MM "Raise Z 5mms"
@@ -288,6 +290,8 @@
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Firmware updated on:"
+	#define MSG_SET_Z0 "Set Z0"
+	#define MSG_PRINTING "Printing"
 	// END MODIF lcd
 #endif
 
@@ -901,7 +905,8 @@
 // LCD Menu Messages
 // Please note these are limited to 17 characters!
 
-	#define WELCOME_MSG MACHINE_NAME " lista."
+	//#define WELCOME_MSG MACHINE_NAME " lista."
+	#define WELCOME_MSG "Impresora lista."
 	#define MSG_SD_INSERTED "Tarjeta colocada"
 	#define MSG_SD_REMOVED "Tarjeta retirada"
 	#define MSG_MAIN "Menu principal"
@@ -1024,7 +1029,9 @@
 	#define MSG_RETRACT_ARROW "Retraer"
 	#define MSG_STEPPER_RELEASED "Desacoplada."
 	#define MSG_ZPROBE_OUT "Z probe out. bed"
-	#define MSG_POSITION_UNKNOWN "Home X/Y before Z"
+	// BEGIN MODIF lcd
+	#define MSG_POSITION_UNKNOWN "Vaya a origen de X/Y antes que Z"
+	// END MODIF lcd
 	#define MSG_ZPROBE_ZOFFSET "Z Offset"
 	#define MSG_BABYSTEP_X "Babystep X"
 	#define MSG_BABYSTEP_Y "Babystep Y"
@@ -1130,6 +1137,7 @@
 	#define MSG_FILAMENTCHANGE_RESTORE_POSITION "Rest. pos. filam."
 	#define MSG_END_OF_FILAMENT_EVENT "Sensor filam."
 	#define MSG_AUTO_LEVEL "Auto nivelar"
+	#define MSG_AUTO_LEVELING "Auto nivelando..."
 	#define MSG_MANUAL_LEVEL "Nivelacion manual"
 	#define MSG_RAISE_Z_1MM "Elevar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Elevar Z 5mms"
@@ -1143,6 +1151,9 @@
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Fecha de Firmware:"
+	#define MSG_HOME_Z "Z al origen"
+	#define MSG_SET_Z0 "Establecer Z0"
+	#define MSG_PRINTING "Imprimiendo"
 	// END MODIF lcd
 #endif
 
@@ -1548,7 +1559,8 @@
 // LCD Menu Messages
 // Please note these are limited to 17 characters!
 
-	#define WELCOME_MSG MACHINE_NAME " pronto."
+	//#define WELCOME_MSG MACHINE_NAME " pronto."
+	#define WELCOME_MSG "Impressora pronta"
 	#define MSG_SD_INSERTED "Cartao inserido"
 	#define MSG_SD_REMOVED "Cartao removido"
 	// BEGIN MODIF Portuguese
@@ -1797,6 +1809,7 @@
 	#define MSG_FILAMENTCHANGE_RESTORE_POSITION "Rest. pos. filam."
 	#define MSG_END_OF_FILAMENT_EVENT "Sensor filam."
 	#define MSG_AUTO_LEVEL "Auto nivelar"
+	#define MSG_AUTO_LEVELING "Auto nivelando..."
 	#define MSG_MANUAL_LEVEL "Nivelam. manual"
 	#define MSG_RAISE_Z_1MM "Levantar Z 1mm"
 	#define MSG_RAISE_Z_5MM "Levantar Z 5mms"
@@ -1810,6 +1823,8 @@
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Data de Firmware:"
+	#define MSG_SET_Z0 "Establecer Z0"
+	#define MSG_PRINTING "Impressao"
 	// END MODIF lcd
 #endif
 

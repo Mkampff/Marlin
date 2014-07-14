@@ -1,6 +1,7 @@
 #include "end_of_filament.h"
 #include "Configuration.h"
 #include "stepper.h"
+#include "ultralcd.h"
 
 bool old_f_max_endstop = false;
 bool end_of_filament_detection_report_end_of_filament_event = DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT;
@@ -80,6 +81,9 @@ void restore_last_state_stored(){
     current_position[Y_AXIS] = last_stored_state.continuation_position[Y_AXIS];
     current_position[Z_AXIS] = last_stored_state.continuation_position[Z_AXIS];
     current_position[E_AXIS] = last_stored_state.continuation_position[E_AXIS];
+    
+    // restore status message
+    LCD_DISPLAY_GLOBAL_STATUS();
   }   
 }
 void clear_state_stored(){

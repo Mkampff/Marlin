@@ -37,6 +37,12 @@ typedef void (*menuFunc_t)();
 
 uint8_t lcd_status_message_level;
 char lcd_status_message[LCD_WIDTH+1] = WELCOME_MSG;
+// BEGIN MODIF lcd
+const char* lcd_global_status;
+char lcd_temp_status_message[LCD_WIDTH+1] = "";
+long lcd_temp_status_message_from_timestamp;
+long lcd_temp_status_message_to_timestamp;
+// END MODIF lcd
 
 #ifdef DOGLCD
 #include "dogm_lcd_implementation.h"
@@ -261,7 +267,9 @@ static void lcd_status_screen()
 }
 
 #ifdef ULTIPANEL
-static void lcd_return_to_status()
+// BEGIN MODIF lcd
+void lcd_return_to_status()
+// END MODIF lcd
 {
     encoderPosition = 0;
     currentMenu = lcd_status_screen;
@@ -271,6 +279,7 @@ static void lcd_sdcard_pause()
 {
     card.pauseSDPrint();
     // BEGIN MODIF lcd
+    LCD_SETGLOBALSTATUSPGM(MSG_PAUSE_PRINT);
     store_current_state();
     // END MODIF lcd
 }
@@ -280,6 +289,7 @@ static void lcd_sdcard_resume()
     // It's safe to send a GCode command here, as we know in this case we are printing from the SD
     // card. If we send a GCode while printing from a client software, we would break the GCode
     // line validation.
+    LCD_SETGLOBALSTATUSPGM(MSG_PRINTING);
     enquecommand_P(PSTR("M601"));       // restore position
     st_synchronize();
     // END MODIF lcd
@@ -292,6 +302,7 @@ static void lcd_sdcard_stop()
     card.closefile();
     // BEGIN MODIF lcd
     // We must clean any state that could be stored.
+    LCD_SETGLOBALSTATUSPGM(WELCOME_MSG);
     clear_state_stored();
     // END MODIF lcd
     quickStop();
@@ -492,6 +503,9 @@ static void lcd_tune_menu()
 
 void lcd_preheat_pla0()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(plaPreheatHotendTemp);
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
@@ -501,6 +515,9 @@ void lcd_preheat_pla0()
 
 void lcd_preheat_abs0()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(absPreheatHotendTemp);
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
@@ -511,6 +528,9 @@ void lcd_preheat_abs0()
 #if TEMP_SENSOR_1 != 0 //2nd extruder preheat
 void lcd_preheat_pla1()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend1(plaPreheatHotendTemp);
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
@@ -520,6 +540,9 @@ void lcd_preheat_pla1()
 
 void lcd_preheat_abs1()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend1(absPreheatHotendTemp);
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
@@ -531,6 +554,9 @@ void lcd_preheat_abs1()
 #if TEMP_SENSOR_2 != 0 //3 extruder preheat
 void lcd_preheat_pla2()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend2(plaPreheatHotendTemp);
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
@@ -540,6 +566,9 @@ void lcd_preheat_pla2()
 
 void lcd_preheat_abs2()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend2(absPreheatHotendTemp);
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
@@ -551,6 +580,9 @@ void lcd_preheat_abs2()
 #if TEMP_SENSOR_1 != 0 || TEMP_SENSOR_2 != 0 //more than one extruder present
 void lcd_preheat_pla012()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(plaPreheatHotendTemp);
     setTargetHotend1(plaPreheatHotendTemp);
     setTargetHotend2(plaPreheatHotendTemp);
@@ -562,6 +594,9 @@ void lcd_preheat_pla012()
 
 void lcd_preheat_abs012()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(absPreheatHotendTemp);
     setTargetHotend1(absPreheatHotendTemp);
     setTargetHotend2(absPreheatHotendTemp);
@@ -574,6 +609,9 @@ void lcd_preheat_abs012()
 
 void lcd_preheat_pla_bedonly()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
     lcd_return_to_status();
@@ -582,6 +620,9 @@ void lcd_preheat_pla_bedonly()
 
 void lcd_preheat_abs_bedonly()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
     lcd_return_to_status();
@@ -663,6 +704,9 @@ static void lcd_prepare_menu()
     // BEGIN MODIF lcd autolevel
     #ifdef ENABLE_AUTO_BED_LEVELING
       MENU_ITEM(gcode, MSG_AUTO_LEVEL, PSTR("G29"));
+    #endif // ENABLE_AUTO_BED_LEVELING
+    #ifdef ENABLE_SET_Z0
+      MENU_ITEM(gcode, MSG_SET_Z0, PSTR("G92 Z0"));
     #endif // ENABLE_AUTO_BED_LEVELING
     // END MODIF lcd autolevel
     // BEGIN MODIF lcd manual level
@@ -1391,12 +1435,16 @@ void lcd_update()
         if(lcd_oldcardstatus)
         {
             card.initsd();
-            LCD_MESSAGEPGM(MSG_SD_INSERTED);
+            // BEGIN MODIF lcd status
+            LCD_TEMP_MESSAGEPGM(MSG_SD_INSERTED);
+            // END MODIF lcd status
         }
         else
         {
             card.release();
-            LCD_MESSAGEPGM(MSG_SD_REMOVED);
+            // BEGIN MODIF lcd status
+            LCD_TEMP_MESSAGEPGM(MSG_SD_REMOVED);
+            // END MODIF lcd status
         }
     }
     #endif//CARDINSERTED
@@ -1488,6 +1536,32 @@ void lcd_setstatuspgm(const char* message)
     strncpy_P(lcd_status_message, message, LCD_WIDTH);
     lcdDrawUpdate = 2;
 }
+// BEGIN MODIF lcd status
+void lcd_settempstatuspgm(const char* message)
+{
+    strncpy_P(lcd_temp_status_message, message, LCD_WIDTH);
+    lcd_temp_status_message_from_timestamp = millis();
+    lcd_temp_status_message_to_timestamp = lcd_temp_status_message_from_timestamp + TEMP_STATUS_DURATION;
+    lcdDrawUpdate = 2;
+}
+void lcd_settempstatus(const char* message)
+{
+    strncpy(lcd_temp_status_message, message, LCD_WIDTH);
+    lcd_temp_status_message_from_timestamp = millis();
+    lcd_temp_status_message_to_timestamp = lcd_temp_status_message_from_timestamp + TEMP_STATUS_DURATION;
+    lcdDrawUpdate = 2;
+}
+const char* lcd_getglobalstatus()
+{
+    if (!lcd_global_status)
+        return PSTR(WELCOME_MSG);
+    return lcd_global_status;
+}
+void lcd_setglobalstatus(const char* message)
+{
+    lcd_global_status = message;
+}
+// END MODIF lcd status
 void lcd_setalertstatuspgm(const char* message)
 {
     lcd_setstatuspgm(message);

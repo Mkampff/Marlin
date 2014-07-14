@@ -37,10 +37,12 @@
 # from the commandline with "make HARDWARE_MOTHERBOARD=71" for example
 
 # This defined the board you are compiling for (see Configuration.h for the options)
-HARDWARE_MOTHERBOARD ?= 11
+#HARDWARE_MOTHERBOARD ?= 11
+HARDWARE_MOTHERBOARD ?= 33
 
 # Arduino source install directory, and version number
-ARDUINO_INSTALL_DIR  ?= /Applications/Arduino.app/Contents/Resources/Java
+#ARDUINO_INSTALL_DIR  ?= /Applications/Arduino.app/Contents/Resources/Java
+ARDUINO_INSTALL_DIR  ?=  /usr/share/arduino
 ARDUINO_VERSION      ?= 105
 
 # You can optionally set a path to the avr-gcc tools. Requires a trailing slash. (ex: /usr/local/avr-gcc/bin)
@@ -48,8 +50,10 @@ AVR_TOOLS_PATH ?=
 
 #Programmer configuration
 UPLOAD_RATE        ?= 115200
-AVRDUDE_PROGRAMMER ?= arduino
-UPLOAD_PORT        ?= /dev/arduino
+#AVRDUDE_PROGRAMMER ?= arduino
+AVRDUDE_PROGRAMMER ?= stk500v2
+#UPLOAD_PORT        ?= /dev/arduino
+UPLOAD_PORT        ?= /dev/ttyACM0
 
 #Directory used to build files in, contains all the build files, from object files to the final hex file.
 BUILD_DIR          ?= applet
@@ -261,7 +265,7 @@ CXXSRC = WMath.cpp WString.cpp Print.cpp Marlin_main.cpp	\
 	SdFile.cpp SdVolume.cpp motion_control.cpp planner.cpp		\
 	stepper.cpp temperature.cpp cardreader.cpp ConfigurationStore.cpp \
 	watchdog.cpp SPI.cpp Servo.cpp Tone.cpp ultralcd.cpp digipot_mcp4451.cpp \
-	vector_3.cpp qr_solve.cpp
+	vector_3.cpp qr_solve.cpp end_of_filament.cpp lcdaudioalarm.cpp
 ifeq ($(LIQUID_TWI2), 0)
 CXXSRC += LiquidCrystal.cpp
 else

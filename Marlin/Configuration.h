@@ -338,7 +338,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //============================= Bed Auto Leveling ===========================
 
 // BEGIN MODIF autoleveling
-#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+//#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
 // END MODIF autoleveling
 
 #ifdef ENABLE_AUTO_BED_LEVELING
@@ -755,7 +755,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // If true, the printer will report Event:EndOfFilament to the client software if it detects it's
 // out of filament.
 // It can be enabled or disabled with G-Codes M47 and M48.
-#define DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT true
+#define DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT false
 // DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE
 // If true, the printer will send a ResquestPause: to the client software if it detects it's out of
 // filament.
@@ -768,7 +768,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // Enable this to show the menu item that lets you enable or disable the automatic end of filament
 // detection.
-#define ENABLE_END_OF_FILAMENT_MENU
+//#define ENABLE_END_OF_FILAMENT_MENU
 
 // END MODIF filament
 

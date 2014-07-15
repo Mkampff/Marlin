@@ -187,6 +187,9 @@ bool lcd_oldcardstatus;
 menuFunc_t currentMenu = lcd_status_screen; /* function pointer to the currently active menu */
 uint32_t lcd_next_update_millis;
 uint8_t lcd_status_update_delay;
+// BEGIN MODIF lcd
+uint8_t lcd_move_e_update_delay;
+// END MODIF lcd
 uint8_t lcdDrawUpdate = 2;                  /* Set to none-zero when the LCD needs to draw, decreased after every draw. Set to 2 in LCD routines so the LCD gets at least 1 full redraw (first redraw is partial) */
 
 //prevMenu and prevEncoderPosition are used to store the previous menu location when editing settings.
@@ -753,7 +756,7 @@ static void lcd_prepare_menu()
     // END MODIF filament
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
     // BEGIN MODIF lcd
-    MENU_ITEM(submenu, MSG_EXTRUDE, lcd_extrude_menu);
+    MENU_ITEM(submenu, MSG_EXTRUDE_RETRACT, lcd_extrude_menu);
     // END MODIF lcd
     END_MENU();
 }
@@ -853,8 +856,11 @@ static void lcd_move_z()
 }
 static void lcd_move_e()
 {
-    if (encoderPosition != 0)
+    // BEGIN MODIF lcd
+    lcd_move_e_update_delay--;
+    if (encoderPosition != 0 || !(lcd_move_e_update_delay > 0))
     {
+        // END MODIF lcd
         current_position[E_AXIS] += float((int)encoderPosition) * move_menu_scale;
         encoderPosition = 0;
         #ifdef DELTA
@@ -867,7 +873,18 @@ static void lcd_move_e()
     }
     if (lcdDrawUpdate)
     {
-        lcd_implementation_drawedit(PSTR("Extruder"), ftostr31(current_position[E_AXIS]));
+        // BEGIN MODIF lcd
+        lcd_implementation_drawedit(PSTR(MSG_MOVE_E), ftostr31(current_position[E_AXIS]));
+        #ifdef PREVENT_DANGEROUS_EXTRUDE
+            lcd.setCursor(1, 3);
+            if(degHotend(active_extruder)<EXTRUDE_MINTEMP){
+                lcd.print(MSG_TOO_COLD_TO_EXTRUDE);
+            } else {
+                lcd_write_spaces(LCD_WIDTH - strlen(MSG_TOO_COLD_TO_EXTRUDE));
+            }
+        #endif // PREVENT_DANGEROUS_EXTRUDE
+        lcd_move_e_update_delay = 10;
+        // END MODIF lcd
     }
     if (LCD_CLICKED)
     {

@@ -292,6 +292,8 @@
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Firmware updated on:"
 	#define MSG_SET_Z0 "Set Z0"
 	#define MSG_PRINTING "Printing"
+	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
+	#define MSG_TOO_COLD_TO_EXTRUDE LCD_STR_THERMOMETER " Too cold" 
 	// END MODIF lcd
 #endif
 
@@ -1154,6 +1156,8 @@
 	#define MSG_HOME_Z "Z al origen"
 	#define MSG_SET_Z0 "Establecer Z0"
 	#define MSG_PRINTING "Imprimiendo"
+	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
+	#define MSG_TOO_COLD_TO_EXTRUDE LCD_STR_THERMOMETER" Muy frio" 
 	// END MODIF lcd
 #endif
 
@@ -1825,6 +1829,8 @@
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Data de Firmware:"
 	#define MSG_SET_Z0 "Establecer Z0"
 	#define MSG_PRINTING "Impressao"
+	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
+	#define MSG_TOO_COLD_TO_EXTRUDE LCD_STR_THERMOMETER" Muito frio" 
 	// END MODIF lcd
 #endif
 

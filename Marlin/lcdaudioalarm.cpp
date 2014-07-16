@@ -1,6 +1,11 @@
 #include "lcdaudioalarm.h"
 
-// based on http://www.arduino.cc/en/Tutorial/PlayMelody
+/*
+ * based on http://www.arduino.cc/en/Tutorial/PlayMelody
+ * Original source code written by:
+ * (cleft) 2005 D. Cuartielles for K3
+ * Refactoring and comments 2006 clay.shirky@nyu.edu
+ */
 
 #define  c     477    // 262 Hz
 #define  d     425    // 294 Hz

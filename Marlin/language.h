@@ -285,7 +285,7 @@
 	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
 	#define ABOUT_FIRMWARE_DATA VERSION // Version
 	#define ABOUT_SERIAL_NUMBER "Serial Number:"
-	#define ABOUT_CONTACT_1 "Contact: support @"
+	#define ABOUT_CONTACT_1 "Contact: soporte @"
 	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
@@ -1148,7 +1148,7 @@
 	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
 	#define ABOUT_FIRMWARE_DATA VERSION // Version
 	#define ABOUT_SERIAL_NUMBER "Serial Number:"
-	#define ABOUT_CONTACT_1 "Contacto: support @"
+	#define ABOUT_CONTACT_1 "Contacto: soporte @"
 	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
@@ -1822,7 +1822,7 @@
 	#define ABOUT_PRINTER_MODEL COMPANY " " MODEL // Company
 	#define ABOUT_FIRMWARE_DATA VERSION // Version
 	#define ABOUT_SERIAL_NUMBER "Serial Number:"
-	#define ABOUT_CONTACT_1 "Contato: support @"
+	#define ABOUT_CONTACT_1 "Contato: soporte @"
 	#define ABOUT_CONTACT_2 " kikailabs.com.ar"
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"

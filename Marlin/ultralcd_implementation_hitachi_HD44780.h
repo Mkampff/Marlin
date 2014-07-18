@@ -759,7 +759,7 @@ static void lcd_implementation_draweditwarn(const char*pstr, bool display_warn)
 {
     lcd.setCursor(1, 3);
     if (display_warn) {
-        lcd.printPGM(pstr);
+        lcd_printPGM(pstr);
     } else {
         lcd_write_spaces(LCD_WIDTH - strlen_P(pstr));
     }

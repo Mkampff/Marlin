@@ -755,6 +755,15 @@ static void lcd_implementation_drawmenu_msg(uint8_t row, const char*pstr, const 
     }
     lcd_write_spaces(n);
 }
+static void lcd_implementation_draweditwarn(const char*pstr, bool display_warn)
+{
+    lcd.setCursor(1, 3);
+    if (display_warn) {
+        lcd.printPGM(pstr);
+    } else {
+        lcd_write_spaces(LCD_WIDTH - strlen_P(pstr));
+    }
+}
 // END MODIF lcd about
 
 #define lcd_implementation_drawmenu_back_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, LCD_STR_UPLEVEL[0], LCD_STR_UPLEVEL[0])

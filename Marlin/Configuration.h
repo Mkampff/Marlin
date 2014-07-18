@@ -19,7 +19,7 @@
 // keep these constants separated because they are used from the language.h file
 #define COMPANY "Kikai Labs"
 #define MODEL "T140"
-#define VERSION "v1.20140712"
+#define VERSION "v1.20140718"
 #define STRING_CONFIG_H_AUTHOR "( " COMPANY ", " MODEL " " VERSION " )" // Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
@@ -557,7 +557,9 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
 // ==> REMEMBER TO INSTALL U8glib to your ARDUINO library folder: http://code.google.com/p/u8glib/wiki/u8glib
+// BEGIN MODIF lcd
 //#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+// END MODIF lcd
 
 // The RepRapWorld REPRAPWORLD_KEYPAD v1.1
 // http://reprapworld.com/?products_details&products_id=202&cPath=1591_1626

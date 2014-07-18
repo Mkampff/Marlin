@@ -156,6 +156,15 @@ static void lcd_implementation_clear()
 //			u8g.setColorIndex(1);
 //		} while( u8g.nextPage() );
 }
+// BEGIN MODIF lcd
+static void lcd_write_spaces(int n)
+{
+    while(n > 0) {
+        n--;
+        u8g.print(' ');
+    }
+}
+// END MODIF lcd
 
 /* Arduino < 1.0.0 is missing a function to print PROGMEM strings, so we need to implement our own */
 static void lcd_printPGM(const char* str)
@@ -334,7 +343,20 @@ static void lcd_implementation_status_screen()
  // Status line
  u8g.setFont(FONT_STATUSMENU);
  u8g.setPrintPos(0,61);
- u8g.print(lcd_status_message);
+ //u8g.print(lcd_status_message);
+ // BEGIN MODIF lcd status
+ // clear
+ long now = millis();
+ int text_len;
+ if (now > lcd_temp_status_message_from_timestamp && now < lcd_temp_status_message_to_timestamp) {
+   u8g.print(lcd_temp_status_message);
+   text_len = strlen(lcd_temp_status_message);
+ } else {
+   u8g.print(lcd_status_message);
+   text_len = strlen(lcd_status_message);
+ }
+ lcd_write_spaces(LCD_WIDTH - text_len);      // fill with spaces
+ // END MODIF lcd status
 
 }
 
@@ -578,6 +600,40 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
 					u8g.print(' ');
 			   }
 }
+// BEGIN MODIF lcd about
+static void lcd_implementation_drawmenu_msgP(uint8_t row, const char*pstr, menuFunc_t data)
+{
+    char c;
+    u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
+    lcd_printPGM(pstr);
+    lcd_write_spaces(LCD_WIDTH - strlen_P(pstr));
+}
+static void lcd_implementation_drawmenu_msg(uint8_t row, const char*pstr, const char* text, menuFunc_t data)
+{
+    char c;
+    u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
+    lcd_printPGM(pstr);
+    uint8_t n = LCD_WIDTH - strlen_P(pstr);
+    while( ((c = *text) != '\0') && (n>0) )
+    {
+        u8g.print(c);
+        text++;
+        n--;
+    }
+    lcd_write_spaces(n);
+}
+static void lcd_implementation_draweditwarn(const char*pstr, bool display_warn)
+{
+    const int left = 1;
+    const int top = 3;
+    u8g.setPrintPos(left * DOG_CHAR_WIDTH, (top + 1) * DOG_CHAR_HEIGHT);
+    if (display_warn) {
+        lcd_printPGM(pstr);
+    } else {
+        lcd_write_spaces(LCD_WIDTH - strlen_P(pstr));
+    }
+}
+// END MODIF lcd about
 
 #define lcd_implementation_drawmenu_back_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, LCD_STR_UPLEVEL[0], LCD_STR_UPLEVEL[0])
 #define lcd_implementation_drawmenu_back(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, ' ', LCD_STR_UPLEVEL[0])
@@ -587,6 +643,11 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
 #define lcd_implementation_drawmenu_gcode(row, pstr, gcode) lcd_implementation_drawmenu_generic(row, pstr, ' ', ' ')
 #define lcd_implementation_drawmenu_function_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, '>', ' ')
 #define lcd_implementation_drawmenu_function(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, ' ', ' ')
+// BEGIN MODIF lcd about
+// Messages look the same selected or unselected
+#define lcd_implementation_drawmenu_msgP_selected(row, pstr, menu) lcd_implementation_drawmenu_msgP(row, pstr, menu)
+#define lcd_implementation_drawmenu_msg_selected(row, pstr, text, menu) lcd_implementation_drawmenu_msg(row, pstr, text, menu)
+// END MODIF lcd about
 
 static void lcd_implementation_quick_feedback()
 {

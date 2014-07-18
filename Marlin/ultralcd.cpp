@@ -876,12 +876,7 @@ static void lcd_move_e()
         // BEGIN MODIF lcd
         lcd_implementation_drawedit(PSTR(MSG_MOVE_E), ftostr31(current_position[E_AXIS]));
         #ifdef PREVENT_DANGEROUS_EXTRUDE
-            lcd.setCursor(1, 3);
-            if(degHotend(active_extruder)<EXTRUDE_MINTEMP){
-                lcd.print(MSG_TOO_COLD_TO_EXTRUDE);
-            } else {
-                lcd_write_spaces(LCD_WIDTH - strlen(MSG_TOO_COLD_TO_EXTRUDE));
-            }
+            lcd_implementation_draweditwarn(PSTR(MSG_TOO_COLD_TO_EXTRUDE), degHotend(active_extruder)<EXTRUDE_MINTEMP);
         #endif // PREVENT_DANGEROUS_EXTRUDE
         lcd_move_e_update_delay = 10;
         // END MODIF lcd

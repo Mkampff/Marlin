@@ -293,7 +293,7 @@
 	#define MSG_SET_Z0 "Set Z0"
 	#define MSG_PRINTING "Printing"
 	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
-	#define MSG_TOO_COLD_TO_EXTRUDE LCD_STR_THERMOMETER " Too cold" 
+	#define MSG_TOO_COLD_TO_EXTRUDE " Too cold" 
 	// END MODIF lcd
 #endif
 
@@ -1157,7 +1157,7 @@
 	#define MSG_SET_Z0 "Establecer Z0"
 	#define MSG_PRINTING "Imprimiendo"
 	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
-	#define MSG_TOO_COLD_TO_EXTRUDE LCD_STR_THERMOMETER" Muy frio" 
+	#define MSG_TOO_COLD_TO_EXTRUDE " Muy frio" 
 	// END MODIF lcd
 #endif
 
@@ -1830,7 +1830,7 @@
 	#define MSG_SET_Z0 "Establecer Z0"
 	#define MSG_PRINTING "Impressao"
 	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
-	#define MSG_TOO_COLD_TO_EXTRUDE LCD_STR_THERMOMETER" Muito frio" 
+	#define MSG_TOO_COLD_TO_EXTRUDE " Muito frio" 
 	// END MODIF lcd
 #endif
 

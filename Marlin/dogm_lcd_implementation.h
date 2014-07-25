@@ -193,10 +193,16 @@ static void lcd_implementation_status_screen()
  
  #ifdef SDSUPPORT
  //SD Card Symbol
+ // BEGIN MODIF lcd
+ if (card.cardOK) {
+ // END MODIF lcd
  u8g.drawBox(42,42,8,7);
  u8g.drawBox(50,44,2,5);
  u8g.drawFrame(42,49,10,4);
  u8g.drawPixel(50,43);
+ // BEGIN MODIF lcd
+ }
+ // END MODIF lcd
  // Progress bar
  u8g.drawFrame(54,49,73,4);
  
@@ -258,8 +264,10 @@ static void lcd_implementation_status_screen()
 		 u8g.setColorIndex(1);	// black on white
 		}
  #else
- u8g.setPrintPos(31,27);
- u8g.print("---");
+ // BEGIN MODIF lcd
+ //u8g.setPrintPos(31,27);
+ //u8g.print("---");
+ // END MODIF lcd
  #endif
  
  // Extruder 3
@@ -279,8 +287,10 @@ static void lcd_implementation_status_screen()
 		 u8g.setColorIndex(1);	// black on white
 		}
  #else
- u8g.setPrintPos(55,27);
- u8g.print("---");
+ // BEGIN MODIF lcd
+ //u8g.setPrintPos(55,27);
+ //u8g.print("---");
+ // END MODIF lcd
  #endif
  
  // Heatbed
@@ -335,13 +345,15 @@ static void lcd_implementation_status_screen()
  u8g.setColorIndex(1);	// black on white
  
  // Feedrate
- u8g.setFont(u8g_font_6x10_marlin);
+ // BEGIN MODIF lcd
+ /*u8g.setFont(u8g_font_6x10_marlin);
  u8g.setPrintPos(3,49);
  u8g.print(LCD_STR_FEEDRATE[0]);
  u8g.setFont(FONT_STATUSMENU);
  u8g.setPrintPos(12,48);
  u8g.print(itostr3(feedmultiply));
- u8g.print('%');
+ u8g.print('%');*/
+ // BEGIN MODIF lcd
 
  // Status line
  u8g.setFont(FONT_STATUSMENU);

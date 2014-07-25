@@ -37,10 +37,12 @@
 # from the commandline with "make HARDWARE_MOTHERBOARD=71" for example
 
 # This defined the board you are compiling for (see Configuration.h for the options)
-HARDWARE_MOTHERBOARD ?= 11
+#HARDWARE_MOTHERBOARD ?= 11
+HARDWARE_MOTHERBOARD ?= 33
 
 # Arduino source install directory, and version number
-ARDUINO_INSTALL_DIR  ?= /Applications/Arduino.app/Contents/Resources/Java
+#ARDUINO_INSTALL_DIR  ?= /Applications/Arduino.app/Contents/Resources/Java
+ARDUINO_INSTALL_DIR  ?=  /usr/share/arduino
 ARDUINO_VERSION      ?= 105
 
 # You can optionally set a path to the avr-gcc tools. Requires a trailing slash. (ex: /usr/local/avr-gcc/bin)
@@ -48,8 +50,10 @@ AVR_TOOLS_PATH ?=
 
 #Programmer configuration
 UPLOAD_RATE        ?= 115200
-AVRDUDE_PROGRAMMER ?= arduino
-UPLOAD_PORT        ?= /dev/arduino
+#AVRDUDE_PROGRAMMER ?= arduino
+AVRDUDE_PROGRAMMER ?= stk500v2
+#UPLOAD_PORT        ?= /dev/arduino
+UPLOAD_PORT        ?= /dev/ttyACM0
 
 #Directory used to build files in, contains all the build files, from object files to the final hex file.
 BUILD_DIR          ?= applet
@@ -261,7 +265,12 @@ CXXSRC = WMath.cpp WString.cpp Print.cpp Marlin_main.cpp	\
 	SdFile.cpp SdVolume.cpp motion_control.cpp planner.cpp		\
 	stepper.cpp temperature.cpp cardreader.cpp ConfigurationStore.cpp \
 	watchdog.cpp SPI.cpp Servo.cpp Tone.cpp ultralcd.cpp digipot_mcp4451.cpp \
-	vector_3.cpp qr_solve.cpp
+	vector_3.cpp qr_solve.cpp end_of_filament.cpp serial_number.cpp lcdaudioalarm.cpp \
+	U8glib.cpp utility/u8g_dev_st7565_dogm128.c utility/u8g_ll_api.c utility/u8g_rect.c \
+	utility/u8g_com_null.c utility/u8g_font.c utility/u8g_bitmap.c utility/u8g_delay.c \
+	utility/u8g_clip.c utility/u8g_font_data.c utility/u8g_pb32h1.c utility/u8g_pb.c \
+	utility/u8g_page.c utility/u8g_state.c 
+
 ifeq ($(LIQUID_TWI2), 0)
 CXXSRC += LiquidCrystal.cpp
 else
@@ -338,8 +347,9 @@ endif
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 CEXTRA = -fno-use-cxa-atexit
 
-CFLAGS := $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CEXTRA) $(CTUNING)
-CXXFLAGS :=         $(CDEFS) $(CINCS) -O$(OPT) -Wall    $(CEXTRA) $(CTUNING)
+# -mrelax es necesario cuando el proyecto crece un poco. Sino tira un problema porque no puede direccionar algunas funciones ya que estan fuera del espacio del "jump".
+CFLAGS := $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) -mrelax $(CWARN) $(CEXTRA) $(CTUNING)
+CXXFLAGS :=         $(CDEFS) $(CINCS) -O$(OPT) -mrelax -Wall    $(CEXTRA) $(CTUNING)
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
 LDFLAGS = -lm
 
@@ -471,10 +481,10 @@ $(BUILD_DIR)/%.o: %.cpp Configuration.h Configuration_adv.h $(MAKEFILE)
 
 # Target: clean project.
 clean:
-	$(Pecho) "  RM    $(BUILD_DIR)/*"
-	$P $(REMOVE) $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).eep $(BUILD_DIR)/$(TARGET).cof $(BUILD_DIR)/$(TARGET).elf \
-		$(BUILD_DIR)/$(TARGET).map $(BUILD_DIR)/$(TARGET).sym $(BUILD_DIR)/$(TARGET).lss $(BUILD_DIR)/$(TARGET).cpp \
-		$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
+# 	$(Pecho) "  RM    $(BUILD_DIR)/*"
+# 	$P $(REMOVE) $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).eep $(BUILD_DIR)/$(TARGET).cof $(BUILD_DIR)/$(TARGET).elf \
+# 		$(BUILD_DIR)/$(TARGET).map $(BUILD_DIR)/$(TARGET).sym $(BUILD_DIR)/$(TARGET).lss $(BUILD_DIR)/$(TARGET).cpp \
+# 		$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
 	$(Pecho) "  RMDIR $(BUILD_DIR)/"
 	$P rm -rf $(BUILD_DIR)
 

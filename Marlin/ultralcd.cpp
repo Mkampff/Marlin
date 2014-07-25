@@ -1935,6 +1935,13 @@ void lcd_about() {
     MENU_ITEM(msgP, "", lcd_main_menu); // empty line
     MENU_ITEM(msgP, ABOUT_FIRMWARE_UPDATE_DATE, lcd_main_menu);
     MENU_ITEM(msgP, STRING_VERSION_CONFIG_H, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_POWERED_BY_1, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_POWERED_BY_2, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_POWERED_BY_3, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_POWERED_BY_4, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_POWERED_BY_5, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_POWERED_BY_6, lcd_main_menu);
     END_MENU();
 }
 // BEGIN MODIF lcd

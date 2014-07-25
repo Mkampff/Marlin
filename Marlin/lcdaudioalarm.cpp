@@ -27,6 +27,7 @@ int MAX_COUNT = sizeof(melody) / sizeof(int);
 #define PAUSE_MICROS 10000
 #define REST_COUNT 100
 
+#if BEEPER > 0
 inline void playTone(long duration, int tone) {
     if (tone != R) {
         long elapsed_time = 0;
@@ -43,8 +44,9 @@ inline void playTone(long duration, int tone) {
         for (int j = 0; j < REST_COUNT; j++) {
             delayMicroseconds(duration);
         }
-    }                                
+    }
 }
+#endif
 
 void play_music_until_lcdclick(inactivity_callback_t inactivity_callback) {
     #if BEEPER > 0

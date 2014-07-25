@@ -127,7 +127,9 @@
 	#define MSG_FLOW0 "Flow 0"
 	#define MSG_FLOW1 "Flow 1"
 	#define MSG_FLOW2 "Flow 2"
-	#define MSG_CONTROL "Control"
+	// BEGIN MODIF lcd
+	#define MSG_CONTROL "Configuration"
+	// END MODIF lcd
 	#define MSG_MIN " \002 Min"
 	#define MSG_MAX " \002 Max"
 	#define MSG_FACTOR " \002 Fact"
@@ -274,6 +276,7 @@
 	#define MSG_SERIAL_ERROR_MENU_STRUCTURE "Error in menu structure"
 
 	// BEGIN MODIF lcd
+	#define MSG_FILAMENTCHANGE_RESTORE_POSITION "Rest. filam. pos."
 	#define MSG_END_OF_FILAMENT_EVENT "Filam. sensor"
 	#define MSG_AUTO_LEVEL "Auto level"
 	#define MSG_AUTO_LEVELING "Auto leveling..."
@@ -290,6 +293,12 @@
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Firmware updated on:"
+        #define ABOUT_POWERED_BY_1 "Powered by:"
+        #define ABOUT_POWERED_BY_2 "RepRap"
+        #define ABOUT_POWERED_BY_3 "Marlin by ErikZalm"
+        #define ABOUT_POWERED_BY_4 "DOGM128 LCD enhance_"
+        #define ABOUT_POWERED_BY_5 " ments by STB"
+        #define ABOUT_POWERED_BY_6 "u8glib"
 	#define MSG_SET_Z0 "Set Z0"
 	#define MSG_PRINTING "Printing"
 	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
@@ -961,7 +970,9 @@
 	#define MSG_FLOW0 "Flujo 0"
 	#define MSG_FLOW1 "Flujo 1"
 	#define MSG_FLOW2 "Flujo 2"
-	#define MSG_CONTROL "Control"
+	// BEGIN MODIF lcd
+	#define MSG_CONTROL "Configuracion"
+	// END MODIF lcd
 	#define MSG_MIN "\002 Min"
 	#define MSG_MAX "\002 Max"
 	#define MSG_FACTOR "\002 Fact"
@@ -1153,7 +1164,12 @@
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Fecha de Firmware:"
-	#define MSG_HOME_Z "Z al origen"
+	#define ABOUT_POWERED_BY_1 "Powered by:"
+        #define ABOUT_POWERED_BY_2 "RepRap"
+        #define ABOUT_POWERED_BY_3 "Marlin by ErikZalm"
+        #define ABOUT_POWERED_BY_4 "DOGM128 LCD enhance_"
+        #define ABOUT_POWERED_BY_5 " ments by STB"
+        #define ABOUT_POWERED_BY_6 "u8glib"
 	#define MSG_SET_Z0 "Establecer Z0"
 	#define MSG_PRINTING "Imprimiendo"
 	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT
@@ -1624,7 +1640,9 @@
 	#define MSG_FLOW0 "Fluxo0"
 	#define MSG_FLOW1 "Fluxo1"
 	#define MSG_FLOW2 "Fluxo2"
-	#define MSG_CONTROL "Controle"
+	// BEGIN MODIF lcd
+	#define MSG_CONTROL "Configuracao"
+	// END MODIF lcd
 	#define MSG_MIN "\002 Min"
 	#define MSG_MAX "\002 Max"
 	#define MSG_FACTOR "\002 Fact"
@@ -1827,6 +1845,12 @@
 	#define ABOUT_WEB_1 "Web:"
 	#define ABOUT_WEB_2 "www.kikailabs.com.ar"
 	#define ABOUT_FIRMWARE_UPDATE_DATE "Data de Firmware:"
+        #define ABOUT_POWERED_BY_1 "Powered by:"
+        #define ABOUT_POWERED_BY_2 "RepRap"
+        #define ABOUT_POWERED_BY_3 "Marlin by ErikZalm"
+        #define ABOUT_POWERED_BY_4 "DOGM128 LCD enhance_"
+        #define ABOUT_POWERED_BY_5 " ments by STB"
+        #define ABOUT_POWERED_BY_6 "u8glib"
 	#define MSG_SET_Z0 "Establecer Z0"
 	#define MSG_PRINTING "Impressao"
 	#define MSG_EXTRUDE_RETRACT MSG_EXTRUDE "/" MSG_RETRACT

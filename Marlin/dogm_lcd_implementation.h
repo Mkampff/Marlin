@@ -123,10 +123,11 @@ static void lcd_implementation_init()
    
 	u8g.firstPage();
 	do {
+			// BEGIN MODIF lcd logo kikai
 			// RepRap init bmp
-			u8g.drawBitmapP(0,0,START_BMPBYTEWIDTH,START_BMPHEIGHT,start_bmp);
+			//u8g.drawBitmapP(0,0,START_BMPBYTEWIDTH,START_BMPHEIGHT,start_bmp);
 			// Welcome message
-			u8g.setFont(u8g_font_6x10_marlin);
+			/*u8g.setFont(u8g_font_6x10_marlin);
 			u8g.drawStr(62,10,"MARLIN"); 
 			u8g.setFont(u8g_font_5x8);
 			u8g.drawStr(62,19,"V1.0.0 RC2-mm");
@@ -139,7 +140,9 @@ static void lcd_implementation_init()
 			u8g.drawStr(62,55,"by STB, MM");
 			u8g.drawStr(62,61,"uses u");
 			u8g.drawStr90(92,57,"8");
-			u8g.drawStr(100,61,"glib");
+			u8g.drawStr(100,61,"glib");*/
+			u8g.drawXBMP(0,0,START_BMPWIDTH,START_BMPHEIGHT,start_bmp);
+			// END MODIF lcd logo kikai
 	   } while( u8g.nextPage() );
 }
 

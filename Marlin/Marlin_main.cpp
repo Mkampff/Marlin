@@ -51,6 +51,9 @@
 #include "end_of_filament.h"
 #include "lcdaudioalarm.h"
 // END MODIF filament
+// BEGIN MODIF lcd eeprom about
+#include "serial_number.h"
+// END MODIF lcd eeprom about
 
 #ifdef BLINKM
 #include "BlinkM.h"
@@ -166,6 +169,9 @@
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 // M503 - print the current settings (from memory not from EEPROM)
 // M540 - Use S[0|1] to enable or disable the stop SD card print on endstop hit (requires ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED)
+// BEGIN MODIF lcd
+// M550 - Set printer name
+// END MODIF lcd
 // M600 - Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
 // M665 - set delta configurations
 // M666 - set delta endstop adjustment
@@ -677,7 +683,9 @@ void get_command()
             }
             else {
               SERIAL_ERRORLNPGM(MSG_ERR_STOPPED);
-              LCD_MESSAGEPGM(MSG_STOPPED);
+              // BEGIN MODIF lcd status
+              LCD_TEMP_MESSAGEPGM(MSG_STOPPED);
+              // END MODIF lcd status
             }
             break;
           default:
@@ -733,7 +741,10 @@ void get_command()
         sprintf_P(time, PSTR("%i hours %i minutes"),hours, minutes);
         SERIAL_ECHO_START;
         SERIAL_ECHOLN(time);
-        lcd_setstatus(time);
+        // BEGIN MODIF lcd status
+        lcd_settempstatus(time);
+        LCD_SETGLOBALSTATUSPGM(WELCOME_MSG);
+        // END MODIF lcd status
         card.printingHasFinished();
         card.checkautostart(true);
 
@@ -1233,6 +1244,11 @@ void process_commands_aux()
         manage_inactivity();
         lcd_update();
       }
+      
+      // BEGIN MODIF lcd status
+      LCD_DISPLAY_GLOBAL_STATUS();
+      // END MODIF lcd status
+      
       break;
       #ifdef FWRETRACT
       case 10: // G10 retract
@@ -1421,11 +1437,15 @@ void process_commands_aux()
 
               HOMEAXIS(Z);
             } else if (!((axis_known_position[X_AXIS]) && (axis_known_position[Y_AXIS]))) {
-                LCD_MESSAGEPGM(MSG_POSITION_UNKNOWN);
+                // BEGIN MODIF lcd status
+                LCD_TEMP_MESSAGEPGM(MSG_POSITION_UNKNOWN);
+                // END MODIF lcd status
                 SERIAL_ECHO_START;
                 SERIAL_ECHOLNPGM(MSG_POSITION_UNKNOWN);
             } else {
-                LCD_MESSAGEPGM(MSG_ZPROBE_OUT);
+                // BEGIN MODIF lcd status
+                LCD_TEMP_MESSAGEPGM(MSG_ZPROBE_OUT);
+                // END MODIF lcd status
                 SERIAL_ECHO_START;
                 SERIAL_ECHOLNPGM(MSG_ZPROBE_OUT);
             }
@@ -1468,12 +1488,21 @@ void process_commands_aux()
             // Prevent user from running a G29 without first homing in X and Y
             if (! (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS]) )
             {
-                LCD_MESSAGEPGM(MSG_POSITION_UNKNOWN);
+                // BEGIN MODIF lcd status
+                #ifdef ULTIPANEL
+                    lcd_return_to_status();
+                #endif//ULTIPANEL
+                LCD_TEMP_MESSAGEPGM(MSG_POSITION_UNKNOWN);
+                // END MODIF lcd status
                 SERIAL_ECHO_START;
                 SERIAL_ECHOLNPGM(MSG_POSITION_UNKNOWN);
                 break; // abort G29, since we don't know where we are
             }
 
+            // BEGIN MODIF lcd status
+            LCD_MESSAGEPGM(MSG_AUTO_LEVELING);
+            // END MODIF lcd status
+            
             st_synchronize();
             // make sure the bed_level_rotation_matrix is identity or the planner will get it incorectly
             //vector_3 corrected_position = plan_get_position_mm();
@@ -1599,6 +1628,10 @@ void process_commands_aux()
             apply_rotation_xyz(plan_bed_level_matrix, x_tmp, y_tmp, z_tmp);         //Apply the correction sending the probe offset
             current_position[Z_AXIS] = z_tmp - real_z + current_position[Z_AXIS];   //The difference is added to current position and sent to planner.
             plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+            
+            // BEGIN MODIF lcd autolevel
+            LCD_DISPLAY_GLOBAL_STATUS();
+            // BEGIN MODIF lcd autolevel
         }
         break;
 
@@ -1682,12 +1715,17 @@ void process_commands_aux()
           lcd_update();
         }
       }
-      LCD_MESSAGEPGM(MSG_RESUMING);
+      // BEGIN MODIF lcd status
+      LCD_TEMP_MESSAGEPGM(MSG_RESUMING);
+      LCD_DISPLAY_GLOBAL_STATUS();
+      // END MODIF lcd status
     }
     break;
 #endif
     case 17:
-        LCD_MESSAGEPGM(MSG_NO_MOVE);
+        // BEGIN MODIF lcd
+        LCD_TEMP_MESSAGEPGM(MSG_NO_MOVE);
+        // END MODIF lcd
         enable_x();
         enable_y();
         enable_z();
@@ -1718,10 +1756,16 @@ void process_commands_aux()
       card.openFile(strchr_pointer + 4,true);
       break;
     case 24: //M24 - Start SD print
+      // BEGIN MODIF lcd
+      LCD_SETGLOBALSTATUSPGM(MSG_PRINTING);
+      // END MODIF lcd
       card.startFileprint();
       starttime=millis();
       break;
     case 25: //M25 - Pause SD print
+      // BEGIN MODIF lcd
+      LCD_SETGLOBALSTATUSPGM(MSG_PAUSE_PRINT);
+      // END MODIF lcd
       card.pauseSDPrint();
       break;
     case 26: //M26 - Set SD index
@@ -1815,7 +1859,10 @@ void process_commands_aux()
       sprintf_P(time, PSTR("%i min, %i sec"), min, sec);
       SERIAL_ECHO_START;
       SERIAL_ECHOLN(time);
-      lcd_setstatus(time);
+      // BEGIN MODIF lcd status
+      lcd_settempstatus(time);
+      LCD_SETGLOBALSTATUSPGM(WELCOME_MSG);
+      // END MODIF lcd status
       autotempShutdown();
       }
       break;
@@ -2036,7 +2083,10 @@ void process_commands_aux()
           }
         #endif //TEMP_RESIDENCY_TIME
         }
-        LCD_MESSAGEPGM(MSG_HEATING_COMPLETE);
+        // BEGIN MODIF lcd status
+        LCD_TEMP_MESSAGEPGM(MSG_HEATING_COMPLETE);
+        LCD_DISPLAY_GLOBAL_STATUS();
+        // END MODIF lcd status
         starttime=millis();
         previous_millis_cmd = millis();
       }
@@ -2073,7 +2123,10 @@ void process_commands_aux()
           manage_inactivity();
           lcd_update();
         }
-        LCD_MESSAGEPGM(MSG_BED_DONE);
+        // BEGIN MODIF lcd status
+        LCD_TEMP_MESSAGEPGM(MSG_BED_DONE);
+        LCD_DISPLAY_GLOBAL_STATUS();
+        // END MODIF lcd status
         previous_millis_cmd = millis();
     #endif
         break;
@@ -2162,7 +2215,9 @@ void process_commands_aux()
       #endif
       #ifdef ULTIPANEL
         powersupply = false;
-        LCD_MESSAGEPGM(MACHINE_NAME" "MSG_OFF".");
+        // BEGIN MODIF lcd
+        LCD_TEMP_MESSAGEPGM(MACHINE_NAME" "MSG_OFF".");
+        // END MODIF lcd
         lcd_update();
       #endif
 	  break;
@@ -2788,6 +2843,16 @@ void process_commands_aux()
     break;
     #endif
 
+// BEGIN MODIF Lcd
+    case 550:
+    {
+        starpos = (strchr(strchr_pointer + 5,'*'));
+        if(starpos!=NULL)
+            *(starpos-1)='\0';
+        set_serial_number(strchr_pointer + 5);
+    }
+    break;
+// END MODIF Lcd
     #ifdef CUSTOM_M_CODE_SET_Z_PROBE_OFFSET
     case CUSTOM_M_CODE_SET_Z_PROBE_OFFSET:
     {
@@ -2935,7 +3000,12 @@ void process_commands_aux()
         disable_e1();
         disable_e2();
         delay(100);
-        LCD_ALERTMESSAGEPGM(MSG_FILAMENTCHANGE);
+        // BEGIN MODIF lcd
+        LCD_MESSAGEPGM(MSG_FILAMENTCHANGE);
+        #ifdef ULTIPANEL
+            lcd_return_to_status();
+        #endif // ULTIPANEL
+        // END MODIF lcd
         
         // Play alarm music to alert the user the printer has run out of filament and block the
         // execution until the user clicks on the screen.
@@ -2950,11 +3020,13 @@ void process_commands_aux()
         restore_last_state_stored();
     }
     break;
+#ifdef M602_MCODE_ENABLED
     case 602: //M602 - Store current position. You can restore current position with M601 later.
     {
         store_current_state();
     }
     break;
+#endif // M602_MCODE_ENABLED
     // END MODIF lcd filament
     #endif //FILAMENTCHANGEENABLE
     #ifdef DUAL_X_CARRIAGE
@@ -3598,7 +3670,11 @@ void Stop()
     Stopped_gcode_LastN = gcode_LastN; // Save last g_code for restart
     SERIAL_ERROR_START;
     SERIAL_ERRORLNPGM(MSG_ERR_STOPPED);
-    LCD_MESSAGEPGM(MSG_STOPPED);
+    // BEGIN MODIF lcd status
+    LCD_TEMP_MESSAGEPGM(MSG_STOPPED);
+    // Finished printing. Set the welcome message as global status.
+    LCD_SETGLOBALSTATUSPGM(WELCOME_MSG);
+    // END MODIF lcd status
   }
 }
 

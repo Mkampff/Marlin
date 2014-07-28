@@ -10,6 +10,13 @@
   void lcd_setstatus(const char* message);
   void lcd_setstatuspgm(const char* message);
   void lcd_setalertstatuspgm(const char* message);
+  // BEGIN MODIF lcd status
+  void lcd_settempstatus(const char* message);
+  void lcd_settempstatuspgm(const char* message);
+  const char* lcd_getglobalstatus();
+  void lcd_setglobalstatus(const char* message);
+  void lcd_return_to_status();
+  // END MODIF lcd status
   void lcd_reset_alert_level();
 
 #ifdef DOGLCD
@@ -21,6 +28,14 @@
 
   #define LCD_MESSAGEPGM(x) lcd_setstatuspgm(PSTR(x))
   #define LCD_ALERTMESSAGEPGM(x) lcd_setalertstatuspgm(PSTR(x))
+  // BEGIN MODIF lcd status
+  #define LCD_TEMP_MESSAGEPGM(x) lcd_settempstatuspgm(PSTR(x))
+  #define LCD_DISPLAY_GLOBAL_STATUS() lcd_setstatuspgm(lcd_getglobalstatus())
+  #define LCD_SETGLOBALSTATUSPGM(x) do { \
+    lcd_setglobalstatus(PSTR(x)); \
+    LCD_DISPLAY_GLOBAL_STATUS(); \
+  } while (0);
+  // END MODIF lcd status
 
   #define LCD_UPDATE_INTERVAL 100
   // BEGIN MODIF lcd

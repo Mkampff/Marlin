@@ -10,6 +10,9 @@
 // BEGIN MODIF filament
 #include "end_of_filament.h"
 // END MODIF filament
+// BEGIN MODIF lcd eeprom about
+#include "serial_number.h"
+// END MODIF lcd eeprom about
 
 int8_t encoderDiff; /* encoderDiff is updated from interrupt context and added to encoderPosition every LCD update */
 
@@ -34,6 +37,12 @@ typedef void (*menuFunc_t)();
 
 uint8_t lcd_status_message_level;
 char lcd_status_message[LCD_WIDTH+1] = WELCOME_MSG;
+// BEGIN MODIF lcd
+const char* lcd_global_status;
+char lcd_temp_status_message[LCD_WIDTH+1] = "";
+long lcd_temp_status_message_from_timestamp;
+long lcd_temp_status_message_to_timestamp;
+// END MODIF lcd
 
 #ifdef DOGLCD
 #include "dogm_lcd_implementation.h"
@@ -61,6 +70,7 @@ static void lcd_move_menu();
 static void lcd_extrude_menu();
 static void lcd_home_axis_menu();
 static void lcd_manual_level_menu();
+static void lcd_about();
 // END MODIF lcd
 static void lcd_control_menu();
 static void lcd_control_temperature_menu();
@@ -98,6 +108,10 @@ static void menu_action_setting_edit_callback_float5(const char* pstr, float* pt
 static void menu_action_setting_edit_callback_float51(const char* pstr, float* ptr, float minValue, float maxValue, menuFunc_t callbackFunc);
 static void menu_action_setting_edit_callback_float52(const char* pstr, float* ptr, float minValue, float maxValue, menuFunc_t callbackFunc);
 static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned long* ptr, unsigned long minValue, unsigned long maxValue, menuFunc_t callbackFunc);
+// BEGIN MODIF lcd about
+static void menu_action_msgP(menuFunc_t data);
+static void menu_action_msg(menuFunc_t data);
+// END MODIF lcd about
 
 #define ENCODER_FEEDRATE_DEADZONE 10
 
@@ -173,6 +187,9 @@ bool lcd_oldcardstatus;
 menuFunc_t currentMenu = lcd_status_screen; /* function pointer to the currently active menu */
 uint32_t lcd_next_update_millis;
 uint8_t lcd_status_update_delay;
+// BEGIN MODIF lcd
+uint8_t lcd_move_e_update_delay;
+// END MODIF lcd
 uint8_t lcdDrawUpdate = 2;                  /* Set to none-zero when the LCD needs to draw, decreased after every draw. Set to 2 in LCD routines so the LCD gets at least 1 full redraw (first redraw is partial) */
 
 //prevMenu and prevEncoderPosition are used to store the previous menu location when editing settings.
@@ -186,9 +203,6 @@ menuFunc_t callbackFunc;
 
 // place-holders for Ki and Kd edits
 float raw_Ki, raw_Kd;
-// BEGIN MODIF filament
-bool end_of_filament_enabled = DEFAULT_FILAMENT_DETECTION_CALL_M600;
-// END MODIF filament
 
 /* Main status screen. It's up to the implementation specific part to show what is needed. As this is very display dependent */
 static void lcd_status_screen()
@@ -256,7 +270,9 @@ static void lcd_status_screen()
 }
 
 #ifdef ULTIPANEL
-static void lcd_return_to_status()
+// BEGIN MODIF lcd
+void lcd_return_to_status()
+// END MODIF lcd
 {
     encoderPosition = 0;
     currentMenu = lcd_status_screen;
@@ -266,6 +282,7 @@ static void lcd_sdcard_pause()
 {
     card.pauseSDPrint();
     // BEGIN MODIF lcd
+    LCD_SETGLOBALSTATUSPGM(MSG_PAUSE_PRINT);
     store_current_state();
     // END MODIF lcd
 }
@@ -275,6 +292,7 @@ static void lcd_sdcard_resume()
     // It's safe to send a GCode command here, as we know in this case we are printing from the SD
     // card. If we send a GCode while printing from a client software, we would break the GCode
     // line validation.
+    LCD_SETGLOBALSTATUSPGM(MSG_PRINTING);
     enquecommand_P(PSTR("M601"));       // restore position
     st_synchronize();
     // END MODIF lcd
@@ -287,6 +305,7 @@ static void lcd_sdcard_stop()
     card.closefile();
     // BEGIN MODIF lcd
     // We must clean any state that could be stored.
+    LCD_SETGLOBALSTATUSPGM(WELCOME_MSG);
     clear_state_stored();
     // END MODIF lcd
     quickStop();
@@ -352,6 +371,9 @@ static void lcd_main_menu()
 #endif
     }
 #endif
+    // BEGIN MODIF lcd
+    MENU_ITEM(submenu, MSG_ABOUT, lcd_about);
+    // END MODIF lcd
     END_MENU();
 }
 
@@ -484,6 +506,9 @@ static void lcd_tune_menu()
 
 void lcd_preheat_pla0()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(plaPreheatHotendTemp);
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
@@ -493,6 +518,9 @@ void lcd_preheat_pla0()
 
 void lcd_preheat_abs0()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(absPreheatHotendTemp);
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
@@ -503,6 +531,9 @@ void lcd_preheat_abs0()
 #if TEMP_SENSOR_1 != 0 //2nd extruder preheat
 void lcd_preheat_pla1()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend1(plaPreheatHotendTemp);
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
@@ -512,6 +543,9 @@ void lcd_preheat_pla1()
 
 void lcd_preheat_abs1()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend1(absPreheatHotendTemp);
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
@@ -523,6 +557,9 @@ void lcd_preheat_abs1()
 #if TEMP_SENSOR_2 != 0 //3 extruder preheat
 void lcd_preheat_pla2()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend2(plaPreheatHotendTemp);
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
@@ -532,6 +569,9 @@ void lcd_preheat_pla2()
 
 void lcd_preheat_abs2()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend2(absPreheatHotendTemp);
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
@@ -543,6 +583,9 @@ void lcd_preheat_abs2()
 #if TEMP_SENSOR_1 != 0 || TEMP_SENSOR_2 != 0 //more than one extruder present
 void lcd_preheat_pla012()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(plaPreheatHotendTemp);
     setTargetHotend1(plaPreheatHotendTemp);
     setTargetHotend2(plaPreheatHotendTemp);
@@ -554,6 +597,9 @@ void lcd_preheat_pla012()
 
 void lcd_preheat_abs012()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetHotend0(absPreheatHotendTemp);
     setTargetHotend1(absPreheatHotendTemp);
     setTargetHotend2(absPreheatHotendTemp);
@@ -566,6 +612,9 @@ void lcd_preheat_abs012()
 
 void lcd_preheat_pla_bedonly()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetBed(plaPreheatHPBTemp);
     fanSpeed = plaPreheatFanSpeed;
     lcd_return_to_status();
@@ -574,6 +623,9 @@ void lcd_preheat_pla_bedonly()
 
 void lcd_preheat_abs_bedonly()
 {
+    // BEGIN MODIF lcd
+    LCD_TEMP_MESSAGEPGM(MSG_HEATING);
+    // END MODIF lcd
     setTargetBed(absPreheatHPBTemp);
     fanSpeed = absPreheatFanSpeed;
     lcd_return_to_status();
@@ -656,6 +708,9 @@ static void lcd_prepare_menu()
     #ifdef ENABLE_AUTO_BED_LEVELING
       MENU_ITEM(gcode, MSG_AUTO_LEVEL, PSTR("G29"));
     #endif // ENABLE_AUTO_BED_LEVELING
+    #ifdef ENABLE_SET_Z0
+      MENU_ITEM(gcode, MSG_SET_Z0, PSTR("G92 Z0"));
+    #endif // ENABLE_AUTO_BED_LEVELING
     // END MODIF lcd autolevel
     // BEGIN MODIF lcd manual level
     #ifdef ENABLE_MANUAL_BED_LEVELING
@@ -701,7 +756,7 @@ static void lcd_prepare_menu()
     // END MODIF filament
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
     // BEGIN MODIF lcd
-    MENU_ITEM(submenu, MSG_EXTRUDE, lcd_extrude_menu);
+    MENU_ITEM(submenu, MSG_EXTRUDE_RETRACT, lcd_extrude_menu);
     // END MODIF lcd
     END_MENU();
 }
@@ -801,8 +856,11 @@ static void lcd_move_z()
 }
 static void lcd_move_e()
 {
-    if (encoderPosition != 0)
+    // BEGIN MODIF lcd
+    lcd_move_e_update_delay--;
+    if (encoderPosition != 0 || !(lcd_move_e_update_delay > 0))
     {
+        // END MODIF lcd
         current_position[E_AXIS] += float((int)encoderPosition) * move_menu_scale;
         encoderPosition = 0;
         #ifdef DELTA
@@ -815,7 +873,18 @@ static void lcd_move_e()
     }
     if (lcdDrawUpdate)
     {
-        lcd_implementation_drawedit(PSTR("Extruder"), ftostr31(current_position[E_AXIS]));
+        // BEGIN MODIF lcd
+        lcd_implementation_drawedit(PSTR(MSG_MOVE_E), ftostr31(current_position[E_AXIS]));
+        #ifdef PREVENT_DANGEROUS_EXTRUDE
+            lcd.setCursor(1, 3);
+            if(degHotend(active_extruder)<EXTRUDE_MINTEMP){
+                lcd.print(MSG_TOO_COLD_TO_EXTRUDE);
+            } else {
+                lcd_write_spaces(LCD_WIDTH - strlen(MSG_TOO_COLD_TO_EXTRUDE));
+            }
+        #endif // PREVENT_DANGEROUS_EXTRUDE
+        lcd_move_e_update_delay = 10;
+        // END MODIF lcd
     }
     if (LCD_CLICKED)
     {
@@ -909,7 +978,7 @@ static void lcd_control_menu()
     MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
     // BEGIN MODIF lcd filament
     #ifdef ENABLE_END_OF_FILAMENT_MENU
-       MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_enabled, enable_or_disable_end_of_filament);
+       MENU_ITEM_EDIT_CALLBACK(bool, MSG_END_OF_FILAMENT_EVENT, &end_of_filament_detection_call_m600, enable_or_disable_end_of_filament);
     #endif // ENABLE_END_OF_FILAMENT_MENU
     // END MODIF lcd filament
 #ifdef DOGLCD
@@ -1296,6 +1365,16 @@ static void menu_action_setting_edit_callback_bool(const char* pstr, bool* ptr, 
     *ptr = !(*ptr);
     callbackFunc();
 }
+static void menu_action_msgP(menuFunc_t data)
+{
+    currentMenu = data;
+    encoderPosition = 0;
+}
+static void menu_action_msg(const char* text, menuFunc_t data)
+{
+    currentMenu = data;
+    encoderPosition = 0;
+}
 // END MODIF filament
 #endif//ULTIPANEL
 
@@ -1373,12 +1452,16 @@ void lcd_update()
         if(lcd_oldcardstatus)
         {
             card.initsd();
-            LCD_MESSAGEPGM(MSG_SD_INSERTED);
+            // BEGIN MODIF lcd status
+            LCD_TEMP_MESSAGEPGM(MSG_SD_INSERTED);
+            // END MODIF lcd status
         }
         else
         {
             card.release();
-            LCD_MESSAGEPGM(MSG_SD_REMOVED);
+            // BEGIN MODIF lcd status
+            LCD_TEMP_MESSAGEPGM(MSG_SD_REMOVED);
+            // END MODIF lcd status
         }
     }
     #endif//CARDINSERTED
@@ -1470,6 +1553,32 @@ void lcd_setstatuspgm(const char* message)
     strncpy_P(lcd_status_message, message, LCD_WIDTH);
     lcdDrawUpdate = 2;
 }
+// BEGIN MODIF lcd status
+void lcd_settempstatuspgm(const char* message)
+{
+    strncpy_P(lcd_temp_status_message, message, LCD_WIDTH);
+    lcd_temp_status_message_from_timestamp = millis();
+    lcd_temp_status_message_to_timestamp = lcd_temp_status_message_from_timestamp + TEMP_STATUS_DURATION;
+    lcdDrawUpdate = 2;
+}
+void lcd_settempstatus(const char* message)
+{
+    strncpy(lcd_temp_status_message, message, LCD_WIDTH);
+    lcd_temp_status_message_from_timestamp = millis();
+    lcd_temp_status_message_to_timestamp = lcd_temp_status_message_from_timestamp + TEMP_STATUS_DURATION;
+    lcdDrawUpdate = 2;
+}
+const char* lcd_getglobalstatus()
+{
+    if (!lcd_global_status)
+        return PSTR(WELCOME_MSG);
+    return lcd_global_status;
+}
+void lcd_setglobalstatus(const char* message)
+{
+    lcd_global_status = message;
+}
+// END MODIF lcd status
 void lcd_setalertstatuspgm(const char* message)
 {
     lcd_setstatuspgm(message);
@@ -1806,7 +1915,7 @@ void copy_and_scalePID_d()
 #ifdef FILAMENTCHANGEENABLE
 void enable_or_disable_end_of_filament()
 {
-  if (end_of_filament_enabled) {
+  if (end_of_filament_detection_call_m600) {
     enquecommand_P(PSTR("M43"));
   } else {
     enquecommand_P(PSTR("M44"));
@@ -1814,5 +1923,25 @@ void enable_or_disable_end_of_filament()
 }
 #endif FILAMENTCHANGEENABLE
 // END MODIF filament
+
+// BEGIN MODIF lcd
+void lcd_about() {
+    START_MENU();
+    MENU_ITEM(msgP, ABOUT_PRINTER_MODEL, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_FIRMWARE_DATA, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_SERIAL_NUMBER, lcd_main_menu);
+    MENU_ITEM(msg, " ", serial_number, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_CONTACT_1, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_CONTACT_2, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_WEB_1, lcd_main_menu);
+    MENU_ITEM(msgP, ABOUT_WEB_2, lcd_main_menu);
+    MENU_ITEM(msgP, "", lcd_main_menu); // empty line
+    MENU_ITEM(msgP, ABOUT_FIRMWARE_UPDATE_DATE, lcd_main_menu);
+    MENU_ITEM(msgP, STRING_VERSION_CONFIG_H, lcd_main_menu);
+    END_MENU();
+}
+// BEGIN MODIF lcd
 
 #endif //ULTRA_LCD

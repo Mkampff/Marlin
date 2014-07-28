@@ -335,6 +335,15 @@ static void lcd_implementation_clear()
 {
     lcd.clear();
 }
+// BEGIN MODIF lcd
+static void lcd_write_spaces(int n)
+{
+    while(n > 0) {
+        n--;
+        lcd.print(' ');
+    }
+}
+// END MODIF lcd
 /* Arduino < 1.0.0 is missing a function to print PROGMEM strings, so we need to implement our own */
 static void lcd_printPGM(const char* str)
 {
@@ -513,7 +522,20 @@ static void lcd_implementation_status_screen()
 
     //Status message line on the last line
     lcd.setCursor(0, LCD_HEIGHT - 1);
-    lcd.print(lcd_status_message);
+    // BEGIN MODIF lcd status
+    // clear
+    lcd.setCursor(0, LCD_HEIGHT - 1);
+    long now = millis();
+    int text_len;
+    if (now > lcd_temp_status_message_from_timestamp && now < lcd_temp_status_message_to_timestamp) {
+        lcd.print(lcd_temp_status_message);
+        text_len = strlen(lcd_temp_status_message);
+    } else {
+        lcd.print(lcd_status_message);
+        text_len = strlen(lcd_status_message);
+    }
+    lcd_write_spaces(LCD_WIDTH - text_len);      // fill with spaces
+    // END MODIF lcd status
 }
 static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, char pre_char, char post_char)
 {
@@ -711,6 +733,30 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
     while(n--)
         lcd.print(' ');
 }
+// BEGIN MODIF lcd about
+static void lcd_implementation_drawmenu_msgP(uint8_t row, const char*pstr, menuFunc_t data)
+{
+    char c;
+    lcd.setCursor(0, row);
+    lcd_printPGM(pstr);
+    lcd_write_spaces(LCD_WIDTH - strlen_P(pstr));
+}
+static void lcd_implementation_drawmenu_msg(uint8_t row, const char*pstr, const char* text, menuFunc_t data)
+{
+    char c;
+    lcd.setCursor(0, row);
+    lcd_printPGM(pstr);
+    uint8_t n = LCD_WIDTH - strlen_P(pstr);
+    while( ((c = *text) != '\0') && (n>0) )
+    {
+        lcd.print(c);
+        text++;
+        n--;
+    }
+    lcd_write_spaces(n);
+}
+// END MODIF lcd about
+
 #define lcd_implementation_drawmenu_back_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, LCD_STR_UPLEVEL[0], LCD_STR_UPLEVEL[0])
 #define lcd_implementation_drawmenu_back(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, ' ', LCD_STR_UPLEVEL[0])
 #define lcd_implementation_drawmenu_submenu_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, '>', LCD_STR_ARROW_RIGHT[0])
@@ -719,6 +765,11 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
 #define lcd_implementation_drawmenu_gcode(row, pstr, gcode) lcd_implementation_drawmenu_generic(row, pstr, ' ', ' ')
 #define lcd_implementation_drawmenu_function_selected(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, '>', ' ')
 #define lcd_implementation_drawmenu_function(row, pstr, data) lcd_implementation_drawmenu_generic(row, pstr, ' ', ' ')
+// BEGIN MODIF lcd about
+// Messages look the same selected or unselected
+#define lcd_implementation_drawmenu_msgP_selected(row, pstr, menu) lcd_implementation_drawmenu_msgP(row, pstr, menu)
+#define lcd_implementation_drawmenu_msg_selected(row, pstr, text, menu) lcd_implementation_drawmenu_msg(row, pstr, text, menu)
+// END MODIF lcd about
 
 static void lcd_implementation_quick_feedback()
 {

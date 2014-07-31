@@ -775,7 +775,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //#define ENABLE_END_OF_FILAMENT_MENU
 
 // BEGIN MODIF lcd
-#define ENABLE_SET_Z0
+//#define ENABLE_SET_Z0
 // END MODIF lcd
 // BEGIN MODIF lcd status
 #define TEMP_STATUS_DURATION 3000

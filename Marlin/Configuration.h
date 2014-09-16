@@ -342,7 +342,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //============================= Bed Auto Leveling ===========================
 
 // BEGIN MODIF autoleveling
-#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+//#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
 // END MODIF autoleveling
 
 #ifdef ENABLE_AUTO_BED_LEVELING
@@ -546,7 +546,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // The RepRapDiscount Smart Controller (white PCB)
 // http://reprap.org/wiki/RepRapDiscount_Smart_Controller
 // BEGIN MODIF lcd
-#define REPRAP_DISCOUNT_SMART_CONTROLLER
+//#define REPRAP_DISCOUNT_SMART_CONTROLLER
 // END MODIF lcd
 
 // The GADGETS3D G3D LCD/SD Controller (blue PCB)
@@ -558,7 +558,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //
 // ==> REMEMBER TO INSTALL U8glib to your ARDUINO library folder: http://code.google.com/p/u8glib/wiki/u8glib
 // BEGIN MODIF lcd
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 // END MODIF lcd
 
 // The RepRapWorld REPRAPWORLD_KEYPAD v1.1
@@ -761,7 +761,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // If true, the printer will report Event:EndOfFilament to the client software if it detects it's
 // out of filament.
 // It can be enabled or disabled with G-Codes M47 and M48.
-#define DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT true
+#define DEFAULT_FILAMENT_DETECTION_REPORT_END_OF_FILAMENT_EVENT false
 // DEFAULT_FILAMENT_DETECTION_REQUEST_PAUSE
 // If true, the printer will send a ResquestPause: to the client software if it detects it's out of
 // filament.
@@ -774,10 +774,10 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // Enable this to show the menu item that lets you enable or disable the automatic end of filament
 // detection.
-#define ENABLE_END_OF_FILAMENT_MENU
+//#define ENABLE_END_OF_FILAMENT_MENU
 
 // BEGIN MODIF lcd
-#define ENABLE_SET_Z0
+//#define ENABLE_SET_Z0
 // END MODIF lcd
 // BEGIN MODIF lcd status
 #define TEMP_STATUS_DURATION 3000

@@ -269,7 +269,7 @@ CXXSRC = WMath.cpp WString.cpp Print.cpp Marlin_main.cpp	\
 	U8glib.cpp utility/u8g_dev_st7565_dogm128.c utility/u8g_ll_api.c utility/u8g_rect.c \
 	utility/u8g_com_null.c utility/u8g_font.c utility/u8g_bitmap.c utility/u8g_delay.c \
 	utility/u8g_clip.c utility/u8g_font_data.c utility/u8g_pb32h1.c utility/u8g_pb.c \
-	utility/u8g_page.c utility/u8g_state.c 
+	utility/u8g_page.c utility/u8g_state.c utility/u8g_rot.c 
 
 ifeq ($(LIQUID_TWI2), 0)
 CXXSRC += LiquidCrystal.cpp

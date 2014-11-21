@@ -256,20 +256,28 @@ SRC = wiring.c \
 	wiring_analog.c wiring_digital.c \
 	wiring_pulse.c \
 	wiring_shift.c WInterrupts.c
+
+# BEGIN MODIF U8glib
+VPATH += ../U8glib
+VPATH += ../U8glib/utility
+CXXSRC += U8glib.cpp
+SRC += u8g_dev_st7565_dogm128.c u8g_ll_api.c u8g_rect.c \
+       u8g_com_null.c u8g_font.c u8g_bitmap.c u8g_delay.c \
+       u8g_clip.c u8g_font_data.c u8g_pb32h1.c u8g_pb.c \
+       u8g_page.c u8g_state.c u8g_rot.c
+ # END MODIF U8glib
+
+
 ifeq ($(HARDWARE_VARIANT), Teensy)
-SRC = wiring.c
+SRC = +wiring.c
 VPATH += $(ARDUINO_INSTALL_DIR)/hardware/teensy/cores/teensy
 endif
-CXXSRC = WMath.cpp WString.cpp Print.cpp Marlin_main.cpp	\
+CXXSRC += WMath.cpp WString.cpp Print.cpp Marlin_main.cpp	\
 	MarlinSerial.cpp Sd2Card.cpp SdBaseFile.cpp SdFatUtil.cpp	\
 	SdFile.cpp SdVolume.cpp motion_control.cpp planner.cpp		\
 	stepper.cpp temperature.cpp cardreader.cpp ConfigurationStore.cpp \
 	watchdog.cpp SPI.cpp Servo.cpp Tone.cpp ultralcd.cpp digipot_mcp4451.cpp \
-	vector_3.cpp qr_solve.cpp end_of_filament.cpp serial_number.cpp lcdaudioalarm.cpp \
-	U8glib.cpp utility/u8g_dev_st7565_dogm128.c utility/u8g_ll_api.c utility/u8g_rect.c \
-	utility/u8g_com_null.c utility/u8g_font.c utility/u8g_bitmap.c utility/u8g_delay.c \
-	utility/u8g_clip.c utility/u8g_font_data.c utility/u8g_pb32h1.c utility/u8g_pb.c \
-	utility/u8g_page.c utility/u8g_state.c utility/u8g_rot.c 
+	vector_3.cpp qr_solve.cpp end_of_filament.cpp serial_number.cpp lcdaudioalarm.cpp
 
 ifeq ($(LIQUID_TWI2), 0)
 CXXSRC += LiquidCrystal.cpp

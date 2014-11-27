@@ -9,6 +9,7 @@
 #include "ConfigurationStore.h"
 // BEGIN MODIF filament
 #include "end_of_filament.h"
+#include "lcdaudioalarm.h"
 // END MODIF filament
 // BEGIN MODIF lcd eeprom about
 #include "serial_number.h"
@@ -258,6 +259,11 @@ static void lcd_status_screen()
         encoderPosition = 0;
         lcd_quick_feedback();
         lcd_implementation_init(); // to maybe revive the LCD if static electricity killed it.
+
+        // BEGIN MODIF end_of_filament
+        // If the beeper is still making noise (end of filament), stop it.
+        stop_playing_music();
+        // END MODIF end_of_filament
     }
 // END MODIF lcd
 #endif//ULTIPANEL_FEEDMULTIPLY

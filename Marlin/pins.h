@@ -2690,6 +2690,7 @@
 
 // BEGIN MODIF filament
 #define F_MAX_PIN          19
+#define F_MAX_PIN_INVERTING true
 // to rotate the screen 180 degrees, just uncomment this
 //#define LCD_SCREEN_ROT_180
 // END MODIF filament

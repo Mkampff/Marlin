@@ -19,13 +19,15 @@
 
 //int melody[] = { e, f, g, g, f, e, d, c, c, d, e, e, d};
 //int beats[]  = {16, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
-int melody[] = { c, R};
-int beats[]  = {16,16};
-int MAX_COUNT = sizeof(melody) / sizeof(int);
+static int melody[] = { c, R};
+static int beats[]  = {16,16};
+static int MAX_COUNT = sizeof(melody) / sizeof(int);
+static bool continue_playing;
 
 #define TEMPO_MICROS 50000
 #define PAUSE_MICROS 10000
 #define REST_COUNT 100
+#define IDLE_CHECK_COUNT 4
 
 #if BEEPER > 0
 inline void playTone(long duration, int tone) {
@@ -48,17 +50,23 @@ inline void playTone(long duration, int tone) {
 }
 #endif
 
+void stop_playing_music() {
+    // force the code out of the beeper loop
+    continue_playing = false;
+}
+
 void play_music_until_lcdclick(inactivity_callback_t inactivity_callback) {
     #if BEEPER > 0
         int beat = 0;
         int tone = 0;
         long duration  = 0;
+        continue_playing = true;
 
         // Set beeper pin as OUT
         SET_OUTPUT(BEEPER);
         
-        while(!lcd_clicked()){
-            for (int i = 0; i < MAX_COUNT && !lcd_clicked(); i++) {
+        while(continue_playing){
+            for (int i = 0; i < MAX_COUNT && continue_playing; i++) {
                 // periodic activies
                 inactivity_callback();
 
@@ -67,10 +75,16 @@ void play_music_until_lcdclick(inactivity_callback_t inactivity_callback) {
 
                 duration = beat * TEMPO_MICROS;
 
-                playTone(duration, tone);
+                for (int j = 0; j < IDLE_CHECK_COUNT; j++) {
+                    playTone(duration / IDLE_CHECK_COUNT, tone);
+                    continue_playing = continue_playing && !lcd_clicked(); if (!continue_playing) break;
+                }
 
                 // delay between two beats
-                delayMicroseconds(PAUSE_MICROS);
+                for (int j = 0; j < IDLE_CHECK_COUNT; j++) {
+                    delayMicroseconds(PAUSE_MICROS / IDLE_CHECK_COUNT);
+                    continue_playing = continue_playing && !lcd_clicked(); if (!continue_playing) break;
+                }
             }
         }
     #else

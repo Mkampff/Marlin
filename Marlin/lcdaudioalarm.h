@@ -10,6 +10,7 @@ typedef void (*inactivity_callback_t)();
  * While waiting it plays a music and periodically executes the inactivity_callback function.
  */
 void play_music_until_lcdclick(inactivity_callback_t inactivity_callback);
+void stop_playing_music();
 
 #endif
 

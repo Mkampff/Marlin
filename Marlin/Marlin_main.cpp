@@ -541,6 +541,9 @@ void setup()
   #ifdef DIGIPOT_I2C
     digipot_i2c_init();
   #endif
+// BEGIN MODIF end_of_filament
+  init_end_of_filament();
+// END MODIF end_of_filament
 }
 
 

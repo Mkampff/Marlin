@@ -19,7 +19,7 @@
 // keep these constants separated because they are used from the language.h file
 #define COMPANY "Kikai Labs"
 #define MODEL "T140"
-#define VERSION "v1.20140724"
+#define VERSION "v1.20140725"
 #define STRING_CONFIG_H_AUTHOR "( " COMPANY ", " MODEL " " VERSION " )" // Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.

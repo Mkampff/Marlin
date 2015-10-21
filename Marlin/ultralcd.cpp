@@ -953,13 +953,15 @@ static void lcd_home_axis_menu()
     MENU_ITEM(gcode, MSG_Z, PSTR("G28 Z0"));
     END_MENU();
 }
+#define STRINGIZE2(s) #s
+#define STRINGIZE(s) STRINGIZE2(s)
 static void lcd_manual_level_menu()
 {
     START_MENU();
     MENU_ITEM(back, MSG_PREPARE, lcd_prepare_menu);
     MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
-    MENU_ITEM(gcode, MSG_RAISE_Z_1MM, PSTR("G1 Z1 F#MANUAL_LEVEL_Z_FEEDRATE"));
-    MENU_ITEM(gcode, MSG_RAISE_Z_5MM, PSTR("G1 Z5 F#MANUAL_LEVEL_Z_FEEDRATE"));
+    MENU_ITEM(gcode, MSG_RAISE_Z_1MM, PSTR("G1 Z1 F" STRINGIZE(MANUAL_LEVEL_Z_FEEDRATE)));
+    MENU_ITEM(gcode, MSG_RAISE_Z_5MM, PSTR("G1 Z5 F" STRINGIZE(MANUAL_LEVEL_Z_FEEDRATE)));
     MENU_ITEM(gcode, MSG_HOME_Z, PSTR("G28 Z0"));
     END_MENU();
 }

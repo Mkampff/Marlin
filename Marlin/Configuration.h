@@ -787,5 +787,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //#define M602_MCODE_ENABLED
 
 // END MODIF filament
+// BEGIN MODIF lift_z_before_home_all
+#define LIFT_Z_BEFORE_HOME_ALL 5.0
+// END MODIF lift_z_before_home_all
 
 #endif //__CONFIGURATION_H

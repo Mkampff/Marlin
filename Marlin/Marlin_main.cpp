@@ -1316,6 +1316,22 @@ void process_commands_aux()
       }
       #endif
 
+      // BEGIN MODIF lift_z_before_home_all
+#ifdef LIFT_Z_BEFORE_HOME_ALL
+      // If the user specifies to home all one by one, do this also
+      if(home_all_axis || ((code_seen(axis_codes[X_AXIS])) && (code_seen(axis_codes[Y_AXIS])) && (code_seen(axis_codes[Z_AXIS])))){
+         plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+         destination[X_AXIS] = current_position[X_AXIS];
+         destination[Y_AXIS] = current_position[Y_AXIS];
+         destination[Z_AXIS] += LIFT_Z_BEFORE_HOME_ALL;
+         feedrate = homing_feedrate[Z_AXIS];
+         plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder);
+         st_synchronize();
+         current_position[Z_AXIS] = destination[Z_AXIS];
+      }
+#endif
+      // END MODIF lift_z_before_home_all
+      
       #ifdef QUICK_HOME
       if((home_all_axis)||( code_seen(axis_codes[X_AXIS]) && code_seen(axis_codes[Y_AXIS])) )  //first diagonal move
       {
